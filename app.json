@@ -1,0 +1,8 @@
+{
+  "name": "NYT React scraper",
+  "description": "A webapp utilizing React and other Node Modules to get NYT articles and save the information for them.",
+  "repository": "https://github.com/dangnabit/NYT-React",
+  "logo": "",
+  "keywords": ["node", "express", "NYT", "React", "Axios"],
+  "image": ""
+}
