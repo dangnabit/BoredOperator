@@ -51,12 +51,66 @@ app.get('/api/cues/', function(req, res) {
     })
 });
 
+app.get('/api/fixtures/', function(req, res) {
+
+  Fixtures.find({}).exec(function(err, doc){
+      if(err){
+        console.log(err);
+        res.send(err);
+      }
+      else {
+        res.send(doc);
+      }
+    })
+});
+
+app.get('/api/patch/', function(req, res) {
+
+  Patch.find({}).exec(function(err, doc){
+      if(err){
+        console.log(err);
+        res.send(err);
+      }
+      else {
+        res.send(doc);
+      }
+    })
+});
+
 //Post routes
 app.post('/api/cues/', function(req, res){
 
   var newCue = new Cues(req.body);
 
   newCue.save(function(err, doc){
+    if(err){
+      console.log(err);
+      res.send(err);
+    } else {
+      res.send(doc._id);
+    }
+  });
+});
+
+app.post('/api/fixtures/', function(req, res){
+
+  var newFixture = new Fixtures(req.body);
+
+  newFixture.save(function(err, doc){
+    if(err){
+      console.log(err);
+      res.send(err);
+    } else {
+      res.send(doc._id);
+    }
+  });
+});
+
+app.post('/api/patch/', function(req, res){
+
+  var newPatch = new Patch(req.body);
+
+  newPatch.save(function(err, doc){
     if(err){
       console.log(err);
       res.send(err);
@@ -81,6 +135,37 @@ app.delete('/api/cues/', function(req, res){
     }
   });
 });
+
+app.delete('/api/fixtures/', function(req, res){
+  // console.log(req.body);
+
+  var fixture = req.body.fixture;
+
+  Fixtures.remove({"fixture": fixture}).exec(function(err, data){
+    if(err){
+      console.log(err);
+    }
+    else {
+      res.send("Deleted");
+    }
+  });
+});
+
+app.delete('/api/patch/', function(req, res){
+  // console.log(req.body);
+
+  var patch = req.body.patch;
+
+  Patch.remove({"patch": patch}).exec(function(err, data){
+    if(err){
+      console.log(err);
+    }
+    else {
+      res.send("Deleted");
+    }
+  });
+});
+
 
 //Home route
 app.get('*', function(req, res){
