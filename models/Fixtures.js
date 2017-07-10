@@ -7,15 +7,11 @@ var FixtureSchema = new Schema({
   fixtureName: {
     type: String,
     trim: true,
-    required: true
-  },
-  channelCount: {
-    type: Number,
-    trim: true,
-    required: true
+    required: true,
+    unique: true
   },
   channelParameters: {
-    type: String,
+    type: [String],
     trim: true,
     required: true
   }

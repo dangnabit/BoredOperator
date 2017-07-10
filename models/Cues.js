@@ -4,15 +4,14 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var CueSchema = new Schema({
-  CueNumber: {
-    type: String,
+  cueNumber: {
+    type: Number,
     trim: true,
     required: true,
     unique: true
   },
   dmxSnapshot: {
-    type: String,
-    trim: true,
+    type: [Number],
     required: true
   }
 });

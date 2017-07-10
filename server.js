@@ -4,7 +4,9 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var logger = require("morgan");
 var passport = require('passport');
-var flash    = require('connect-flash');
+var flash = require('connect-flash');
+var session = require('express-session');
+var cookieParser = require('cookie-parser');
 
 var Cues = require('./models/Cues.js');
 var Fixtures = require('./models/Fixtures.js');
@@ -15,17 +17,22 @@ var Users = require('./models/Users.js');
 var app = express();
 var PORT = process.env.PORT || 3000;
 
-require('./config/passport')(passport);
-require('./config/routes.js')(app, passport);
+//Set the Public folder as static
+app.use(express.static(__dirname + '/public/assets'));
+
+require('./config/passport.js')(passport);
+
+app.use(session({ secret: 'bigbadBoredOperator' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash());
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
-
-//Set the Public folder ass static
-app.use(express.static('./public'));
+app.use(cookieParser());
 
 //link to MongoDB
 var link = 'mongodb://localhost/BoredOperator';
@@ -41,6 +48,7 @@ db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
 
+require('./config/routes.js')(app, passport, Cues, Fixtures, Patch);
 
 //APP LISTEN PORT
 app.listen(PORT, function() {

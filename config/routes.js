@@ -1,9 +1,52 @@
-module.exports = function(app, passport) {
-  //Get route
-  app.get('/login', function(req, res){
-    res.sendFile('./public/login.html');
+var path = require('path');
+
+module.exports = function(app, passport, Cues, Fixtures, Patch) {
+
+  //=================================================
+  // User Get Routes ================================
+  //=================================================
+  app.get('/user/login', function(req, res){
+    res.sendFile('login.html', { root: path.join(__dirname, '../public') });
   });
 
+  app.get('/user/signup', function(req, res){
+    res.sendFile('signup.html', { root: path.join(__dirname, '../public') });
+  });
+
+  app.get('/user/profile', isLoggedIn, function(req, res) {
+    res.json({
+      user: req.user // get the user out of session and pass to template
+    });
+  });
+
+  //=================================================
+  // User Post Routes ===============================
+  //=================================================
+  app.post('/user/signup', passport.authenticate('local-signup', {
+    successRedirect: '/console',
+    failureRedirect: '/user/signup', // redirect back to the signup page if there is an error
+    failureFlash: true // allow flash messages
+  }));
+
+  app.post('/user/login', passport.authenticate('local-login', {
+    successRedirect: '/console',
+    failureRedirect: '/user/login', // redirect back to the signup page if there is an error
+    failureFlash: true // allow flash messages
+  }));
+
+
+  //=================================================
+  // User Logout ====================================
+  //=================================================
+  app.get('/user/logout', function(req, res) {
+    req.logout();
+    res.redirect('/user/login');
+  });
+
+
+  //=================================================
+  // API Get Routes =================================
+  //=================================================
   app.get('/api/cues/', function(req, res) {
 
     Cues.find({}).exec(function(err, doc) {
@@ -40,8 +83,12 @@ module.exports = function(app, passport) {
     })
   });
 
-  //Post routes
+  //=================================================
+  // API Post Routes ================================
+  //=================================================
   app.post('/api/cues/', function(req, res) {
+
+    // Expects JSON { cueNumber: NUMBER, dmxSnapshot: [NUMBER] }
 
     var newCue = new Cues(req.body);
 
@@ -57,6 +104,8 @@ module.exports = function(app, passport) {
 
   app.post('/api/fixtures/', function(req, res) {
 
+    // Expects JSON { fixtureName: STRING, channelParameters: [STRING] }
+
     var newFixture = new Fixtures(req.body);
 
     newFixture.save(function(err, doc) {
@@ -71,6 +120,8 @@ module.exports = function(app, passport) {
 
   app.post('/api/patch/', function(req, res) {
 
+    // Expects JSON { fixtureName: STRING (ref fixtures), startingChannel: NUMBER (1-512) }
+
     var newPatch = new Patch(req.body);
 
     newPatch.save(function(err, doc) {
@@ -84,26 +135,14 @@ module.exports = function(app, passport) {
   });
 
 
-  //Handles User Signup and login
-  app.post('/user/signup', passport.authenticate('local-signup', {
-    successRedirect: '/', // redirect to the secure profile section
-    failureRedirect: '/user/signup', // redirect back to the signup page if there is an error
-    failureFlash: true // allow flash messages
-  }));
-
-  app.post('/user/login', passport.authenticate('local-login', {
-    successRedirect: '/', // redirect to the secure profile section
-    failureRedirect: '/user/login', // redirect back to the signup page if there is an error
-    failureFlash: true // allow flash messages
-  }));
-
-  //Delete routes
+  //=================================================
+  // API Delete Routes ==============================
+  //=================================================
   app.delete('/api/cues/', function(req, res) {
     // console.log(req.body);
+    var cueNumber = req.body.cueNumber;
 
-    var cue = req.body.cue;
-
-    Cues.remove({ "cue": cue }).exec(function(err, data) {
+    Cues.remove({ "cueNumber": cueNumber }).exec(function(err, data) {
       if (err) {
         console.log(err);
       } else {
@@ -114,10 +153,9 @@ module.exports = function(app, passport) {
 
   app.delete('/api/fixtures/', function(req, res) {
     // console.log(req.body);
+    var fixtureName = req.body.fixtureName;
 
-    var fixture = req.body.fixture;
-
-    Fixtures.remove({ "fixture": fixture }).exec(function(err, data) {
+    Fixtures.remove({ "fixtureName": fixtureName }).exec(function(err, data) {
       if (err) {
         console.log(err);
       } else {
@@ -128,10 +166,9 @@ module.exports = function(app, passport) {
 
   app.delete('/api/patch/', function(req, res) {
     // console.log(req.body);
+    var startingChannel = req.body.startingChannel;
 
-    var patch = req.body.patch;
-
-    Patch.remove({ "patch": patch }).exec(function(err, data) {
+    Patch.remove({ "startingChannel": startingChannel }).exec(function(err, data) {
       if (err) {
         console.log(err);
       } else {
@@ -140,32 +177,23 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.get('/user/profile', isLoggedIn, function(req, res) {
-    res.json({
-      user: req.user // get the user out of session and pass to template
-    });
+  //=================================================
+  // Home and Catch-All Routes ======================
+  //=================================================
+  app.get('/console', isLoggedIn, function(req, res) {
+    res.sendFile('index.html', { root: path.join(__dirname, '../public') });
   });
 
-  // LOGOUT ==============================
-  app.get('/user/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
+  app.get('/*', function(req, res){
+    res.redirect('/console');
   });
-
-  //Home route
-  app.get('*', isLoggedIn, function(req, res) {
-    res.sendFile('./public/index.html');
-  });
-
 };
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
-
-  // if user is authenticated in the session, carry on 
+  // if user is authenticated in the session, carry on
   if (req.isAuthenticated())
     return next();
-
   // if they aren't redirect them to the home page
-  res.redirect('/login');
+  res.redirect('/user/login');
 }
