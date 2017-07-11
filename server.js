@@ -26,7 +26,7 @@ var artnetOptions = {
 var artnet = require('artnet')(artnetOptions);
 
 //Set the Public folder as static
-app.use(express.static(__dirname + '/public/assets'));
+app.use(express.static(__dirname + '/public'));
 
 require('./config/passport.js')(passport);
 

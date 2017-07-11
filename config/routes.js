@@ -212,7 +212,7 @@ module.exports = function(app, passport, Cues, Fixtures, Patch) {
   // Home and Catch-All Routes ======================
   //=================================================
   app.get('/console', isLoggedIn, function(req, res) {
-    res.sendFile('index.html', { root: path.join(__dirname, '../public') });
+    res.sendFile('console.html', { root: path.join(__dirname, '../public') });
   });
 
   app.get('/*', function(req, res){

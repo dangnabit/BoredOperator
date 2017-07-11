@@ -12,7 +12,6 @@ var FixtureSchema = new Schema({
   },
   channelParameters: {
     type: [String],
-    trim: true,
     required: true
   }
 });
