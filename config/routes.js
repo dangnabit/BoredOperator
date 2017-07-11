@@ -49,7 +49,25 @@ module.exports = function(app, passport, Cues, Fixtures, Patch) {
   //=================================================
   app.get('/api/cues/', function(req, res) {
 
+    // Always returns all cues.
+
     Cues.find({}).exec(function(err, doc) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(doc);
+      }
+    })
+  });
+
+  app.get('/api/cues/:cue', function(req, res) {
+
+    // Expects cue to be a number. Return one cue
+
+    var cueNumber = req.params.cue;
+
+    Cues.findOne({ 'cueNumer' : cueNumber }).exec(function(err, doc) {
       if (err) {
         console.log(err);
         res.send(err);
@@ -62,6 +80,20 @@ module.exports = function(app, passport, Cues, Fixtures, Patch) {
   app.get('/api/fixtures/', function(req, res) {
 
     Fixtures.find({}).exec(function(err, doc) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(doc);
+      }
+    })
+  });
+
+  app.get('/api/fixtures/:fixture', function(req, res) {
+
+    var fixtureName = req.params.fixture;
+
+    Fixtures.findOne({ 'fixtureName': fixtureName }).exec(function(err, doc) {
       if (err) {
         console.log(err);
         res.send(err);
@@ -133,7 +165,6 @@ module.exports = function(app, passport, Cues, Fixtures, Patch) {
       }
     });
   });
-
 
   //=================================================
   // API Delete Routes ==============================

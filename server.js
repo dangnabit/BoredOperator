@@ -13,9 +13,17 @@ var Fixtures = require('./models/Fixtures.js');
 var Patch = require('./models/Patch.js');
 var Users = require('./models/Users.js');
 
-//PORT ENVIORNMENTS
 var app = express();
 var PORT = process.env.PORT || 3000;
+
+// Configuration for ArtNet
+var artnetOptions = {
+  // host: '2.0.0.1',
+  host: '127.0.0.1',
+  port: 6454,
+  refresh: 60
+}
+var artnet = require('artnet')(artnetOptions);
 
 //Set the Public folder as static
 app.use(express.static(__dirname + '/public/assets'));
