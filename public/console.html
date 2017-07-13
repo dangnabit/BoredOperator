@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>BoredOperator | Console</title>
+    <link rel="shortcut icon" href="assets/images/bo_logo_pGe_icon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="assets/bootstrap/css/font-awesome.min.css">
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" style="color: #FF9900; font-weight: bold">BoredOperator</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <!--<li id="navbar-links"><a href="#">Profile</a></li>-->
+                    <li id="navbar-links"><a href="#">Logout</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+        <!--/.container-fluid -->
+    </nav>
+    <!--/.navbar navbar-default -->
+    <div class="container-fluid">
+        <div class="row" id="main-page-row">
+            <div class="col-md-2" id="cue-col">
+                <p>Cues</p>
+            </div>
+            <div class="col-md-8" id="live-view">
+                <div class="dmx-row">
+                    <p>DMX Live View</p>
+                </div>
+                <div class="selected-fixture">
+                    <p>Selected Fixture</p>
+                </div>
+            </div>
+            <div class="col-md-2" id="nav-col">
+                <p>Navigation</p>
+                <button class="btn btn-warning btn-lg" type="submit" id="createCueBtn">Create Cue</button>
+                <button class="btn btn-warning btn-lg" type="submit" id="createFixtureBtn">Create Fixture</button>
+                <button class="btn btn-warning btn-lg" type="submit" id="patchFixtureBtn">Patch Fixture</button>
+            </div>
+        </div>
+    </div>
+    <!--end container-fluid-->
+    <footer class="footer">
+        <div class="container-fluid">
+            <p id="footer-text"> &copy; <a href="https://github.com/dangnabit/BoredOperator">BoredOperator 2017</a></p>
+        </div>
+    </footer>
+</body>
+
+</html>
