@@ -13,7 +13,7 @@ const AddPatch = React.createClass({
 		return(
 			<div>
 				<button onClick={this.props.handleClick}>Add Patch</button>
-				{this.props.clicked ? <PatchForm formSubmit={this.props.patchFormSubmit} /> : null}
+				{this.props.clicked ? <PatchForm patcFormSubmit={this.props.patchFormSubmit} /> : null}
 			</div>
 		)
 	}

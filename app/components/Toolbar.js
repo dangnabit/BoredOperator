@@ -23,7 +23,7 @@ const Toolbar = React.createClass({
 
 	handleCueClick: function(){
 		this.setState({
-			cue_clicked: !this.state.patch_clicked
+			cue_clicked: !this.state.cue_clicked
 		})
 	},
 

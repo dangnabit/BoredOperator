@@ -2,6 +2,25 @@ const React = require('react');
 
 const CueForm = React.createClass({
 
+	getInitialState: function(){
+		return({
+			cueNumber: '',
+			dmxSnapshot: ''
+		});
+	},
+
+	handleCueNumberChange: function(event){
+		this.setState({
+			cueNumber: event.target.value.trim()
+		})
+	},
+
+	handleDMXSnapshotChange: function(event){
+		this.setState({
+			dmxSnapshot: event.target.value.trim().split(',')
+		})
+	},
+
 	render: function(){
 		return(
 			<div>
