@@ -1,7 +1,7 @@
 const React = require('react');
-const PatchForm = require('./PatchForm.js');
+const FixtureForm = require('./FixtureForm.js');
 
-const AddPatch = React.createClass({
+const AddFixture = React.createClass({
 	/*
 	/Button that when pressed displays the form to create a new patch
 	/props:
@@ -12,11 +12,11 @@ const AddPatch = React.createClass({
 	render: function(){
 		return(
 			<div>
-				<button onClick={this.props.handleClick}>Add Patch</button>
-				{this.props.clicked ? <PatchForm formSubmit={this.props.patchFormSubmit} /> : null}
+				<button onClick={this.props.handleClick}>Add Fixture</button>
+				{this.props.clicked ? <FixtureForm fixtureFormSubmit={this.props.formSubmit} /> : null}
 			</div>
 		)
 	}
 })
 
-module.exports = AddPatch;
+module.exports = AddFixture;

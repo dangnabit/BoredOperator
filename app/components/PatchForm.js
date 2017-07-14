@@ -29,7 +29,15 @@ const PatchForm = React.createClass({
 
 	patchFormSubmit: function(event){
 		event.preventDefault();
-		console.log(event.target);
+		let formObj = {
+			fixtureName: this.state.fixtureName,
+			channelNum: this.state.channelNum
+		};
+		this.props.patchFormSubmit(formObj);
+		this.setState({
+			fixtureName: '',
+			channelNum: ''
+		})
 		
 	},
 
