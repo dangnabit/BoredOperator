@@ -33,16 +33,21 @@ module.exports = {
 				}
 				return axios.post(`api/patch`, patch)
 					.then( (response) =>{
-						console.log(response);
+						console.log(`POST api/patch ${response}`);
 						return response;
 					})
 					.catch ( (err) =>{
 						console.error(err);
 						throw err;
 					});
-			}
-		)
+			})
+			.catch( (error) =>{
+				console.error(error);
+				throw error;
+			});
 	},
+
+	
 
 
 }
