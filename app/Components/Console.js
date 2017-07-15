@@ -11,7 +11,12 @@ var SelectedFixture = require('./SelectedFixture');
 
 var Console = React.createClass({
   getInitialState: function(){
-    return null;
+    return {
+        cues: [],
+        patch: [],
+        fixtures:[],
+        liveView: []
+    };
   },
   componentDidUpdate: function(){
     
@@ -26,7 +31,7 @@ var Console = React.createClass({
     return(
       <div className="container-fluid">
         <div className="row" id="main-page-row">
-            <CueList />
+            <CueList cues={this.state.cues}/>
             <div className="col-md-8" id="live-view">
                 <LiveView />
                 <SelectedFixture />
