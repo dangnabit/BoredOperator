@@ -22344,15 +22344,17 @@
 
 		patchFormSubmit: function patchFormSubmit(event) {
 			event.preventDefault();
-			var formObj = {
-				fixtureName: this.state.fixtureName,
-				channelNum: this.state.channelNum
-			};
-			this.props.patchFormSubmit(formObj);
-			this.setState({
-				fixtureName: '',
-				channelNum: ''
-			});
+			if (this.state.fixtureName !== '' && this.state.channelNum !== '') {
+				var formObj = {
+					fixtureName: this.state.fixtureName,
+					channelNum: this.state.channelNum
+				};
+				this.props.patchFormSubmit(formObj);
+				this.setState({
+					fixtureName: '',
+					channelNum: ''
+				});
+			}
 		},
 
 		render: function render() {
@@ -22457,15 +22459,17 @@
 
 		fixtureFormSubmit: function fixtureFormSubmit(event) {
 			event.preventDefault();
-			var formBody = {
-				fixtureName: this.state.fixtureName,
-				channelParameters: this.state.channelParameters
-			};
-			this.props.fixtureFormSubmit(formBody);
-			this.setState({
-				fixtureName: '',
-				channelParameters: ''
-			});
+			if (this.state.fixtureName !== '' && this.state.channelParameters !== '') {
+				var formBody = {
+					fixtureName: this.state.fixtureName,
+					channelParameters: this.state.channelParameters
+				};
+				this.props.fixtureFormSubmit(formBody);
+				this.setState({
+					fixtureName: '',
+					channelParameters: ''
+				});
+			}
 		},
 
 		render: function render() {
