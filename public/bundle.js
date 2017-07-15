@@ -27977,9 +27977,9 @@
 	//Bring in your Helpers and components
 	var helpers = __webpack_require__(250);
 	var Toolbar = __webpack_require__(251);
-	var CueList = __webpack_require__(252);
-	var LiveView = __webpack_require__(253);
-	var SelectedFixture = __webpack_require__(254);
+	var CueList = __webpack_require__(258);
+	var LiveView = __webpack_require__(259);
+	var SelectedFixture = __webpack_require__(260);
 
 	var Console = React.createClass({
 	  displayName: 'Console',
@@ -28029,43 +28029,420 @@
 	//Require React
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
+	var AddPatch = __webpack_require__(252);
+	var AddFixture = __webpack_require__(254);
+	var AddCue = __webpack_require__(256);
+	var helpers = __webpack_require__(250);
 
 	var ToolBar = React.createClass({
-	  displayName: 'ToolBar',
+		displayName: 'ToolBar',
 
-	  render: function render() {
 
-	    return React.createElement(
-	      'div',
-	      { className: 'col-md-2', id: 'nav-col' },
-	      React.createElement(
-	        'p',
-	        null,
-	        'ToolBar'
-	      ),
-	      React.createElement(
-	        'button',
-	        { className: 'btn btn-warning btn-lg', type: 'submit', id: 'createCueBtn' },
-	        'Create Cue'
-	      ),
-	      React.createElement(
-	        'button',
-	        { className: 'btn btn-warning btn-lg', type: 'submit', id: 'createFixtureBtn' },
-	        'Create Fixture'
-	      ),
-	      React.createElement(
-	        'button',
-	        { className: 'btn btn-warning btn-lg', type: 'submit', id: 'patchFixtureBtn' },
-	        'Patch Fixture'
-	      )
-	    );
-	  }
+		getInitialState: function getInitialState() {
+			return {
+				patch_clicked: false,
+				fixture_clicked: false,
+				cue_clicked: false,
+				dmxSnapshot: [189, 82, 100, 40] //THIS IS FOR TESTING, for production this would be a prop passed from Main
+
+			};
+		},
+
+		handlePatchClick: function handlePatchClick() {
+			this.setState({
+				patch_clicked: !this.state.patch_clicked
+			});
+		},
+
+		handleCueClick: function handleCueClick() {
+			this.setState({
+				cue_clicked: !this.state.cue_clicked
+			});
+		},
+
+		handleFixtureClick: function handleFixtureClick() {
+			this.setState({
+				fixture_clicked: !this.state.fixture_clicked
+			});
+		},
+
+		patchFormSubmit: function patchFormSubmit(formBody) {
+			console.log(formBody);
+			helpers.createPatch(formBody).then(function (response) {
+				console.log(response);
+			}).catch(function (err) {
+				console.error(err);
+				throw err;
+			});
+		},
+
+		fixtureFormSubmit: function fixtureFormSubmit(formBody) {},
+
+		cueFormSubmit: function cueFormSubmit(cueNumber) {
+			var formJSON = {
+				cueNumber: cueNumber,
+				dmxSnapshot: this.state.dmxSnapshot //CHANGE TO THIS.PROP FOR PRODUCTION
+			};
+			helpers.createCue(formJSON).then(function (response) {
+				console.log(response);
+			}).catch(function (err) {
+				if (err.status === 404) {
+					console.error('Resource not found');
+				}
+			});
+		},
+		render: function render() {
+
+			return React.createElement(
+				'div',
+				{ className: 'col-md-2', id: 'nav-col' },
+				React.createElement(
+					'p',
+					null,
+					'ToolBar'
+				),
+				React.createElement(AddPatch, { clicked: this.state.patch_clicked, handleClick: this.handlePatchClick, patchFormSubmit: this.patchFormSubmit }),
+				React.createElement(AddFixture, { clicked: this.state.fixture_clicked, handleClick: this.handleFixtureClick, formSubmit: this.fixtureFormSubmit }),
+				React.createElement(AddCue, { clicked: this.state.cue_clicked, handleClick: this.handleCueClick, formSubmit: this.cueFormSubmit })
+			);
+		}
 	});
 
 	module.exports = ToolBar;
 
 /***/ }),
 /* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var PatchForm = __webpack_require__(253);
+
+	var AddPatch = React.createClass({
+		displayName: 'AddPatch',
+
+		/*
+	 /Button that when pressed displays the form to create a new patch
+	 /props:
+	 / - clicked (bool) : Determines when to display the PatchForm component
+	 / - handleClick (event): toggles state of clicked in Parent component 
+	 */
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'button',
+					{ className: 'btn btn-warning btn-lg', onClick: this.props.handleClick },
+					'Patch Fixture'
+				),
+				this.props.clicked ? React.createElement(PatchForm, { patcFormSubmit: this.props.patchFormSubmit }) : null
+			);
+		}
+	});
+
+	module.exports = AddPatch;
+
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var PatchForm = React.createClass({
+		displayName: 'PatchForm',
+
+
+		/*
+	 / Props
+	 /	- patchFormSubmit : function to get fixture and add it to patch in database( inherit from parent)
+	 /
+	 */
+
+		getInitialState: function getInitialState() {
+			return {
+				fixtureName: '',
+				channelNum: ''
+			};
+		},
+
+		handleFixtureNameChange: function handleFixtureNameChange(event) {
+			this.setState({
+				fixtureName: event.target.value.trim()
+			});
+		},
+
+		handleChannelNumChange: function handleChannelNumChange(event) {
+			this.setState({
+				channelNum: event.target.value.trim()
+			});
+		},
+
+		patchFormSubmit: function patchFormSubmit(event) {
+			event.preventDefault();
+			if (this.state.fixtureName !== '' && this.state.channelNum !== '') {
+				var formObj = {
+					fixtureName: this.state.fixtureName,
+					channelNum: this.state.channelNum
+				};
+				this.props.patchFormSubmit(formObj);
+				this.setState({
+					fixtureName: '',
+					channelNum: ''
+				});
+			}
+		},
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'form',
+					null,
+					React.createElement(
+						'label',
+						{ htmlFor: 'fixtureName' },
+						'Fixture Name'
+					),
+					React.createElement('input', { type: 'text', name: 'fixtureName', value: this.state.fixtureName, onChange: this.handleFixtureNameChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'label',
+						{ htmlFor: 'startingChannel' },
+						'Channel #'
+					),
+					React.createElement('input', { type: 'number', name: 'channelNum', min: 1, max: 512, value: this.state.channelNum, onChange: this.handleChannelNumChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ onClick: this.patchFormSubmit },
+						'Submit'
+					)
+				)
+			);
+		}
+
+	});
+
+	module.exports = PatchForm;
+
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var FixtureForm = __webpack_require__(255);
+
+	var AddFixture = React.createClass({
+		displayName: 'AddFixture',
+
+		/*
+	 /Button that when pressed displays the form to create a new patch
+	 /props:
+	 / - clicked (bool) : Determines when to display the PatchForm component
+	 / - handleClick (event): toggles state of clicked in Parent component 
+	 */
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'button',
+					{ className: 'btn btn-warning btn-lg', onClick: this.props.handleClick },
+					'Create Fixture'
+				),
+				this.props.clicked ? React.createElement(FixtureForm, { fixtureFormSubmit: this.props.formSubmit }) : null
+			);
+		}
+	});
+
+	module.exports = AddFixture;
+
+/***/ }),
+/* 255 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var FixtureForm = React.createClass({
+		displayName: 'FixtureForm',
+
+
+		getInitialState: function getInitialState() {
+			return {
+				fixtureName: '',
+				channelParameters: ''
+			};
+		},
+
+		handleFixtureNameChange: function handleFixtureNameChange(event) {
+			this.setState({
+				fixtureName: event.target.value.trim()
+			});
+		},
+
+		handleChannelParametersChange: function handleChannelParametersChange(event) {
+			this.setState({
+				channelParameters: event.target.value.trim().split(',')
+			});
+		},
+
+		fixtureFormSubmit: function fixtureFormSubmit(event) {
+			event.preventDefault();
+			if (this.state.fixtureName !== '' && this.state.channelParameters !== '') {
+				var formBody = {
+					fixtureName: this.state.fixtureName,
+					channelParameters: this.state.channelParameters
+				};
+				this.props.fixtureFormSubmit(formBody);
+				this.setState({
+					fixtureName: '',
+					channelParameters: ''
+				});
+			}
+		},
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'form',
+					null,
+					React.createElement(
+						'label',
+						{ htmlFor: 'fixtureName' },
+						'Fixture Name: '
+					),
+					React.createElement('input', { type: 'text', name: 'cueNumber', value: this.state.fixtureName, onChange: this.handleFixtureNameChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'label',
+						{ htmlFor: 'channelParameters' },
+						'Channel Parameters'
+					),
+					React.createElement('input', { type: 'text', name: 'channelParameters', value: this.state.channelParameters, onChange: this.handleChannelParametersChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ onClick: this.fixtureFormSubmit },
+						'Submit'
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = FixtureForm;
+
+/***/ }),
+/* 256 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var CueForm = __webpack_require__(257);
+
+	var AddCue = React.createClass({
+		displayName: 'AddCue',
+
+		/*
+	 /Button that when pressed displays the form to create a new patch
+	 /props:
+	 / - clicked (bool) : Determines when to display the PatchForm component
+	 / - handleClick (event): toggles state of clicked in Parent component 
+	 */
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'button',
+					{ className: 'btn btn-warning btn-lg', onClick: this.props.handleClick },
+					'Create Cue'
+				),
+				this.props.clicked ? React.createElement(CueForm, { cueFormSubmit: this.props.formSubmit }) : null
+			);
+		}
+	});
+
+	module.exports = AddCue;
+
+/***/ }),
+/* 257 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var CueForm = React.createClass({
+		displayName: 'CueForm',
+
+
+		getInitialState: function getInitialState() {
+			return {
+				cueNumber: ''
+			};
+		},
+
+		handleCueNumberChange: function handleCueNumberChange(event) {
+			this.setState({
+				cueNumber: event.target.value.trim()
+			});
+		},
+
+		cueFormSubmit: function cueFormSubmit(event) {
+			event.preventDefault();
+			console.log('Submitting form for cue');
+			if (this.state.cueNumber !== '') {
+				this.props.cueFormSubmit(this.state.cueNumber);
+				this.setState({
+					cueNumber: ''
+				});
+			}
+		},
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'form',
+					null,
+					React.createElement(
+						'label',
+						{ htmlFor: 'cueNumber' },
+						'Cue Number'
+					),
+					React.createElement('input', { type: 'number', name: 'cueNumber', value: this.state.cueNumber, onChange: this.handleCueNumberChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ onClick: this.cueFormSubmit },
+						'Submit'
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = CueForm;
+
+/***/ }),
+/* 258 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28094,7 +28471,7 @@
 	module.exports = Main;
 
 /***/ }),
-/* 253 */
+/* 259 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28110,7 +28487,7 @@
 
 	    return React.createElement(
 	      'div',
-	      { className: 'dmx-row' },
+	      { className: 'dmx-row row' },
 	      React.createElement(
 	        'p',
 	        null,
@@ -28123,7 +28500,7 @@
 	module.exports = Main;
 
 /***/ }),
-/* 254 */
+/* 260 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28139,7 +28516,7 @@
 
 	    return React.createElement(
 	      'div',
-	      { className: 'selected-fixture' },
+	      { className: 'selected-fixture row' },
 	      React.createElement(
 	        'p',
 	        null,
