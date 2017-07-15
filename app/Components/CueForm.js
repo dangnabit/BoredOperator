@@ -34,7 +34,7 @@ const CueForm = React.createClass({
 					<label htmlFor="cueNumber">Cue Number</label>
 					<input type="number" name="cueNumber" value={this.state.cueNumber} onChange={this.handleCueNumberChange}/>
 					<br />
-					<button onClick={this.cueFormSubmit}>Submit</button>
+					<button className="btn btn-md btn-success" onClick={this.cueFormSubmit}>Submit</button>
 				</form>
 			</div>
 		)

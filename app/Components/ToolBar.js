@@ -22,19 +22,26 @@ var ToolBar = React.createClass({
 
 	handlePatchClick: function(){
 		this.setState({
-			patch_clicked: !this.state.patch_clicked
+			patch_clicked: !this.state.patch_clicked,
+			fixture_clicked: false,
+			cue_clicked: false
 		});
 	},
 
 	handleCueClick: function(){
 		this.setState({
-			cue_clicked: !this.state.cue_clicked
+			patch_clicked: false,
+			fixture_clicked: false,
+			cue_clicked: !this.state.cue_clicked,
+
 		})
 	},
 
 	handleFixtureClick: function(){
 		this.setState({
-			fixture_clicked: !this.state.fixture_clicked
+			patch_clicked: false,
+			fixture_clicked: !this.state.fixture_clicked,
+			cue_clicked: false
 		})
 	},
 
