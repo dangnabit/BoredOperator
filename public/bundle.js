@@ -48,9 +48,9 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(37);
-	var Main = __webpack_require__(184);
+	var Toolbar = __webpack_require__(184);
 
-	ReactDOM.render(React.createElement(Main, null), document.getElementById('app'));
+	ReactDOM.render(React.createElement(Toolbar, null), document.getElementById('app'));
 
 /***/ }),
 /* 1 */
@@ -22194,20 +22194,38 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(37);
 	var AddPatch = __webpack_require__(185);
-	var helpers = __webpack_require__(187);
-	var Main = React.createClass({
-		displayName: 'Main',
+	var AddFixture = __webpack_require__(187);
+	var AddCue = __webpack_require__(189);
+	var helpers = __webpack_require__(191);
+	var Toolbar = React.createClass({
+		displayName: 'Toolbar',
 
 
 		getInitialState: function getInitialState() {
 			return {
-				clicked: false
+				patch_clicked: false,
+				fixture_clicked: false,
+				cue_clicked: false,
+				dmxSnapshot: [189, 82, 100, 40] //THIS IS FOR TESTING, for production this would be a prop passed from Main
+
 			};
 		},
 
-		handleClick: function handleClick() {
+		handlePatchClick: function handlePatchClick() {
 			this.setState({
-				clicked: !this.state.clicked
+				patch_clicked: !this.state.patch_clicked
+			});
+		},
+
+		handleCueClick: function handleCueClick() {
+			this.setState({
+				cue_clicked: !this.state.cue_clicked
+			});
+		},
+
+		handleFixtureClick: function handleFixtureClick() {
+			this.setState({
+				fixture_clicked: !this.state.fixture_clicked
 			});
 		},
 
@@ -22221,17 +22239,36 @@
 			});
 		},
 
+		fixtureFormSubmit: function fixtureFormSubmit(formBody) {},
+
+		cueFormSubmit: function cueFormSubmit(cueNumber) {
+			console.log('Callling cueFormSubmit');
+			var formJSON = {
+				cueNumber: cueNumber,
+				dmxSnapshot: this.state.dmxSnapshot //CHANGE TO THIS.PROP FOR PRODUCTION
+			};
+			helpers.createCue(formJSON).then(function (response) {
+				console.log(response);
+			}).catch(function (err) {
+				if (err.status === 404) {
+					console.error('Resource not found');
+				}
+			});
+		},
+
 		render: function render() {
 			return React.createElement(
 				'div',
 				null,
-				React.createElement(AddPatch, { clicked: this.state.clicked, handleClick: this.handleClick, patchFormSubmit: this.patchFormSubmit })
+				React.createElement(AddPatch, { clicked: this.state.patch_clicked, handleClick: this.handlePatchClick, patchFormSubmit: this.patchFormSubmit }),
+				React.createElement(AddFixture, { clicked: this.state.fixture_clicked, handleClick: this.handleFixtureClick, formSubmit: this.fixtureFormSubmit }),
+				React.createElement(AddCue, { clicked: this.state.cue_clicked, handleClick: this.handleCueClick, formSubmit: this.cueFormSubmit })
 			);
 		}
 
 	});
 
-	module.exports = Main;
+	module.exports = Toolbar;
 
 /***/ }),
 /* 185 */
@@ -22261,7 +22298,7 @@
 					{ onClick: this.props.handleClick },
 					'Add Patch'
 				),
-				this.props.clicked ? React.createElement(PatchForm, { patchFormSubmit: this.props.patchFormSubmit }) : null
+				this.props.clicked ? React.createElement(PatchForm, { patcFormSubmit: this.props.patchFormSubmit }) : null
 			);
 		}
 	});
@@ -22307,7 +22344,15 @@
 
 		patchFormSubmit: function patchFormSubmit(event) {
 			event.preventDefault();
-			console.log(event.target);
+			var formObj = {
+				fixtureName: this.state.fixtureName,
+				channelNum: this.state.channelNum
+			};
+			this.props.patchFormSubmit(formObj);
+			this.setState({
+				fixtureName: '',
+				channelNum: ''
+			});
 		},
 
 		render: function render() {
@@ -22350,7 +22395,215 @@
 
 	'use strict';
 
-	var axios = __webpack_require__(188);
+	var React = __webpack_require__(1);
+	var FixtureForm = __webpack_require__(188);
+
+	var AddFixture = React.createClass({
+		displayName: 'AddFixture',
+
+		/*
+	 /Button that when pressed displays the form to create a new patch
+	 /props:
+	 / - clicked (bool) : Determines when to display the PatchForm component
+	 / - handleClick (event): toggles state of clicked in Parent component 
+	 */
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'button',
+					{ onClick: this.props.handleClick },
+					'Add Fixture'
+				),
+				this.props.clicked ? React.createElement(FixtureForm, { fixtureFormSubmit: this.props.formSubmit }) : null
+			);
+		}
+	});
+
+	module.exports = AddFixture;
+
+/***/ }),
+/* 188 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var FixtureForm = React.createClass({
+		displayName: 'FixtureForm',
+
+
+		getInitialState: function getInitialState() {
+			return {
+				fixtureName: '',
+				channelParameters: ''
+			};
+		},
+
+		handleFixtureNameChange: function handleFixtureNameChange(event) {
+			this.setState({
+				fixtureName: event.target.value.trim()
+			});
+		},
+
+		handleChannelParametersChange: function handleChannelParametersChange(event) {
+			this.setState({
+				channelParameters: event.target.value.trim().split(',')
+			});
+		},
+
+		fixtureFormSubmit: function fixtureFormSubmit(event) {
+			event.preventDefault();
+			var formBody = {
+				fixtureName: this.state.fixtureName,
+				channelParameters: this.state.channelParameters
+			};
+			this.props.fixtureFormSubmit(formBody);
+			this.setState({
+				fixtureName: '',
+				channelParameters: ''
+			});
+		},
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'form',
+					null,
+					React.createElement(
+						'label',
+						{ htmlFor: 'fixtureName' },
+						'Fixture Name: '
+					),
+					React.createElement('input', { type: 'text', name: 'cueNumber', value: this.state.fixtureName, onChange: this.handleFixtureNameChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'label',
+						{ htmlFor: 'channelParameters' },
+						'Channel Parameters'
+					),
+					React.createElement('input', { type: 'text', name: 'channelParameters', value: this.state.channelParameters, onChange: this.handleChannelParametersChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ onClick: this.fixtureFormSubmit },
+						'Submit'
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = FixtureForm;
+
+/***/ }),
+/* 189 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var CueForm = __webpack_require__(190);
+
+	var AddCue = React.createClass({
+		displayName: 'AddCue',
+
+		/*
+	 /Button that when pressed displays the form to create a new patch
+	 /props:
+	 / - clicked (bool) : Determines when to display the PatchForm component
+	 / - handleClick (event): toggles state of clicked in Parent component 
+	 */
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'button',
+					{ onClick: this.props.handleClick },
+					'Add Cue'
+				),
+				this.props.clicked ? React.createElement(CueForm, { cueFormSubmit: this.props.formSubmit }) : null
+			);
+		}
+	});
+
+	module.exports = AddCue;
+
+/***/ }),
+/* 190 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+
+	var CueForm = React.createClass({
+		displayName: 'CueForm',
+
+
+		getInitialState: function getInitialState() {
+			return {
+				cueNumber: ''
+			};
+		},
+
+		handleCueNumberChange: function handleCueNumberChange(event) {
+			this.setState({
+				cueNumber: event.target.value.trim()
+			});
+		},
+
+		cueFormSubmit: function cueFormSubmit(event) {
+			event.preventDefault();
+			console.log('Submitting form for cue');
+			if (this.state.cueNumber !== '') {
+				this.props.cueFormSubmit(this.state.cueNumber);
+				this.setState({
+					cueNumber: ''
+				});
+			}
+		},
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(
+					'form',
+					null,
+					React.createElement(
+						'label',
+						{ htmlFor: 'cueNumber' },
+						'Cue Number'
+					),
+					React.createElement('input', { type: 'number', name: 'cueNumber', value: this.state.cueNumber, onChange: this.handleCueNumberChange }),
+					React.createElement('br', null),
+					React.createElement(
+						'button',
+						{ onClick: this.cueFormSubmit },
+						'Submit'
+					)
+				)
+			);
+		}
+	});
+
+	module.exports = CueForm;
+
+/***/ }),
+/* 191 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var axios = __webpack_require__(192);
 
 	module.exports = {
 
@@ -22380,38 +22633,52 @@
 				} catch (e) {
 					throw e;
 				}
-				return axios.post('api/patch', patch).then(function (response) {
-					console.log(response);
+				return axios.post('/api/patch', patch).then(function (response) {
+					console.log('POST api/patch ' + response);
 					return response;
 				}).catch(function (err) {
 					console.error(err);
 					throw err;
 				});
+			}).catch(function (error) {
+				console.error(error);
+				throw error;
+			});
+		},
+
+		createCue: function createCue(cueForm) {
+			console.log('Create Cue');
+			return axios.post('/api/cues', cueForm).then(function (response) {
+				console.log('Sucessfully created cue');
+				return response;
+			}).catch(function (err) {
+				console.error(err);
+				throw err;
 			});
 		}
 
 	};
 
 /***/ }),
-/* 188 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(189);
+	module.exports = __webpack_require__(193);
 
 /***/ }),
-/* 189 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(190);
-	var utils = __webpack_require__(191);
-	var dispatchRequest = __webpack_require__(193);
-	var InterceptorManager = __webpack_require__(202);
-	var isAbsoluteURL = __webpack_require__(203);
-	var combineURLs = __webpack_require__(204);
-	var bind = __webpack_require__(205);
-	var transformData = __webpack_require__(197);
+	var defaults = __webpack_require__(194);
+	var utils = __webpack_require__(195);
+	var dispatchRequest = __webpack_require__(197);
+	var InterceptorManager = __webpack_require__(206);
+	var isAbsoluteURL = __webpack_require__(207);
+	var combineURLs = __webpack_require__(208);
+	var bind = __webpack_require__(209);
+	var transformData = __webpack_require__(201);
 
 	function Axios(defaultConfig) {
 	  this.defaults = utils.merge({}, defaultConfig);
@@ -22500,7 +22767,7 @@
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(206);
+	axios.spread = __webpack_require__(210);
 
 	// Provide aliases for supported request methods
 	utils.forEach(['delete', 'get', 'head'], function forEachMethodNoData(method) {
@@ -22528,13 +22795,13 @@
 
 
 /***/ }),
-/* 190 */
+/* 194 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
-	var normalizeHeaderName = __webpack_require__(192);
+	var utils = __webpack_require__(195);
+	var normalizeHeaderName = __webpack_require__(196);
 
 	var PROTECTION_PREFIX = /^\)\]\}',?\n/;
 	var DEFAULT_CONTENT_TYPE = {
@@ -22606,7 +22873,7 @@
 
 
 /***/ }),
-/* 191 */
+/* 195 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -22889,12 +23156,12 @@
 
 
 /***/ }),
-/* 192 */
+/* 196 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
+	var utils = __webpack_require__(195);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -22907,7 +23174,7 @@
 
 
 /***/ }),
-/* 193 */
+/* 197 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
@@ -22929,10 +23196,10 @@
 	        adapter = config.adapter;
 	      } else if (typeof XMLHttpRequest !== 'undefined') {
 	        // For browsers use XHR adapter
-	        adapter = __webpack_require__(194);
+	        adapter = __webpack_require__(198);
 	      } else if (typeof process !== 'undefined') {
 	        // For node use HTTP adapter
-	        adapter = __webpack_require__(194);
+	        adapter = __webpack_require__(198);
 	      }
 
 	      if (typeof adapter === 'function') {
@@ -22948,18 +23215,18 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 194 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(191);
-	var buildURL = __webpack_require__(195);
-	var parseHeaders = __webpack_require__(196);
-	var transformData = __webpack_require__(197);
-	var isURLSameOrigin = __webpack_require__(198);
-	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(199);
-	var settle = __webpack_require__(200);
+	var utils = __webpack_require__(195);
+	var buildURL = __webpack_require__(199);
+	var parseHeaders = __webpack_require__(200);
+	var transformData = __webpack_require__(201);
+	var isURLSameOrigin = __webpack_require__(202);
+	var btoa = (typeof window !== 'undefined' && window.btoa) || __webpack_require__(203);
+	var settle = __webpack_require__(204);
 
 	module.exports = function xhrAdapter(resolve, reject, config) {
 	  var requestData = config.data;
@@ -23056,7 +23323,7 @@
 	  // This is only done if running in a standard browser environment.
 	  // Specifically not if we're in a web worker, or react-native.
 	  if (utils.isStandardBrowserEnv()) {
-	    var cookies = __webpack_require__(201);
+	    var cookies = __webpack_require__(205);
 
 	    // Add xsrf header
 	    var xsrfValue = config.withCredentials || isURLSameOrigin(config.url) ?
@@ -23117,12 +23384,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ }),
-/* 195 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
+	var utils = __webpack_require__(195);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -23191,12 +23458,12 @@
 
 
 /***/ }),
-/* 196 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
+	var utils = __webpack_require__(195);
 
 	/**
 	 * Parse headers into an object
@@ -23234,12 +23501,12 @@
 
 
 /***/ }),
-/* 197 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
+	var utils = __webpack_require__(195);
 
 	/**
 	 * Transform the data for a request or a response
@@ -23260,12 +23527,12 @@
 
 
 /***/ }),
-/* 198 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
+	var utils = __webpack_require__(195);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -23334,7 +23601,7 @@
 
 
 /***/ }),
-/* 199 */
+/* 203 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -23376,7 +23643,7 @@
 
 
 /***/ }),
-/* 200 */
+/* 204 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -23400,12 +23667,12 @@
 
 
 /***/ }),
-/* 201 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
+	var utils = __webpack_require__(195);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -23459,12 +23726,12 @@
 
 
 /***/ }),
-/* 202 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(191);
+	var utils = __webpack_require__(195);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -23517,7 +23784,7 @@
 
 
 /***/ }),
-/* 203 */
+/* 207 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -23537,7 +23804,7 @@
 
 
 /***/ }),
-/* 204 */
+/* 208 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -23555,7 +23822,7 @@
 
 
 /***/ }),
-/* 205 */
+/* 209 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -23572,7 +23839,7 @@
 
 
 /***/ }),
-/* 206 */
+/* 210 */
 /***/ (function(module, exports) {
 
 	'use strict';
