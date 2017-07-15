@@ -31,7 +31,7 @@ module.exports = {
 				} catch (e){
 					throw e;
 				}
-				return axios.post(`api/patch`, patch)
+				return axios.post(`/api/patch`, patch)
 					.then( (response) =>{
 						console.log(`POST api/patch ${response}`);
 						return response;
@@ -47,7 +47,20 @@ module.exports = {
 			});
 	},
 
-	
+
+	createCue: function(cueForm){
+		console.log(`Create Cue`);
+		return axios.post('/api/cues', cueForm).then( (response) =>{
+			console.log(`Sucessfully created cue`);
+			return response;
+		})
+		.catch( (err) =>{
+			console.error(err);
+			throw err;
+		})
+	}
+
+
 
 
 }

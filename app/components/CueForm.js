@@ -4,8 +4,7 @@ const CueForm = React.createClass({
 
 	getInitialState: function(){
 		return({
-			cueNumber: '',
-			dmxSnapshot: ''
+			cueNumber: ''
 		});
 	},
 
@@ -15,34 +14,25 @@ const CueForm = React.createClass({
 		})
 	},
 
-	handleDMXSnapshotChange: function(event){
-		this.setState({
-			dmxSnapshot: event.target.value.trim().split(',')
-		})
-	},
+	
 
-	cueFormSubmit: function(){
+	cueFormSubmit: function(event){
 		event.preventDefault();
-		let formBody = {
-			cueNumber : this.state.cueNumber,
-			dmxSnapshot: this.state.dmxSnapshot
-		};
-		this.props.cueFormSubmit(formBody);
-		this.setState({
-			cueNumber: '',
-			dmxSnapshot: ''
-		})
-	}
+		console.log(`Submitting form for cue`);
+		if(this.state.cueNumber !== ''){
+			this.props.cueFormSubmit(this.state.cueNumber);
+			this.setState({
+				cueNumber: ''
+			})
+		}
+	},
 
 	render: function(){
 		return(
 			<div>
 				<form>
 					<label htmlFor="cueNumber">Cue Number</label>
-					<input type="text" name="cueNumber" value={this.state.cueNumber} onChange={this.handleCueNumberChange}/>
-					<br />
-					<label htmlFor="dmxSnapshot">DMX Snapshot (CSV)</label>
-					<input type="text" name="dmxSnapshot" value={this.state.dmxSnapshot} onChange={this.handleDMXSnapshotChange}/>
+					<input type="number" name="cueNumber" value={this.state.cueNumber} onChange={this.handleCueNumberChange}/>
 					<br />
 					<button onClick={this.cueFormSubmit}>Submit</button>
 				</form>

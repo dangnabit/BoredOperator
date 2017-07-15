@@ -10,7 +10,8 @@ const Toolbar = React.createClass({
 		return({
 			patch_clicked: false,
 			fixture_clicked: false,
-			cue_clicked: false
+			cue_clicked: false,
+			dmxSnapshot: [189,82,100, 40] //THIS IS FOR TESTING, for production this would be a prop passed from Main
 
 		});
 	},
@@ -50,7 +51,20 @@ const Toolbar = React.createClass({
 
 	},
 
-	cueFormSubmit: function(formBody){
+	cueFormSubmit: function(cueNumber){
+		console.log(`Callling cueFormSubmit`)
+		let formJSON = {
+			cueNumber: cueNumber,
+			dmxSnapshot: this.state.dmxSnapshot //CHANGE TO THIS.PROP FOR PRODUCTION
+		}
+		helpers.createCue(formJSON).then( (response) =>{
+			console.log(response);
+		})
+		.catch( (err) =>{
+			if(err.status === 404){
+				console.error(`Resource not found`)
+			}
+		});
 
 	},
 
