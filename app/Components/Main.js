@@ -1,26 +1,39 @@
 //Require React
 var React = require('react');
-var Router = require('react-router')
+var Router = require('react-router');
+var Console = require('./Console');
 
 var Main = React.createClass({
   render: function(){
 
     return(
       <div className="main-container">
-        <div className="container">
-          <nav className="navbar navbar-default" role="navigation">
-            <div className="container-fluid">
-              <div className="navbar-header">
-                <a className="navbar-brand" href="#">BoredOperator</a>
-              </div>
+        <nav className="navbar navbar-default">
+          <div className="container-fluid">
+            <div className="navbar-header">
+              <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span className="sr-only">Toggle navigation</span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+                <span className="icon-bar"></span>
+              </button>
+              <a className="navbar-brand" href="#" style={{color: "#FF9900", fontWeight: "bold"}}>BoredOperator</a>
             </div>
-          </nav>
-          {this.props.children}
-        </div>
-        <div className="push" style={{height: '40px'}}></div>
-        <div className="footer navbar navbar-default navbar-fixed-bottom align-middle text-default text-center text-muted">
-          <p>&copy; Copyright 2017 Dan Gabel</p>
-        </div>
+            <div id="navbar" className="navbar-collapse collapse">
+              <ul className="nav navbar-nav navbar-right">
+                <li id="navbar-links"><a href="/user/logout">Logout</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+
+        {this.props.children}
+
+        <footer className="footer">
+          <div className="container-fluid">
+            <p id="footer-text"> &copy; <a href="https://github.com/dangnabit/BoredOperator">BoredOperator 2017</a></p>
+          </div>
+        </footer>
       </div>
     )
   }

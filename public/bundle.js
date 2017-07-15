@@ -22209,12 +22209,17 @@
 
 	//Bring in all your components 
 	var Main = __webpack_require__(248);
-	var CreateFixture = __webpack_require__(249);
+	var Console = __webpack_require__(249);
 
 	module.exports = React.createElement(
 	  Router,
 	  { history: hashHistory },
-	  React.createElement(Route, { path: '/', component: CreateFixture })
+	  React.createElement(
+	    Route,
+	    { path: '/', component: Main },
+	    React.createElement(Route, { path: '*', component: Console }),
+	    React.createElement(IndexRoute, { component: Console })
+	  )
 	);
 
 /***/ }),
@@ -27878,6 +27883,7 @@
 	//Require React
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
+	var Console = __webpack_require__(249);
 
 	var Main = React.createClass({
 	  displayName: 'Main',
@@ -27888,48 +27894,68 @@
 	      'div',
 	      { className: 'main-container' },
 	      React.createElement(
-	        'div',
-	        { className: 'container' },
+	        'nav',
+	        { className: 'navbar navbar-default' },
 	        React.createElement(
-	          'nav',
-	          { className: 'navbar navbar-default', role: 'navigation' },
+	          'div',
+	          { className: 'container-fluid' },
 	          React.createElement(
 	            'div',
-	            { className: 'container-fluid' },
+	            { className: 'navbar-header' },
 	            React.createElement(
-	              'div',
-	              { className: 'navbar-header' },
+	              'button',
+	              { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar', 'aria-expanded': 'false', 'aria-controls': 'navbar' },
 	              React.createElement(
-	                'a',
-	                { className: 'navbar-brand', href: '#' },
-	                'BoredOperator'
+	                'span',
+	                { className: 'sr-only' },
+	                'Toggle navigation'
+	              ),
+	              React.createElement('span', { className: 'icon-bar' }),
+	              React.createElement('span', { className: 'icon-bar' }),
+	              React.createElement('span', { className: 'icon-bar' })
+	            ),
+	            React.createElement(
+	              'a',
+	              { className: 'navbar-brand', href: '#', style: { color: "#FF9900", fontWeight: "bold" } },
+	              'BoredOperator'
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { id: 'navbar', className: 'navbar-collapse collapse' },
+	            React.createElement(
+	              'ul',
+	              { className: 'nav navbar-nav navbar-right' },
+	              React.createElement(
+	                'li',
+	                { id: 'navbar-links' },
+	                React.createElement(
+	                  'a',
+	                  { href: '/user/logout' },
+	                  'Logout'
+	                )
 	              )
 	            )
 	          )
-	        ),
+	        )
+	      ),
+	      this.props.children,
+	      React.createElement(
+	        'footer',
+	        { className: 'footer' },
 	        React.createElement(
 	          'div',
-	          { className: 'jumbotron' },
+	          { className: 'container-fluid' },
 	          React.createElement(
-	            'h2',
-	            { className: 'text-center' },
+	            'p',
+	            { id: 'footer-text' },
+	            ' \xA9 ',
 	            React.createElement(
-	              'strong',
-	              null,
-	              'BoredOperator'
+	              'a',
+	              { href: 'https://github.com/dangnabit/BoredOperator' },
+	              'BoredOperator 2017'
 	            )
 	          )
-	        ),
-	        this.props.children
-	      ),
-	      React.createElement('div', { className: 'push', style: { height: '40px' } }),
-	      React.createElement(
-	        'div',
-	        { className: 'footer navbar navbar-default navbar-fixed-bottom align-middle text-default text-center text-muted' },
-	        React.createElement(
-	          'p',
-	          null,
-	          '\xA9 Copyright 2017 Dan Gabel'
 	        )
 	      )
 	    );
@@ -27948,79 +27974,182 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
 
-	//Bring in your Helpers
+	//Bring in your Helpers and components
 	var helpers = __webpack_require__(250);
+	var Toolbar = __webpack_require__(251);
+	var CueList = __webpack_require__(252);
+	var LiveView = __webpack_require__(253);
+	var SelectedFixture = __webpack_require__(254);
 
-	var CreateFixture = React.createClass({
-	  displayName: 'CreateFixture',
+	var Console = React.createClass({
+	  displayName: 'Console',
 
 	  getInitialState: function getInitialState() {
-	    return {
-	      channelCount: 1
-	    };
+	    return null;
 	  },
 	  componentDidUpdate: function componentDidUpdate() {},
 	  handleSubmit: function handleSubmit(item, event) {
 	    // console.log(item);
-	    this.props.onSubmit(item);
 	  },
-	  handleChange: function handleChange(event) {
-	    console.log(event);
-	    var newState = {};
-	    newState[event.target.id] = event.target.value;
-	    this.setState(newState);
-	  },
+	  handleChange: function handleChange(event) {},
 	  render: function render() {
-
 	    return React.createElement(
 	      'div',
-	      { className: 'modal' },
+	      { className: 'container-fluid' },
 	      React.createElement(
 	        'div',
-	        { className: 'panel panel-primary' },
+	        { className: 'row', id: 'main-page-row' },
+	        React.createElement(CueList, null),
 	        React.createElement(
 	          'div',
-	          { className: 'panel-heading' },
-	          React.createElement(
-	            'h1',
-	            { className: 'panel-title' },
-	            React.createElement(
-	              'strong',
-	              null,
-	              'Create a Fixture'
-	            )
-	          )
+	          { className: 'col-md-8', id: 'live-view' },
+	          React.createElement(LiveView, null),
+	          React.createElement(SelectedFixture, null)
 	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'panel-body' },
-	          'Fixture Name: ',
-	          React.createElement('input', { type: 'text', name: 'fixtureName' }),
-	          'Channel Count: ',
-	          React.createElement('input', { type: 'number', name: 'channelCount', id: 'channelCount', onChange: this.handleChange }),
-	          React.createElement('ul', { className: 'channelParameters' })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'panel-footer' },
-	          React.createElement(
-	            'button',
-	            { className: 'btn btn-lg btn-success', id: 'submitFixture', onClick: this.handleClick },
-	            'Apply'
-	          )
-	        )
+	        React.createElement(Toolbar, null)
 	      )
 	    );
 	  }
 	});
 
-	module.exports = CreateFixture;
+	module.exports = Console;
 
 /***/ }),
 /* 250 */
 /***/ (function(module, exports) {
 
 	"use strict";
+
+/***/ }),
+/* 251 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//Require React
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(185);
+
+	var ToolBar = React.createClass({
+	  displayName: 'ToolBar',
+
+	  render: function render() {
+
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-2', id: 'nav-col' },
+	      React.createElement(
+	        'p',
+	        null,
+	        'ToolBar'
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'btn btn-warning btn-lg', type: 'submit', id: 'createCueBtn' },
+	        'Create Cue'
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'btn btn-warning btn-lg', type: 'submit', id: 'createFixtureBtn' },
+	        'Create Fixture'
+	      ),
+	      React.createElement(
+	        'button',
+	        { className: 'btn btn-warning btn-lg', type: 'submit', id: 'patchFixtureBtn' },
+	        'Patch Fixture'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ToolBar;
+
+/***/ }),
+/* 252 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//Require React
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(185);
+
+	var Main = React.createClass({
+	  displayName: 'Main',
+
+	  render: function render() {
+
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-2', id: 'cue-col' },
+	      React.createElement(
+	        'p',
+	        null,
+	        'Cues'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Main;
+
+/***/ }),
+/* 253 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//Require React
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(185);
+
+	var Main = React.createClass({
+	  displayName: 'Main',
+
+	  render: function render() {
+
+	    return React.createElement(
+	      'div',
+	      { className: 'dmx-row' },
+	      React.createElement(
+	        'p',
+	        null,
+	        'DMX Live View'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Main;
+
+/***/ }),
+/* 254 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//Require React
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(185);
+
+	var SelectedFixture = React.createClass({
+	  displayName: 'SelectedFixture',
+
+	  render: function render() {
+
+	    return React.createElement(
+	      'div',
+	      { className: 'selected-fixture' },
+	      React.createElement(
+	        'p',
+	        null,
+	        'Selected Fixture'
+	      )
+	    );
+	  }
+	});
+
+	module.exports = SelectedFixture;
 
 /***/ })
 /******/ ]);

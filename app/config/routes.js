@@ -15,9 +15,12 @@ var hashHistory = router.hashHistory;
 var Main = require('../components/Main');
 var Console = require('../components/Console');
 
+
 module.exports = (
   <Router history={hashHistory}>
-  	<Route path='/' component={Console}>
+  	<Route path='/' component={Main}>
+      <Route path='*' component={Console}/> 
+      <IndexRoute component={Console}/>    
   	</Route>
   </Router>
 );

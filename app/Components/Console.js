@@ -4,11 +4,14 @@ var Router = require('react-router');
 
 //Bring in your Helpers and components
 var helpers = require('../utils/helpers');
-var CreateFixture = require('CreateFixture')
+var Toolbar = require('./Toolbar');
+var CueList = require('./Cuelist');
+var LiveView = require('./LiveView');
+var SelectedFixture = require('./SelectedFixture');
 
 var Console = React.createClass({
   getInitialState: function(){
-    
+    return null;
   },
   componentDidUpdate: function(){
     
@@ -21,8 +24,15 @@ var Console = React.createClass({
   },
   render: function(){  
     return(
-      <div className="console">
-        <CreateFixture />
+      <div className="container-fluid">
+        <div className="row" id="main-page-row">
+            <CueList />
+            <div className="col-md-8" id="live-view">
+                <LiveView />
+                <SelectedFixture />
+            </div>
+            <Toolbar />
+        </div>
       </div>
     )
   }

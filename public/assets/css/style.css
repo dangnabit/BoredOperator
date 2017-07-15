@@ -79,3 +79,8 @@ p a:hover {
 	color: #FF9900;
 	background-color: #666666;
 }
+
+.dmx-row, .selected-fixture {
+	/* height: .5vh; */
+}
+
