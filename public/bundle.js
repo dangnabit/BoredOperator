@@ -27985,7 +27985,12 @@
 	  displayName: 'Console',
 
 	  getInitialState: function getInitialState() {
-	    return null;
+	    return {
+	      cues: [],
+	      patch: [],
+	      fixtures: [],
+	      liveView: []
+	    };
 	  },
 	  componentDidUpdate: function componentDidUpdate() {},
 	  handleSubmit: function handleSubmit(item, event) {
@@ -27999,7 +28004,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'row', id: 'main-page-row' },
-	        React.createElement(CueList, null),
+	        React.createElement(CueList, { cues: this.state.cues }),
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-8', id: 'live-view' },
@@ -29495,7 +29500,7 @@
 					React.createElement('br', null),
 					React.createElement(
 						'button',
-						{ className: 'btn btn-md', onClick: this.patchFormSubmit },
+						{ className: 'btn btn-md btn-success', onClick: this.patchFormSubmit },
 						'Submit'
 					)
 				)
@@ -29706,7 +29711,7 @@
 					React.createElement('br', null),
 					React.createElement(
 						'button',
-						{ className: 'btn btn-md', onClick: this.cueFormSubmit },
+						{ className: 'btn btn-md btn-success', onClick: this.cueFormSubmit },
 						'Submit'
 					)
 				)
@@ -29726,10 +29731,62 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
 
-	var Main = React.createClass({
-	  displayName: 'Main',
+	var CueList = React.createClass({
+	  displayName: 'CueList',
+
+
+	  handleClick: function handleClick() {
+	    console.log(this);
+	  },
 
 	  render: function render() {
+
+	    if (this.props.cues.length < 1) {
+	      var cues = React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h4',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            React.createElement(
+	              'em',
+	              null,
+	              'You dont have any cues yet'
+	            )
+	          )
+	        )
+	      );
+	    } else if (this.props.cues) {
+	      var cues = this.props.cues.map(function (cue, index) {
+	        return React.createElement(
+	          'div',
+	          { key: index },
+	          React.createElement(
+	            'li',
+	            { className: 'cue-list-item' },
+	            React.createElement(
+	              'button',
+	              { className: 'btn btn-warning btn-lg', onClick: this.handleClick.bind(this, cue) },
+	              'Cue: ',
+	              cue.number,
+	              React.createElement(
+	                'span',
+	                null,
+	                React.createElement(
+	                  'em',
+	                  null,
+	                  cue.number
+	                )
+	              ),
+	              '}'
+	            )
+	          )
+	        );
+	      }.bind(this));
+	    }
 
 	    return React.createElement(
 	      'div',
@@ -29738,12 +29795,13 @@
 	        'p',
 	        null,
 	        'Cues'
-	      )
+	      ),
+	      cues
 	    );
 	  }
 	});
 
-	module.exports = Main;
+	module.exports = CueList;
 
 /***/ }),
 /* 278 */

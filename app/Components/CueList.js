@@ -11,7 +11,7 @@ var CueList = React.createClass({
   render: function(){
 
   	if (this.props.cues.length < 1) {
-      return(
+      var cues = (
         <div>
             <h4><span><em>You dont have any cues yet</em></span></h4>
         </div>
@@ -32,7 +32,7 @@ var CueList = React.createClass({
     }
 
     return(
-      <div id="cue-col">
+      <div className="col-md-2" id="cue-col">
         <p>Cues</p>
         {cues}
       </div>
