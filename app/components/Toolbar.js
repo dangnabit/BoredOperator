@@ -46,12 +46,20 @@ const Toolbar = React.createClass({
 
 	},
 
+	fixtureFormSubmit: function(formBody){
+
+	},
+
+	cueFormSubmit: function(formBody){
+
+	},
+
 	render: function(){
 		return(
 			<div>
 				<AddPatch clicked={this.state.patch_clicked} handleClick={this.handlePatchClick} patchFormSubmit={this.patchFormSubmit}/>
-				<AddFixture clicked={this.state.fixture_clicked} handleClick={this.handleFixtureClick} />
-				<AddCue  clicked={this.state.cue_clicked} handleClick={this.handleCueClick} />
+				<AddFixture clicked={this.state.fixture_clicked} handleClick={this.handleFixtureClick} formSubmit={this.fixtureFormSubmit} />
+				<AddCue  clicked={this.state.cue_clicked} handleClick={this.handleCueClick} formSubmit={this.cueFormSubmit}/>
 
 			</div>
 		)

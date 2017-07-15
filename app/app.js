@@ -1,5 +1,5 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const Main = require('./components/Main.js');
+const Toolbar = require('./components/Toolbar.js');
 
-ReactDOM.render(<Main />, document.getElementById('app'));
+ReactDOM.render(<Toolbar/>, document.getElementById('app'));
