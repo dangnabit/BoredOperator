@@ -21,6 +21,19 @@ const CueForm = React.createClass({
 		})
 	},
 
+	cueFormSubmit: function(){
+		event.preventDefault();
+		let formBody = {
+			cueNumber : this.state.cueNumber,
+			dmxSnapshot: this.state.dmxSnapshot
+		};
+		this.props.cueFormSubmit(formBody);
+		this.setState({
+			cueNumber: '',
+			dmxSnapshot: ''
+		})
+	}
+
 	render: function(){
 		return(
 			<div>

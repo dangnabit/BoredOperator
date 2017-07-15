@@ -22,6 +22,19 @@ const FixtureForm = React.createClass({
 		})
 	},
 
+	fixtureFormSubmit: function(event){
+		event.preventDefault();
+		let formBody = {
+			fixtureName: this.state.fixtureName,
+			channelParameters: this.state.channelParameters
+		};
+		this.props.fixtureFormSubmit(formBody);
+		this.setState({
+			fixtureName: '',
+			channelParameters: ''
+		});
+	},
+
 	render: function(){
 		return(
 			<div>
