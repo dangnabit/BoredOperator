@@ -13,11 +13,11 @@ var hashHistory = router.hashHistory;
 
 //Bring in all your components 
 var Main = require('../components/Main');
-var CreateFixture = require('../components/CreateFixture');
+var Console = require('../components/Console');
 
 module.exports = (
   <Router history={hashHistory}>
-  	<Route path='/' component={CreateFixture}>
+  	<Route path='/' component={Console}>
   	</Route>
   </Router>
 );

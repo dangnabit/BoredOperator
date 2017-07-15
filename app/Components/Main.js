@@ -15,9 +15,6 @@ var Main = React.createClass({
               </div>
             </div>
           </nav>
-          <div className="jumbotron">
-            <h2 className="text-center"><strong>BoredOperator</strong></h2>
-          </div>
           {this.props.children}
         </div>
         <div className="push" style={{height: '40px'}}></div>
