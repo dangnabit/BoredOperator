@@ -47,7 +47,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(cookieParser());
 
 //link to MongoDB
-var link = 'mongodb://localhost/BoredOperator';
+var link = 'mongodb://127.0.0.1/BoredOperator';
 mongoose.Promise = Promise;
 mongoose.connect(link);
 var db = mongoose.connection;
