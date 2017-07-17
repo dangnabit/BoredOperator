@@ -80,7 +80,7 @@ p a:hover {
 	background-color: #666666;
 }
 
-.dmx-row, .selected-fixture {
-	/* height: .5vh; */
+.toolbarBtn {
+	width: 100%;
 }
 

@@ -14,8 +14,9 @@ var Console = React.createClass({
     return {
         cues: [],
         patch: [],
-        fixtures:[],
-        liveView: []
+        fixtures: [],
+        liveView: [],
+        selectedFixture: {}
     };
   },
   componentDidUpdate: function(){
@@ -33,10 +34,10 @@ var Console = React.createClass({
         <div className="row" id="main-page-row">
             <CueList cues={this.state.cues}/>
             <div className="col-md-8" id="live-view">
-                <LiveView />
-                <SelectedFixture />
+                <LiveView liveDMX={this.state.liveView}/>
+                <SelectedFixture fixture={selectedFixture}/>
             </div>
-            <Toolbar />
+            <Toolbar liveDMX={this.state.liveView}/>
         </div>
       </div>
     )

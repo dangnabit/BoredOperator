@@ -11,8 +11,8 @@ const AddPatch = React.createClass({
 
 	render: function(){
 		return(
-			<div>
-				<button className="btn btn-warning btn-lg" onClick={this.props.handleClick}>Patch Fixture</button>
+			<div className="toolbarBtn">
+				<button className="btn btn-warning btn-lg toolbarBtn" onClick={this.props.handleClick}>Patch Fixture</button>
 				{this.props.clicked ? <PatchForm patcFormSubmit={this.props.patchFormSubmit} /> : null}
 			</div>
 		)

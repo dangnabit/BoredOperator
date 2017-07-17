@@ -29379,7 +29379,7 @@
 				React.createElement(
 					'p',
 					null,
-					'ToolBar'
+					'Toolbar'
 				),
 				React.createElement(AddPatch, { clicked: this.state.patch_clicked, handleClick: this.handlePatchClick, patchFormSubmit: this.patchFormSubmit }),
 				React.createElement(AddFixture, { clicked: this.state.fixture_clicked, handleClick: this.handleFixtureClick, formSubmit: this.fixtureFormSubmit }),
@@ -29412,10 +29412,10 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				null,
+				{ className: 'toolbarBtn' },
 				React.createElement(
 					'button',
-					{ className: 'btn btn-warning btn-lg', onClick: this.props.handleClick },
+					{ className: 'btn btn-warning btn-lg toolbarBtn', onClick: this.props.handleClick },
 					'Patch Fixture'
 				),
 				this.props.clicked ? React.createElement(PatchForm, { patcFormSubmit: this.props.patchFormSubmit }) : null
@@ -29533,10 +29533,10 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				null,
+				{ className: 'toolbarBtn' },
 				React.createElement(
 					'button',
-					{ className: 'btn btn-warning btn-lg', onClick: this.props.handleClick },
+					{ className: 'btn btn-warning btn-lg toolbarBtn', onClick: this.props.handleClick },
 					'Create Fixture'
 				),
 				this.props.clicked ? React.createElement(FixtureForm, { fixtureFormSubmit: this.props.formSubmit }) : null
@@ -29647,10 +29647,10 @@
 		render: function render() {
 			return React.createElement(
 				'div',
-				null,
+				{ className: 'toolbarBtn' },
 				React.createElement(
 					'button',
-					{ className: 'btn btn-warning btn-lg', onClick: this.props.handleClick },
+					{ className: 'btn btn-warning btn-lg toolbarBtn', onClick: this.props.handleClick },
 					'Create Cue'
 				),
 				this.props.clicked ? React.createElement(CueForm, { cueFormSubmit: this.props.formSubmit }) : null

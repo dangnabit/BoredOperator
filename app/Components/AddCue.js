@@ -11,8 +11,8 @@ const AddCue = React.createClass({
 
 	render: function(){
 		return(
-			<div>
-				<button className="btn btn-warning btn-lg" onClick={this.props.handleClick}>Create Cue</button>
+			<div className="toolbarBtn">
+				<button className="btn btn-warning btn-lg toolbarBtn" onClick={this.props.handleClick}>Create Cue</button>
 				{this.props.clicked ? <CueForm cueFormSubmit={this.props.formSubmit} /> : null}
 			</div>
 		)

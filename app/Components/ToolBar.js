@@ -14,9 +14,7 @@ var ToolBar = React.createClass({
 		return({
 			patch_clicked: false,
 			fixture_clicked: false,
-			cue_clicked: false,
-			dmxSnapshot: [189,82,100, 40] //THIS IS FOR TESTING, for production this would be a prop passed from Main
-
+			cue_clicked: false
 		});
 	},
 
@@ -65,7 +63,7 @@ var ToolBar = React.createClass({
 	cueFormSubmit: function(cueNumber){
 		let formJSON = {
 			cueNumber: cueNumber,
-			dmxSnapshot: this.state.dmxSnapshot //CHANGE TO THIS.PROP FOR PRODUCTION
+			dmxSnapshot: this.props.liveDMX
 		}
 		helpers.createCue(formJSON).then( (response) =>{
 			console.log(response);
@@ -81,7 +79,7 @@ var ToolBar = React.createClass({
 
 	return(
 	  <div className="col-md-2" id="nav-col">
-	    <p>ToolBar</p>
+	    <p>Toolbar</p>
 	    <AddPatch clicked={this.state.patch_clicked} handleClick={this.handlePatchClick} patchFormSubmit={this.patchFormSubmit} />
 	    <AddFixture clicked={this.state.fixture_clicked} handleClick={this.handleFixtureClick} formSubmit={this.fixtureFormSubmit} />
 		<AddCue  clicked={this.state.cue_clicked} handleClick={this.handleCueClick} formSubmit={this.cueFormSubmit}/>

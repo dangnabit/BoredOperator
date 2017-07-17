@@ -14,12 +14,12 @@ var hashHistory = router.hashHistory;
 //Bring in all your components 
 var Main = require('../components/Main');
 var Console = require('../components/Console');
-
+var Admin = require('../components/Admin');
 
 module.exports = (
   <Router history={hashHistory}>
   	<Route path='/' component={Main}>
-      <Route path='*' component={Console}/> 
+      <Route path='/admin' component={Admin}/> 
       <IndexRoute component={Console}/>    
   	</Route>
   </Router>

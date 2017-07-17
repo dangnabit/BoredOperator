@@ -7,6 +7,7 @@ var passport = require('passport');
 var flash = require('connect-flash');
 var session = require('express-session');
 var cookieParser = require('cookie-parser');
+var io = require('socket.io')(http);
 
 var Cues = require('./models/Cues.js');
 var Fixtures = require('./models/Fixtures.js');
@@ -60,6 +61,30 @@ db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
 
+// Socket.io implementation
+io.on('connection', function(socket) {
+
+  socket.emit('User connected' + socket);
+
+  // io.emit('update values', values);
+
+  socket.on('update values', function(valueArray) {
+    console.log(valueArray);
+    for (var ii in valueArray) {
+      values[ii] = valueArray[ii];
+    }
+    console.log(`Server values: ${values}`)
+    io.emit('update values', values);
+  });
+
+  socket.on('disconnect', function() {
+    console.log('User disconnected');
+    io.emit('user disconnected');
+  });
+
+});
+
+// External Routes
 require('./config/routes.js')(app, passport, Cues, Fixtures, Patch);
 
 //APP LISTEN PORT
