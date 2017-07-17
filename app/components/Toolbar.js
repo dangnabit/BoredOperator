@@ -1,10 +1,14 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+//Require React
+var React = require('react');
+var Router = require('react-router')
 const AddPatch = require('./AddPatch.js');
 const AddFixture = require('./AddFixture.js');
 const AddCue = require('./AddCue.js');
 const helpers = require('../utils/helpers.js');
-const Toolbar = React.createClass({
+
+
+var ToolBar = React.createClass({
+
 
 	getInitialState: function(){
 		return({
@@ -18,19 +22,26 @@ const Toolbar = React.createClass({
 
 	handlePatchClick: function(){
 		this.setState({
-			patch_clicked: !this.state.patch_clicked
+			patch_clicked: !this.state.patch_clicked,
+			fixture_clicked: false,
+			cue_clicked: false
 		});
 	},
 
 	handleCueClick: function(){
 		this.setState({
-			cue_clicked: !this.state.cue_clicked
+			patch_clicked: false,
+			fixture_clicked: false,
+			cue_clicked: !this.state.cue_clicked,
+
 		})
 	},
 
 	handleFixtureClick: function(){
 		this.setState({
-			fixture_clicked: !this.state.fixture_clicked
+			patch_clicked: false,
+			fixture_clicked: !this.state.fixture_clicked,
+			cue_clicked: false
 		})
 	},
 
@@ -52,7 +63,6 @@ const Toolbar = React.createClass({
 	},
 
 	cueFormSubmit: function(cueNumber){
-		console.log(`Callling cueFormSubmit`)
 		let formJSON = {
 			cueNumber: cueNumber,
 			dmxSnapshot: this.state.dmxSnapshot //CHANGE TO THIS.PROP FOR PRODUCTION
@@ -67,18 +77,17 @@ const Toolbar = React.createClass({
 		});
 
 	},
-
 	render: function(){
-		return(
-			<div>
-				<AddPatch clicked={this.state.patch_clicked} handleClick={this.handlePatchClick} patchFormSubmit={this.patchFormSubmit}/>
-				<AddFixture clicked={this.state.fixture_clicked} handleClick={this.handleFixtureClick} formSubmit={this.fixtureFormSubmit} />
-				<AddCue  clicked={this.state.cue_clicked} handleClick={this.handleCueClick} formSubmit={this.cueFormSubmit}/>
 
-			</div>
-		)
+	return(
+	  <div className="col-md-2" id="nav-col">
+	    <p>ToolBar</p>
+	    <AddPatch clicked={this.state.patch_clicked} handleClick={this.handlePatchClick} patchFormSubmit={this.patchFormSubmit} />
+	    <AddFixture clicked={this.state.fixture_clicked} handleClick={this.handleFixtureClick} formSubmit={this.fixtureFormSubmit} />
+		<AddCue  clicked={this.state.cue_clicked} handleClick={this.handleCueClick} formSubmit={this.cueFormSubmit}/>
+	  </div>
+	)
 	}
+});
 
-})
-
-module.exports = Toolbar;
+module.exports = ToolBar;

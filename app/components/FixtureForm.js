@@ -1,3 +1,4 @@
+
 const React = require('react');
 
 const FixtureForm = React.createClass({
@@ -47,7 +48,7 @@ const FixtureForm = React.createClass({
 					<label htmlFor="channelParameters">Channel Parameters</label>
 					<input type="text" name="channelParameters" value={this.state.channelParameters} onChange={this.handleChannelParametersChange}/>
 					<br />
-					<button onClick={this.fixtureFormSubmit}>Submit</button>
+					<button className='btn btn-md btn-success'onClick={this.fixtureFormSubmit}>Submit</button>
 				</form>
 			</div>
 		)

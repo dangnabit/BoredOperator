@@ -12,7 +12,7 @@ const AddFixture = React.createClass({
 	render: function(){
 		return(
 			<div>
-				<button onClick={this.props.handleClick}>Add Fixture</button>
+				<button className="btn btn-warning btn-lg" onClick={this.props.handleClick}>Create Fixture</button>
 				{this.props.clicked ? <FixtureForm fixtureFormSubmit={this.props.formSubmit} /> : null}
 			</div>
 		)
