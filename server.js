@@ -30,7 +30,11 @@ app.use(express.static(__dirname + '/public'));
 
 require('./config/passport.js')(passport);
 
-app.use(session({ secret: 'bigbadBoredOperator' })); // session secret
+app.use(session({ 
+  secret: 'bigbadBoredOperator',
+  resave: true,
+  saveUninitialized: true
+ })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
@@ -43,7 +47,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(cookieParser());
 
 //link to MongoDB
-var link = 'mongodb://localhost/BoredOperator';
+var link = 'mongodb://127.0.0.1/BoredOperator';
 mongoose.Promise = Promise;
 mongoose.connect(link);
 var db = mongoose.connection;

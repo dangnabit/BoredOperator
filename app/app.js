@@ -1,5 +1,10 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
-const Toolbar = require('./components/Toolbar.js');
+//Require React and other Dependencies.
+var React = require('react');
+var ReactDOM = require('react-dom');
 
-ReactDOM.render(<Toolbar/>, document.getElementById('app'));
+//Require your Routes 
+var routes = require('./config/routes');
+
+
+
+ReactDOM.render(routes, document.getElementById('app'));

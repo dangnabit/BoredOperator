@@ -1,0 +1,86 @@
+body {
+	background-color: #434343;
+	height: 100%;
+}
+
+p {
+	text-align: center;
+	color: #FF9900;
+	font-weight: bold;
+	font-size: 16px;
+}
+
+.navbar {
+	position: absolute;
+	top: 0;
+	width: 100%;
+	background-color: #303030;
+	border: none;
+	border-bottom: 2px solid #666666;
+}
+
+#navbar-links a {
+	color: #FF9900;
+}
+
+#navbar-links a:hover {
+	text-decoration: underline;
+}
+
+#main-page-row {
+	margin-top: 100px;
+	background-color: #434343;	
+}
+
+#nav-col {
+	text-align: center;
+}
+
+.btn {
+	width: 150px;
+	height: 40px;
+	padding: 1px;
+	margin: 5px;
+	background-color: #666666;
+	color: #FF9900;
+	display: block;
+}
+
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	background-color: #303030;
+	border-top: 2px solid #666666;
+}
+
+#footer-text {
+	padding-top: 2px;
+	color: #FF9900;
+	text-align: center;
+}
+
+#footer-text a {
+	color: #FF9900;
+	text-decoration: underline;
+}
+
+h1, 
+label {
+	color: #FF9900;	
+}
+
+p a {
+	color: #FF9900;
+	text-decoration: underline;
+}
+
+p a:hover {
+	color: #FF9900;
+	background-color: #666666;
+}
+
+.dmx-row, .selected-fixture {
+	/* height: .5vh; */
+}
+

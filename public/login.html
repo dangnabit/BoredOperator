@@ -1,40 +1,62 @@
 <!doctype html>
 <html>
+
 <head>
-    <title>BoredOperator</title>
-    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="../assets/bootstrap/css/font-awesome.min.css"> <!-- load fontawesome -->
+    <title>BoredOperator | Login</title>
+    <link rel="shortcut icon" href="../assets/images/bo_logo_pGe_icon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css">
+    <!-- load bootstrap css -->
+    <link rel="stylesheet" href="../assets/bootstrap/css/font-awesome.min.css">
+    <!-- load fontawesome -->
+    <link rel="stylesheet" href="../assets/css/style.css">
     <style>
-        body        { padding-top:80px; }
+    body {
+        padding-top: 80px;
+    }
     </style>
 </head>
+
 <body>
-<div class="container">
 
-<div class="col-sm-6 col-sm-offset-3">
-
-    <h1><span class="fa fa-sign-in"></span> Login</h1>
-
-    <!-- LOGIN FORM -->
-    <form action="/user/login" method="post">
-        <div class="form-group">
-            <label>Username</label>
-            <input type="text" class="form-control" name="username">
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#" style="color: #FF9900; font-weight: bold">BoredOperator</a>
+            </div>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
+    </nav>
+
+    <div class="container">
+        <div class="col-sm-6 col-sm-offset-3">
+            <h1><span class="glyphicon glyphicon-log-in"></span> Login</h1>
+            <!-- LOGIN FORM -->
+            <form action="/user/login" method="post">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control" name="username">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" name="password">
+                </div>
+                <button type="submit" class="btn btn-warning btn-lg">Login</button>
+            </form>
+            <hr>
+            <p>Need an account? <a href="/user/signup">Signup</a></p>
         </div>
+    </div>
 
-        <button type="submit" class="btn btn-warning btn-lg">Login</button>
-    </form>
-
-    <hr>
-
-    <p>Need an account? <a href="/user/signup">Signup</a></p>
-
-</div>
-
-</div>
+    <footer class="footer">
+        <div class="container-fluid">
+            <p id="footer-text"> &copy; <a href="https://github.com/dangnabit/BoredOperator">BoredOperator 2017</a></p>
+        </div>
+    </footer>
 </body>
+
 </html>
