@@ -1,20 +1,23 @@
 //Depenndencies
 var express = require('express');
+var app = express();
+
+
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var logger = require("morgan");
 var passport = require('passport');
 var flash = require('connect-flash');
 var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var io = require('socket.io')(http);
+var cookieParser = require('cookie-parser'); 
+
 
 var Cues = require('./models/Cues.js');
 var Fixtures = require('./models/Fixtures.js');
 var Patch = require('./models/Patch.js');
 var Users = require('./models/Users.js');
 
-var app = express();
+
 var PORT = process.env.PORT || 3000;
 
 // Configuration for ArtNet
@@ -61,33 +64,30 @@ db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
 
+// External Routes
+require('./config/routes.js')(app, passport, Cues, Fixtures, Patch);
+
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 // Socket.io implementation
 io.on('connection', function(socket) {
 
-  socket.emit('User connected' + socket);
+  socket.emit('User connected');
 
-  // io.emit('update values', values);
+  io.emit('dmx:update', [127,127,0,0,0,0,0,0,0,0,0,0,0,0,0]);
 
-  socket.on('update values', function(valueArray) {
-    console.log(valueArray);
-    for (var ii in valueArray) {
-      values[ii] = valueArray[ii];
-    }
-    console.log(`Server values: ${values}`)
-    io.emit('update values', values);
+  socket.on('dmx:update', function(dmxLive) {
+    artnet.set(dmxLive);
   });
 
-  socket.on('disconnect', function() {
-    console.log('User disconnected');
+  socket.on('disconnect', function(disconnect) {
     io.emit('user disconnected');
   });
 
 });
 
-// External Routes
-require('./config/routes.js')(app, passport, Cues, Fixtures, Patch);
-
 //APP LISTEN PORT
-app.listen(PORT, function() {
+http.listen(PORT, function() {
   console.log("App listening on PORT: " + PORT);
 });

@@ -22210,6 +22210,7 @@
 	//Bring in all your components 
 	var Main = __webpack_require__(248);
 	var Console = __webpack_require__(249);
+	var Admin = __webpack_require__(280);
 
 	module.exports = React.createElement(
 	  Router,
@@ -22217,7 +22218,7 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: Main },
-	    React.createElement(Route, { path: '*', component: Console }),
+	    React.createElement(Route, { path: '/admin', component: Admin }),
 	    React.createElement(IndexRoute, { component: Console })
 	  )
 	);
@@ -27973,6 +27974,7 @@
 	//Require react
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
+	var socket = io.connect();
 
 	//Bring in your Helpers and components
 	var helpers = __webpack_require__(250);
@@ -27989,10 +27991,17 @@
 	      cues: [],
 	      patch: [],
 	      fixtures: [],
-	      liveView: []
+	      liveView: [],
+	      selectedFixture: {}
 	    };
 	  },
-	  componentDidUpdate: function componentDidUpdate() {},
+	  componentDidMount: function componentDidMount() {
+	    socket.on('dmx:update', this.setLiveDmx);
+	  },
+	  setLiveDmx: function setLiveDmx(data) {
+	    this.setState({ liveView: data });
+	    console.log('DMX UPDATED ' + data);
+	  },
 	  handleSubmit: function handleSubmit(item, event) {
 	    // console.log(item);
 	  },
@@ -28008,10 +28017,10 @@
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-8', id: 'live-view' },
-	          React.createElement(LiveView, null),
-	          React.createElement(SelectedFixture, null)
+	          React.createElement(LiveView, { liveDMX: this.state.liveView }),
+	          React.createElement(SelectedFixture, { fixture: this.state.selectedFixture })
 	        ),
-	        React.createElement(Toolbar, null)
+	        React.createElement(Toolbar, { liveDMX: this.state.liveView })
 	      )
 	    );
 	  }
@@ -29315,9 +29324,7 @@
 			return {
 				patch_clicked: false,
 				fixture_clicked: false,
-				cue_clicked: false,
-				dmxSnapshot: [189, 82, 100, 40] //THIS IS FOR TESTING, for production this would be a prop passed from Main
-
+				cue_clicked: false
 			};
 		},
 
@@ -29361,7 +29368,7 @@
 		cueFormSubmit: function cueFormSubmit(cueNumber) {
 			var formJSON = {
 				cueNumber: cueNumber,
-				dmxSnapshot: this.state.dmxSnapshot //CHANGE TO THIS.PROP FOR PRODUCTION
+				dmxSnapshot: this.props.liveDMX
 			};
 			helpers.createCue(formJSON).then(function (response) {
 				console.log(response);
@@ -29818,6 +29825,55 @@
 
 	  render: function render() {
 
+	    if (this.props.liveDMX.length < 1) {
+	      var liveView = React.createElement(
+	        'div',
+	        { className: 'col-md-12' },
+	        React.createElement(
+	          'div',
+	          { className: 'panel panel-default' },
+	          React.createElement(
+	            'li',
+	            { className: 'list-group-item' },
+	            React.createElement(
+	              'h3',
+	              null,
+	              React.createElement(
+	                'span',
+	                null,
+	                React.createElement(
+	                  'em',
+	                  null,
+	                  'Nothing to see here... Move along...'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    } else if (this.props.liveDMX) {
+	      var liveView = this.props.liveDMX.map(function (value, channel) {
+	        return React.createElement(
+	          'div',
+	          { className: 'col-md-1', key: channel },
+	          React.createElement(
+	            'li',
+	            { className: 'list-group-item' },
+	            React.createElement(
+	              'p',
+	              null,
+	              'Chan: ',
+	              channel + 1,
+	              ' @ ',
+	              React.createElement('br', null),
+	              ' ',
+	              value
+	            )
+	          )
+	        );
+	      }.bind(this));
+	    }
+
 	    return React.createElement(
 	      'div',
 	      { className: 'dmx-row row' },
@@ -29825,6 +29881,11 @@
 	        'p',
 	        null,
 	        'DMX Live View'
+	      ),
+	      React.createElement(
+	        'ul',
+	        null,
+	        liveView
 	      )
 	    );
 	  }
@@ -29860,6 +29921,34 @@
 	});
 
 	module.exports = SelectedFixture;
+
+/***/ }),
+/* 280 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var CueForm = __webpack_require__(276);
+
+	var Admin = React.createClass({
+		displayName: 'Admin',
+
+
+		render: function render() {
+			return React.createElement(
+				'div',
+				{ className: 'adminTools' },
+				React.createElement(
+					'p',
+					null,
+					'Admin Console'
+				)
+			);
+		}
+	});
+
+	module.exports = Admin;
 
 /***/ })
 /******/ ]);
