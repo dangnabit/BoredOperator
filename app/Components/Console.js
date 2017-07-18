@@ -1,6 +1,7 @@
 //Require react
 var React = require('react');
 var Router = require('react-router');
+var socket = io.connect();
 
 //Bring in your Helpers and components
 var helpers = require('../utils/helpers');
@@ -19,8 +20,12 @@ var Console = React.createClass({
         selectedFixture: {}
     };
   },
-  componentDidUpdate: function(){
-    
+  componentDidMount: function(){
+    socket.on('dmx:update', this.setLiveDmx);
+  },
+  setLiveDmx: function(data){
+    this.setState({liveView : data});
+    console.log(`DMX UPDATED ${data}`);
   },
   handleSubmit: function(item, event){
     // console.log(item);
@@ -35,7 +40,7 @@ var Console = React.createClass({
             <CueList cues={this.state.cues}/>
             <div className="col-md-8" id="live-view">
                 <LiveView liveDMX={this.state.liveView}/>
-                <SelectedFixture fixture={selectedFixture}/>
+                <SelectedFixture fixture={this.state.selectedFixture}/>
             </div>
             <Toolbar liveDMX={this.state.liveView}/>
         </div>
