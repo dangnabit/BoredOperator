@@ -7,7 +7,7 @@ const SliderPatch = React.createClass({
         let patch_sliders = [];
         for(let jj = 0; jj < patchChannel.length; jj++){
             patch_sliders.push(
-                <ChannelSlider key={jj} startingNum={this.props.patchInfo.startingNum + jj} name={patchChannels[jj]["chanParamName"]} value={patchChannels[jj]["DefaultDMX"]} />
+                <ChannelSlider key={jj} channelNum={this.props.patchInfo.startingNum + jj} name={patchChannels[jj]["chanParamName"]} value={patchChannels[jj]["DefaultDMX"]} />
             );
         }
 
