@@ -1,4 +1,5 @@
 const React = require('react');
+const SliderPatch = require('./SliderPatch');
 
 
 const SlickSlider = React.createClass({
@@ -18,13 +19,14 @@ const SlickSlider = React.createClass({
 
     render: function(){
         let activePatches = [];
+        console.log(this.props.patches)
         for(let i = 0; i < this.props.patches.length; i++){
             activePatches.push(
-                <ActivePatch key={i} patchInfo={this.props.patches[i]}/>
+                <SliderPatch key={i} patchInfo={this.props.patches[i]}/>
             );
         }
         return(
-            <div className="slick-slider">
+            <div className="col-md-8 col-md-offset-2 slick-slider" id="patch-slider">
                 {activePatches}
             </div>
         )

@@ -4,6 +4,8 @@ import "rc-slider/assets/index.css";
 const wrapStyle = {width: 400, margin: 60};
 const style = { float: 'left', width: 180, height: 200, marginBottom: 160, marginLeft: 50 };
 const parentStyle = { overflow: 'hidden' };
+const io = require('socket.io-client');
+const socket = io();
 
 
 const ChannelSlider = React.createClass({
@@ -43,8 +45,8 @@ const ChannelSlider = React.createClass({
 		
 	render: function(){
 		return(
-		<span style={parentStyle} >
-			<div style={style}>
+		<span className="slider-parent-span" style={parentStyle} >
+			<div className="channel-slider-div">
                 <span><p className="channelName">{this.props.name}</p></span>
 				<Slider vertical={true} min={0} max={255} value={this.props.value} onAfterChange={this.onAfterChange} onChange={this.onChange} />
 				<input type='number' value={this.state.textValue} onChange={this.handleTextChange} onBlur={this.submitText}/>
