@@ -2,19 +2,15 @@
 var React = require('react');
 var Router = require('react-router')
 
-var Main = React.createClass({
+var LiveView = React.createClass({
   render: function(){
     
-    if (this.props.liveDMX.length < 1) {
+    if (!this.props.liveDMX.length) {
      var liveView = (
         <div className="col-md-12">
-        <div className="panel panel-default">
-          <li className="list-group-item">
-            <h3>
-              <span><em>Nothing to see here... Move along...</em></span>
-            </h3>
-          </li>
-        </div>
+          <h3>
+            <span><em>Nothing to see here... Move along...</em></span>
+          </h3>
         </div>
       )
     } else if (this.props.liveDMX ) {
@@ -42,4 +38,4 @@ var Main = React.createClass({
   }
 });
 
-module.exports = Main;
+module.exports = LiveView;

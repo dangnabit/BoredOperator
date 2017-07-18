@@ -2,9 +2,34 @@
 var React = require('react');
 var Router = require('react-router');
 var Console = require('./Console');
+var Link = require("react-router").Link;
+var socket = io.connect();
 
 var Main = React.createClass({
+  getInitialState: function(){
+    return {
+        liveView: []
+    };
+  },
+  componentDidMount: function(){
+    console.log('Test');
+    socket.emit('dmx:request');
+    socket.on('dmx:update', this.setLiveDmx);
+  },
+  setLiveDmx: function(data){
+    this.setState({liveView : data});
+    console.log(this.state.liveView);
+  },
+   
   render: function(){
+    // console.log(`State ${this.state.liveView}`);
+
+    // var childrenWithProps = React.Children.map(this.props.children, function(child){
+    //   // return React.cloneElement(child, {
+    //   //   liveView: this.state.liveView
+    //   // });
+    //   console.log(child);
+    // });
 
     return(
       <div className="main-container">
@@ -21,14 +46,15 @@ var Main = React.createClass({
             </div>
             <div id="navbar" className="navbar-collapse collapse">
               <ul className="nav navbar-nav navbar-right">
-                <li id="navbar-links"><a href="/admin">Admin</a></li>
+                <li id="navbar-links"><Link to="/admin">Admin</Link></li>
+                <li id="navbar-links"><Link to="/">Console</Link></li>                
                 <li id="navbar-links"><a href="/user/logout">Logout</a></li>
               </ul>
             </div>
           </div>
         </nav>
 
-        {this.props.children}
+        {React.cloneElement(this.props.children, {liveView: this.state.liveView})}
 
         <footer className="footer">
           <div className="container-fluid">

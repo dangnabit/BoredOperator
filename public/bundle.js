@@ -22218,7 +22218,7 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: Main },
-	    React.createElement(Route, { path: '/admin', component: Admin }),
+	    React.createElement(Route, { path: 'admin', component: Admin }),
 	    React.createElement(IndexRoute, { component: Console })
 	  )
 	);
@@ -27885,11 +27885,36 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
 	var Console = __webpack_require__(249);
+	var Link = __webpack_require__(185).Link;
+	var socket = io.connect();
 
 	var Main = React.createClass({
 	  displayName: 'Main',
 
+	  getInitialState: function getInitialState() {
+	    return {
+	      liveView: []
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    console.log('Test');
+	    socket.emit('dmx:request');
+	    socket.on('dmx:update', this.setLiveDmx);
+	  },
+	  setLiveDmx: function setLiveDmx(data) {
+	    this.setState({ liveView: data });
+	    console.log(this.state.liveView);
+	  },
+
 	  render: function render() {
+	    // console.log(`State ${this.state.liveView}`);
+
+	    // var childrenWithProps = React.Children.map(this.props.children, function(child){
+	    //   // return React.cloneElement(child, {
+	    //   //   liveView: this.state.liveView
+	    //   // });
+	    //   console.log(child);
+	    // });
 
 	    return React.createElement(
 	      'div',
@@ -27931,6 +27956,24 @@
 	                'li',
 	                { id: 'navbar-links' },
 	                React.createElement(
+	                  Link,
+	                  { to: '/admin' },
+	                  'Admin'
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                { id: 'navbar-links' },
+	                React.createElement(
+	                  Link,
+	                  { to: '/' },
+	                  'Console'
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                { id: 'navbar-links' },
+	                React.createElement(
 	                  'a',
 	                  { href: '/user/logout' },
 	                  'Logout'
@@ -27940,7 +27983,7 @@
 	          )
 	        )
 	      ),
-	      this.props.children,
+	      React.cloneElement(this.props.children, { liveView: this.state.liveView }),
 	      React.createElement(
 	        'footer',
 	        { className: 'footer' },
@@ -27991,22 +28034,16 @@
 	      cues: [],
 	      patch: [],
 	      fixtures: [],
-	      liveView: [],
-	      selectedFixture: {}
+	      selectedFixture: {},
+	      liveView: []
 	    };
-	  },
-	  componentDidMount: function componentDidMount() {
-	    socket.on('dmx:update', this.setLiveDmx);
-	  },
-	  setLiveDmx: function setLiveDmx(data) {
-	    this.setState({ liveView: data });
-	    console.log('DMX UPDATED ' + data);
 	  },
 	  handleSubmit: function handleSubmit(item, event) {
 	    // console.log(item);
 	  },
 	  handleChange: function handleChange(event) {},
 	  render: function render() {
+	    console.log(this.props.liveView);
 	    return React.createElement(
 	      'div',
 	      { className: 'container-fluid' },
@@ -28017,10 +28054,10 @@
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-8', id: 'live-view' },
-	          React.createElement(LiveView, { liveDMX: this.state.liveView }),
+	          React.createElement(LiveView, { liveDMX: this.props.liveView }),
 	          React.createElement(SelectedFixture, { fixture: this.state.selectedFixture })
 	        ),
-	        React.createElement(Toolbar, { liveDMX: this.state.liveView })
+	        React.createElement(Toolbar, { liveDMX: this.props.liveView })
 	      )
 	    );
 	  }
@@ -29825,7 +29862,7 @@
 
 	  render: function render() {
 
-	    if (this.props.liveDMX.length < 1) {
+	    if (!this.props.liveDMX.length) {
 	      var liveView = React.createElement(
 	        'div',
 	        { className: 'col-md-12' },

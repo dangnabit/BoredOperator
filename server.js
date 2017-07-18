@@ -72,10 +72,12 @@ var io = require('socket.io')(http);
 
 // Socket.io implementation
 io.on('connection', function(socket) {
+  var dmxValues = [127,127,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  io.emit('dmx:update', dmxValues);
 
-  socket.emit('User connected');
-
-  io.emit('dmx:update', [127,127,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+  socket.on('dmx:request', function(){
+    io.emit('dmx:update', dmxValues)
+  }),
 
   socket.on('dmx:update', function(dmxLive) {
     artnet.set(dmxLive);

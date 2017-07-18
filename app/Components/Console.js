@@ -16,16 +16,9 @@ var Console = React.createClass({
         cues: [],
         patch: [],
         fixtures: [],
-        liveView: [],
-        selectedFixture: {}
+        selectedFixture: {},
+        liveView:[]
     };
-  },
-  componentDidMount: function(){
-    socket.on('dmx:update', this.setLiveDmx);
-  },
-  setLiveDmx: function(data){
-    this.setState({liveView : data});
-    console.log(`DMX UPDATED ${data}`);
   },
   handleSubmit: function(item, event){
     // console.log(item);
@@ -34,15 +27,16 @@ var Console = React.createClass({
     
   },
   render: function(){  
+    console.log(this.props.liveView);
     return(
       <div className="container-fluid">
         <div className="row" id="main-page-row">
             <CueList cues={this.state.cues}/>
             <div className="col-md-8" id="live-view">
-                <LiveView liveDMX={this.state.liveView}/>
+                <LiveView liveDMX={this.props.liveView}/>
                 <SelectedFixture fixture={this.state.selectedFixture}/>
             </div>
-            <Toolbar liveDMX={this.state.liveView}/>
+            <Toolbar liveDMX={this.props.liveView}/>
         </div>
       </div>
     )
