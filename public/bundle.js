@@ -28042,36 +28042,47 @@
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
+	    this.getCues();
+	    this.getPatch();
+	    this.getFixtures();
+	  },
+
+	  getCues: function getCues() {
 	    helpers.getCues().then(function (cueData) {
-	      console.log(cueData.data);
+	      // console.log(cueData.data);
 	      if (cueData.data) {
 	        this.setState({
 	          cues: cueData.data
 	        });
 	      }
-	      console.log(this.state.cues);
+	      // console.log(this.state.cues);
 	    }.bind(this));
+	  },
 
+	  getPatch: function getPatch() {
 	    helpers.getPatch().then(function (patchData) {
-	      console.log(patchData.data);
+	      // console.log(patchData.data);
 	      if (patchData.data) {
 	        this.setState({
 	          patch: patchData.data
 	        });
 	      }
-	      console.log(this.state.patch);
+	      // console.log(this.state.patch);
 	    }.bind(this));
+	  },
 
+	  getFixtures: function getFixtures() {
 	    helpers.getFixtures().then(function (fixturesData) {
-	      console.log(fixturesData.data);
+	      // console.log(fixturesData.data);
 	      if (fixturesData.data) {
 	        this.setState({
 	          fixtures: fixturesData.data
 	        });
 	      }
-	      console.log(this.state.fixtures);
+	      // console.log(this.state.fixtures);
 	    }.bind(this));
 	  },
+
 	  handleSubmit: function handleSubmit(item, event) {
 	    // console.log(item);
 	  },
@@ -28084,14 +28095,22 @@
 	      React.createElement(
 	        'div',
 	        { className: 'row', id: 'main-page-row' },
-	        React.createElement(CueList, { cues: this.state.cues, setDmx: this.props.setDmx }),
+	        React.createElement(CueList, {
+	          cues: this.state.cues,
+	          setDmx: this.props.setDmx
+	        }),
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-8', id: 'live-view' },
 	          React.createElement(LiveView, { liveDMX: this.props.liveView }),
 	          React.createElement(SelectedFixture, { fixture: this.state.selectedFixture })
 	        ),
-	        React.createElement(Toolbar, { liveDMX: this.props.liveView })
+	        React.createElement(Toolbar, {
+	          liveDMX: this.props.liveView,
+	          getCues: this.getCues,
+	          getPatch: this.getPatch,
+	          getFixtures: this.getFixtures
+	        })
 	      )
 	    );
 	  }
@@ -29454,6 +29473,8 @@
 		fixtureFormSubmit: function fixtureFormSubmit(formBody) {},
 
 		cueFormSubmit: function cueFormSubmit(cueNumber) {
+			var _this = this;
+
 			var formJSON = {
 				cueNumber: parseInt(cueNumber),
 				dmxSnapshot: this.props.liveDMX
@@ -29461,6 +29482,7 @@
 			console.log(formJSON);
 			helpers.createCue(formJSON).then(function (response) {
 				console.log(response);
+				_this.props.getCues();
 			}).catch(function (err) {
 				if (err.status === 404) {
 					console.error('Resource not found');
@@ -29468,7 +29490,6 @@
 			});
 		},
 		render: function render() {
-
 			return React.createElement(
 				'div',
 				{ className: 'col-md-2', id: 'nav-col' },

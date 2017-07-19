@@ -20,39 +20,50 @@ var Console = React.createClass({
     };
   },
   componentDidMount: function(){
+    this.getCues();
+    this.getPatch();  
+    this.getFixtures();
+  },
+
+  getCues: function(){
     helpers.getCues()
       .then(function(cueData) {
-        console.log(cueData.data);
+        // console.log(cueData.data);
         if (cueData.data) {
           this.setState({
             cues: cueData.data
           });
         }
-        console.log(this.state.cues);
+        // console.log(this.state.cues);
       }.bind(this));
+  },
 
-      helpers.getPatch()
+  getPatch: function(){
+    helpers.getPatch()
       .then(function(patchData) {
-        console.log(patchData.data);
+        // console.log(patchData.data);
         if (patchData.data) {
           this.setState({
             patch: patchData.data
           });
         }
-        console.log(this.state.patch);
+        // console.log(this.state.patch);
       }.bind(this));
-
-      helpers.getFixtures()
+  },
+  
+  getFixtures: function(){
+    helpers.getFixtures()
       .then(function(fixturesData) {
-        console.log(fixturesData.data);
+        // console.log(fixturesData.data);
         if (fixturesData.data) {
           this.setState({
             fixtures: fixturesData.data
           });
         }
-        console.log(this.state.fixtures);
+        // console.log(this.state.fixtures);
       }.bind(this));
   },
+
   handleSubmit: function(item, event){
     // console.log(item);
   },
@@ -64,12 +75,20 @@ var Console = React.createClass({
     return(
       <div className="container-fluid">
         <div className="row" id="main-page-row">
-            <CueList cues={this.state.cues} setDmx={this.props.setDmx}/>
+            <CueList 
+              cues={this.state.cues} 
+              setDmx={this.props.setDmx}
+            />
             <div className="col-md-8" id="live-view">
                 <LiveView liveDMX={this.props.liveView}/>
                 <SelectedFixture fixture={this.state.selectedFixture}/>
             </div>
-            <Toolbar liveDMX={this.props.liveView}/>
+            <Toolbar 
+              liveDMX={this.props.liveView} 
+              getCues={this.getCues} 
+              getPatch={this.getPatch} 
+              getFixtures={this.getFixtures}
+            />
         </div>
       </div>
     )
