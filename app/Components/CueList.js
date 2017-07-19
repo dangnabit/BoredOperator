@@ -5,7 +5,7 @@ var Router = require('react-router')
 var CueList = React.createClass({
   
   handleClick: function (){
-  	console.log(this)
+  	console.log(this.props);
   },
 
   render: function(){
@@ -20,11 +20,11 @@ var CueList = React.createClass({
       var cues = this.props.cues.map(function(cue, index){
         return(
             <div key={index}>
-              <li className="cue-list-item" >
-                <button className="btn btn-warning btn-lg" onClick={this.handleClick.bind(this, cue)}>Cue:
+              
+                <button className="btn btn-warning btn-lg cueBtn" onClick={this.handleClick.bind(this, cue)}>Cue:
                   <span><em>{cue.cueNumber}</em></span>
                 </button>
-              </li>
+              
             </div>
         )
       }.bind(this))

@@ -45,7 +45,7 @@ const FixtureForm = React.createClass({
 					<label htmlFor="fixtureName">Fixture Name: </label>
 					<input type="text" name="cueNumber" value={this.state.fixtureName} onChange={this.handleFixtureNameChange}/>
 					<br />
-					<label htmlFor="channelParameters">Channel Parameters</label>
+					<label htmlFor="channelParameters">Channel Parameters: </label>
 					<input type="text" name="channelParameters" value={this.state.channelParameters} onChange={this.handleChannelParametersChange}/>
 					<br />
 					<button className='btn btn-md btn-success'onClick={this.fixtureFormSubmit}>Submit</button>

@@ -28034,8 +28034,7 @@
 	      cues: [],
 	      patch: [],
 	      fixtures: [],
-	      selectedFixture: {},
-	      liveView: []
+	      selectedFixture: {}
 	    };
 	  },
 	  componentDidMount: function componentDidMount() {
@@ -28047,6 +28046,26 @@
 	        });
 	      }
 	      console.log(this.state.cues);
+	    }.bind(this));
+
+	    helpers.getPatch().then(function (patchData) {
+	      console.log(patchData.data);
+	      if (patchData.data) {
+	        this.setState({
+	          patch: patchData.data
+	        });
+	      }
+	      console.log(this.state.patch);
+	    }.bind(this));
+
+	    helpers.getFixtures().then(function (fixturesData) {
+	      console.log(fixturesData.data);
+	      if (fixturesData.data) {
+	        this.setState({
+	          fixtures: fixturesData.data
+	        });
+	      }
+	      console.log(this.state.fixtures);
 	    }.bind(this));
 	  },
 	  handleSubmit: function handleSubmit(item, event) {
@@ -28138,6 +28157,17 @@
 
 		getCues: function getCues() {
 			return axios.get('/api/cues').then(function (results) {
+				return results;
+			});
+		},
+
+		getPatch: function getPatch() {
+			return axios.get('/api/patch').then(function (results) {
+				return results;
+			});
+		},
+		getFixtures: function getFixtures() {
+			return axios.get('/api/fixtures').then(function (results) {
 				return results;
 			});
 		}
@@ -29767,7 +29797,7 @@
 					React.createElement(
 						'label',
 						{ htmlFor: 'cueNumber' },
-						'Cue Number'
+						'Cue Number: '
 					),
 					React.createElement('input', { type: 'number', name: 'cueNumber', value: this.state.cueNumber, onChange: this.handleCueNumberChange }),
 					React.createElement('br', null),
@@ -29798,7 +29828,7 @@
 
 
 	  handleClick: function handleClick() {
-	    console.log(this);
+	    console.log(this.props);
 	  },
 
 	  render: function render() {
@@ -29827,20 +29857,16 @@
 	          'div',
 	          { key: index },
 	          React.createElement(
-	            'li',
-	            { className: 'cue-list-item' },
+	            'button',
+	            { className: 'btn btn-warning btn-lg cueBtn', onClick: this.handleClick.bind(this, cue) },
+	            'Cue:',
 	            React.createElement(
-	              'button',
-	              { className: 'btn btn-warning btn-lg', onClick: this.handleClick.bind(this, cue) },
-	              'Cue:',
+	              'span',
+	              null,
 	              React.createElement(
-	                'span',
+	                'em',
 	                null,
-	                React.createElement(
-	                  'em',
-	                  null,
-	                  cue.cueNumber
-	                )
+	                cue.cueNumber
 	              )
 	            )
 	          )
@@ -29928,11 +29954,7 @@
 	        null,
 	        'DMX Live View'
 	      ),
-	      React.createElement(
-	        'ul',
-	        null,
-	        liveView
-	      )
+	      liveView
 	    );
 	  }
 	});

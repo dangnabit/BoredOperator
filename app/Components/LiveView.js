@@ -30,9 +30,7 @@ var LiveView = React.createClass({
     return(
         <div className="dmx-row row">
           <p>DMX Live View</p>
-          <ul>
-            {liveView}
-          </ul>
+          {liveView}
         </div>          
     )
   }

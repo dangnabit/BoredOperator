@@ -43,7 +43,7 @@ var Console = React.createClass({
       }.bind(this));
 
       helpers.getFixtures()
-      .then(function(fixtureData) {
+      .then(function(fixturesData) {
         console.log(fixturesData.data);
         if (fixturesData.data) {
           this.setState({
