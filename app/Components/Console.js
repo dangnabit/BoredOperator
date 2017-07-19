@@ -65,7 +65,7 @@ var Console = React.createClass({
             <CueList cues={this.state.cues}/>
             <div className="col-md-8" id="live-view">
                 <LiveView liveDMX={this.state.liveView}/>
-                {/*<SelectedFixture fixture={selectedFixture}/> */}
+                <SelectedFixture fixture={selectedFixture}/>
             </div>
             <Toolbar liveDMX={this.state.liveView}/>
         </div>
