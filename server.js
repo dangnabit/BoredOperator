@@ -80,6 +80,7 @@ io.on('connection', function(socket) {
   }),
 
   socket.on('dmx:update', function(dmxLive) {
+    io.emit('dmx:update', dmxLive);
     artnet.set(dmxLive);
   });
 

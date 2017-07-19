@@ -27906,6 +27906,10 @@
 	    console.log(this.state.liveView);
 	  },
 
+	  socketEmit: function socketEmit(data) {
+	    socket.emit('dmx:update', data);
+	  },
+
 	  render: function render() {
 	    // console.log(`State ${this.state.liveView}`);
 
@@ -27983,7 +27987,7 @@
 	          )
 	        )
 	      ),
-	      React.cloneElement(this.props.children, { liveView: this.state.liveView }),
+	      React.cloneElement(this.props.children, { liveView: this.state.liveView, setDmx: this.socketEmit }),
 	      React.createElement(
 	        'footer',
 	        { className: 'footer' },
@@ -28080,7 +28084,7 @@
 	      React.createElement(
 	        'div',
 	        { className: 'row', id: 'main-page-row' },
-	        React.createElement(CueList, { cues: this.state.cues }),
+	        React.createElement(CueList, { cues: this.state.cues, setDmx: this.props.setDmx }),
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-8', id: 'live-view' },
@@ -29701,7 +29705,7 @@
 					React.createElement(
 						'label',
 						{ htmlFor: 'channelParameters' },
-						'Channel Parameters'
+						'Channel Parameters: '
 					),
 					React.createElement('input', { type: 'text', name: 'channelParameters', value: this.state.channelParameters, onChange: this.handleChannelParametersChange }),
 					React.createElement('br', null),
@@ -29827,8 +29831,10 @@
 	  displayName: 'CueList',
 
 
-	  handleClick: function handleClick() {
-	    console.log(this.props);
+	  handleClick: function handleClick(item, event) {
+	    console.log(item.dmxSnapshot);
+
+	    this.props.setDmx(item.dmxSnapshot);
 	  },
 
 	  render: function render() {

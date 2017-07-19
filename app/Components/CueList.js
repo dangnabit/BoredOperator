@@ -2,10 +2,13 @@
 var React = require('react');
 var Router = require('react-router')
 
+
 var CueList = React.createClass({
   
-  handleClick: function (){
-  	console.log(this.props);
+  handleClick: function (item, event){
+    console.log(item.dmxSnapshot);
+    
+    this.props.setDmx(item.dmxSnapshot);
   },
 
   render: function(){

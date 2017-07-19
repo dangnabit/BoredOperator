@@ -20,7 +20,11 @@ var Main = React.createClass({
     this.setState({liveView : data});
     console.log(this.state.liveView);
   },
-   
+  
+  socketEmit: function(data){
+    socket.emit('dmx:update', data);
+  },
+
   render: function(){
     // console.log(`State ${this.state.liveView}`);
 
@@ -54,7 +58,7 @@ var Main = React.createClass({
           </div>
         </nav>
 
-        {React.cloneElement(this.props.children, {liveView: this.state.liveView})}
+        {React.cloneElement(this.props.children, {liveView: this.state.liveView, setDmx: this.socketEmit})}
 
         <footer className="footer">
           <div className="container-fluid">

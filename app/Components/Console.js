@@ -64,7 +64,7 @@ var Console = React.createClass({
     return(
       <div className="container-fluid">
         <div className="row" id="main-page-row">
-            <CueList cues={this.state.cues}/>
+            <CueList cues={this.state.cues} setDmx={this.props.setDmx}/>
             <div className="col-md-8" id="live-view">
                 <LiveView liveDMX={this.props.liveView}/>
                 <SelectedFixture fixture={this.state.selectedFixture}/>
