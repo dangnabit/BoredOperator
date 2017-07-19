@@ -16,9 +16,42 @@ var Console = React.createClass({
         cues: [],
         patch: [],
         fixtures: [],
-        selectedFixture: {},
-        liveView:[]
+        selectedFixture: {}
     };
+  },
+  componentDidMount: function(){
+    helpers.getCues()
+      .then(function(cueData) {
+        console.log(cueData.data);
+        if (cueData.data) {
+          this.setState({
+            cues: cueData.data
+          });
+        }
+        console.log(this.state.cues);
+      }.bind(this));
+
+      helpers.getPatch()
+      .then(function(patchData) {
+        console.log(patchData.data);
+        if (patchData.data) {
+          this.setState({
+            patch: patchData.data
+          });
+        }
+        console.log(this.state.patch);
+      }.bind(this));
+
+      helpers.getFixtures()
+      .then(function(fixtureData) {
+        console.log(fixturesData.data);
+        if (fixturesData.data) {
+          this.setState({
+            fixtures: fixturesData.data
+          });
+        }
+        console.log(this.state.fixtures);
+      }.bind(this));
   },
   handleSubmit: function(item, event){
     // console.log(item);

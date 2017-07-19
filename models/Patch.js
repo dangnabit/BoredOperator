@@ -13,6 +13,10 @@ var PatchSchema = new Schema({
     type: Number,
     trim: true,
     required: true
+  },
+  channelParams: {
+    type: [Schema.Types.Mixed],
+    required: true
   }
 });
 

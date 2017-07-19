@@ -62,9 +62,10 @@ var ToolBar = React.createClass({
 
 	cueFormSubmit: function(cueNumber){
 		let formJSON = {
-			cueNumber: cueNumber,
+			cueNumber: parseInt(cueNumber),
 			dmxSnapshot: this.props.liveDMX
 		}
+		console.log(formJSON);
 		helpers.createCue(formJSON).then( (response) =>{
 			console.log(response);
 		})

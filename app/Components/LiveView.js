@@ -17,11 +17,11 @@ var LiveView = React.createClass({
       var liveView = this.props.liveDMX.map(function(value, channel){
         return(
             <div className="col-md-1" key={channel}>
-              <li className="list-group-item" >
+              <button className="btn btn-lg btn-warning channelBtn" key={channel}>
                 <p>
-                  Chan: {channel + 1} @ <br/> {value}
+                  Chan: {channel + 1} <br/> {((value/255) * 100).toFixed(1)}%
                 </p>
-              </li>
+              </button>
             </div>
         )
       }.bind(this))

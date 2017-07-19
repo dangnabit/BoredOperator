@@ -21,9 +21,8 @@ var CueList = React.createClass({
         return(
             <div key={index}>
               <li className="cue-list-item" >
-                <button className="btn btn-warning btn-lg" onClick={this.handleClick.bind(this, cue)}>Cue: {cue.number}
-                  <span><em>{cue.number}</em></span>
-                }
+                <button className="btn btn-warning btn-lg" onClick={this.handleClick.bind(this, cue)}>Cue:
+                  <span><em>{cue.cueNumber}</em></span>
                 </button>
               </li>
             </div>

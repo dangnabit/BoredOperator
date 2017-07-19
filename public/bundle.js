@@ -28038,6 +28038,17 @@
 	      liveView: []
 	    };
 	  },
+	  componentDidMount: function componentDidMount() {
+	    helpers.getCues().then(function (cueData) {
+	      console.log(cueData.data);
+	      if (cueData.data) {
+	        this.setState({
+	          cues: cueData.data
+	        });
+	      }
+	      console.log(this.state.cues);
+	    }.bind(this));
+	  },
 	  handleSubmit: function handleSubmit(item, event) {
 	    // console.log(item);
 	  },
@@ -28122,6 +28133,12 @@
 			}).catch(function (err) {
 				console.error(err);
 				throw err;
+			});
+		},
+
+		getCues: function getCues() {
+			return axios.get('/api/cues').then(function (results) {
+				return results;
 			});
 		}
 
@@ -29404,9 +29421,10 @@
 
 		cueFormSubmit: function cueFormSubmit(cueNumber) {
 			var formJSON = {
-				cueNumber: cueNumber,
+				cueNumber: parseInt(cueNumber),
 				dmxSnapshot: this.props.liveDMX
 			};
+			console.log(formJSON);
 			helpers.createCue(formJSON).then(function (response) {
 				console.log(response);
 			}).catch(function (err) {
@@ -29814,18 +29832,16 @@
 	            React.createElement(
 	              'button',
 	              { className: 'btn btn-warning btn-lg', onClick: this.handleClick.bind(this, cue) },
-	              'Cue: ',
-	              cue.number,
+	              'Cue:',
 	              React.createElement(
 	                'span',
 	                null,
 	                React.createElement(
 	                  'em',
 	                  null,
-	                  cue.number
+	                  cue.cueNumber
 	                )
-	              ),
-	              '}'
+	              )
 	            )
 	          )
 	        );
@@ -29857,8 +29873,8 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
 
-	var Main = React.createClass({
-	  displayName: 'Main',
+	var LiveView = React.createClass({
+	  displayName: 'LiveView',
 
 	  render: function render() {
 
@@ -29867,23 +29883,15 @@
 	        'div',
 	        { className: 'col-md-12' },
 	        React.createElement(
-	          'div',
-	          { className: 'panel panel-default' },
+	          'h3',
+	          null,
 	          React.createElement(
-	            'li',
-	            { className: 'list-group-item' },
+	            'span',
+	            null,
 	            React.createElement(
-	              'h3',
+	              'em',
 	              null,
-	              React.createElement(
-	                'span',
-	                null,
-	                React.createElement(
-	                  'em',
-	                  null,
-	                  'Nothing to see here... Move along...'
-	                )
-	              )
+	              'Nothing to see here... Move along...'
 	            )
 	          )
 	        )
@@ -29894,17 +29902,18 @@
 	          'div',
 	          { className: 'col-md-1', key: channel },
 	          React.createElement(
-	            'li',
-	            { className: 'list-group-item' },
+	            'button',
+	            { className: 'btn btn-lg btn-warning channelBtn', key: channel },
 	            React.createElement(
 	              'p',
 	              null,
 	              'Chan: ',
 	              channel + 1,
-	              ' @ ',
+	              ' ',
 	              React.createElement('br', null),
 	              ' ',
-	              value
+	              (value / 255 * 100).toFixed(1),
+	              '%'
 	            )
 	          )
 	        );
@@ -29928,7 +29937,7 @@
 	  }
 	});
 
-	module.exports = Main;
+	module.exports = LiveView;
 
 /***/ }),
 /* 279 */
