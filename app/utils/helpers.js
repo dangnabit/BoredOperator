@@ -58,9 +58,23 @@ module.exports = {
 			console.error(err);
 			throw err;
 		})
+	},
+
+	getCues: function(){
+		return axios.get('/api/cues').then(function(results){
+        	return results;
+    	});
+	},
+
+	getPatch: function(){
+		return axios.get('/api/patch').then(function(results){
+        	return results;
+    	});
+	},
+	getFixtures: function(){
+		return axios.get('/api/fixtures').then(function(results){
+        	return results;
+    	});
 	}
-
-
-
 
 }

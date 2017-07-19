@@ -1,6 +1,7 @@
 //Require react
 var React = require('react');
 var Router = require('react-router');
+var socket = io.connect();
 
 //Bring in your Helpers and components
 var helpers = require('../utils/helpers');
@@ -16,13 +17,54 @@ var Console = React.createClass({
         cues: [],
         patch: [],
         fixtures: [],
-        liveView: [],
         selectedFixture: {}
     };
   },
-  componentDidUpdate: function(){
-    
+  componentDidMount: function(){
+    this.getCues();
+    this.getPatch();  
+    this.getFixtures();
   },
+
+  getCues: function(){
+    helpers.getCues()
+      .then(function(cueData) {
+        // console.log(cueData.data);
+        if (cueData.data) {
+          this.setState({
+            cues: cueData.data
+          });
+        }
+        // console.log(this.state.cues);
+      }.bind(this));
+  },
+
+  getPatch: function(){
+    helpers.getPatch()
+      .then(function(patchData) {
+        // console.log(patchData.data);
+        if (patchData.data) {
+          this.setState({
+            patch: patchData.data
+          });
+        }
+        // console.log(this.state.patch);
+      }.bind(this));
+  },
+  
+  getFixtures: function(){
+    helpers.getFixtures()
+      .then(function(fixturesData) {
+        // console.log(fixturesData.data);
+        if (fixturesData.data) {
+          this.setState({
+            fixtures: fixturesData.data
+          });
+        }
+        // console.log(this.state.fixtures);
+      }.bind(this));
+  },
+
   handleSubmit: function(item, event){
     // console.log(item);
   },
@@ -30,47 +72,28 @@ var Console = React.createClass({
     
   },
   render: function(){  
-    let sliderPatch_DEMOINFO = [{
-      startingChannel: 1,
-      channels: [{
-        channelParamName: "Pan",
-        DefaultDMX: 128
-      },{
-        channelParamName: "Red",
-        DefaultDMX: 128
-      }, {
-        channelParamName: "Blue",
-        DefaultDMX: 128
-      },{
-        channelParamName: "Green",
-        DefaultDMX: 128
-      }]
-    }, {
-      startingChannel: 5,
-      channels: [{
-        channelParamName: 'Pan',
-        DefaultDMX: 128,
-      },{
-        channelParamName: 'Zoom',
-        DefaultDMX: 255
-      },{
-        channelParamName: 'RGB',
-        DefaultDMX: 128
-      }]
-    }];
-    let newpatchArray = [sliderPatch_DEMOINFO];
+
+    console.log(this.props.liveView);
     return(
       <div className="container-fluid">
         <div className="row" id="main-page-row">
-            <CueList cues={this.state.cues}/>
+            <CueList 
+              cues={this.state.cues} 
+              setDmx={this.props.setDmx}
+            />
             <div className="col-md-8" id="live-view">
-                <LiveView liveDMX={this.state.liveView}/>
-                <SelectedFixture fixture={selectedFixture}/>
+                <LiveView liveDMX={this.props.liveView}/>
+                <SelectedFixture fixture={this.state.selectedFixture}/>
             </div>
-            <Toolbar liveDMX={this.state.liveView}/>
+            <Toolbar 
+              liveDMX={this.props.liveView} 
+              getCues={this.getCues} 
+              getPatch={this.getPatch} 
+              getFixtures={this.getFixtures}
+            />
         </div>
         <div className="row" >
-            <SlickSlider patches={sliderPatch_DEMOINFO} />
+            <SlickSlider />
         </div>
       </div>
     )

@@ -22210,7 +22210,11 @@
 	//Bring in all your components 
 	var Main = __webpack_require__(248);
 	var Console = __webpack_require__(249);
+<<<<<<< HEAD
 	var Admin = __webpack_require__(498);
+=======
+	var Admin = __webpack_require__(280);
+>>>>>>> master
 
 	module.exports = React.createElement(
 	  Router,
@@ -22218,7 +22222,11 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: Main },
+<<<<<<< HEAD
 	    React.createElement(Route, { path: '/admin', component: Admin }),
+=======
+	    React.createElement(Route, { path: 'admin', component: Admin }),
+>>>>>>> master
 	    React.createElement(IndexRoute, { component: Console })
 	  )
 	);
@@ -27885,11 +27893,40 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
 	var Console = __webpack_require__(249);
+	var Link = __webpack_require__(185).Link;
+	var socket = io.connect();
 
 	var Main = React.createClass({
 	  displayName: 'Main',
 
+	  getInitialState: function getInitialState() {
+	    return {
+	      liveView: []
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    console.log('Test');
+	    socket.emit('dmx:request');
+	    socket.on('dmx:update', this.setLiveDmx);
+	  },
+	  setLiveDmx: function setLiveDmx(data) {
+	    this.setState({ liveView: data });
+	    console.log(this.state.liveView);
+	  },
+
+	  socketEmit: function socketEmit(data) {
+	    socket.emit('dmx:update', data);
+	  },
+
 	  render: function render() {
+	    // console.log(`State ${this.state.liveView}`);
+
+	    // var childrenWithProps = React.Children.map(this.props.children, function(child){
+	    //   // return React.cloneElement(child, {
+	    //   //   liveView: this.state.liveView
+	    //   // });
+	    //   console.log(child);
+	    // });
 
 	    return React.createElement(
 	      'div',
@@ -27931,6 +27968,24 @@
 	                'li',
 	                { id: 'navbar-links' },
 	                React.createElement(
+	                  Link,
+	                  { to: '/admin' },
+	                  'Admin'
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                { id: 'navbar-links' },
+	                React.createElement(
+	                  Link,
+	                  { to: '/' },
+	                  'Console'
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                { id: 'navbar-links' },
+	                React.createElement(
 	                  'a',
 	                  { href: '/admin' },
 	                  'Admin'
@@ -27949,7 +28004,7 @@
 	          )
 	        )
 	      ),
-	      this.props.children,
+	      React.cloneElement(this.props.children, { liveView: this.state.liveView, setDmx: this.socketEmit }),
 	      React.createElement(
 	        'footer',
 	        { className: 'footer' },
@@ -27983,6 +28038,7 @@
 	//Require react
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
+	var socket = io.connect();
 
 	//Bring in your Helpers and components
 	var helpers = __webpack_require__(250);
@@ -28000,16 +28056,61 @@
 	      cues: [],
 	      patch: [],
 	      fixtures: [],
+<<<<<<< HEAD
 	      liveView: [],
+=======
+>>>>>>> master
 	      selectedFixture: {}
 	    };
 	  },
-	  componentDidUpdate: function componentDidUpdate() {},
+	  componentDidMount: function componentDidMount() {
+	    this.getCues();
+	    this.getPatch();
+	    this.getFixtures();
+	  },
+
+	  getCues: function getCues() {
+	    helpers.getCues().then(function (cueData) {
+	      // console.log(cueData.data);
+	      if (cueData.data) {
+	        this.setState({
+	          cues: cueData.data
+	        });
+	      }
+	      // console.log(this.state.cues);
+	    }.bind(this));
+	  },
+
+	  getPatch: function getPatch() {
+	    helpers.getPatch().then(function (patchData) {
+	      // console.log(patchData.data);
+	      if (patchData.data) {
+	        this.setState({
+	          patch: patchData.data
+	        });
+	      }
+	      // console.log(this.state.patch);
+	    }.bind(this));
+	  },
+
+	  getFixtures: function getFixtures() {
+	    helpers.getFixtures().then(function (fixturesData) {
+	      // console.log(fixturesData.data);
+	      if (fixturesData.data) {
+	        this.setState({
+	          fixtures: fixturesData.data
+	        });
+	      }
+	      // console.log(this.state.fixtures);
+	    }.bind(this));
+	  },
+
 	  handleSubmit: function handleSubmit(item, event) {
 	    // console.log(item);
 	  },
 	  handleChange: function handleChange(event) {},
 	  render: function render() {
+<<<<<<< HEAD
 	    var sliderPatch_DEMOINFO = [{
 	      startingChannel: 1,
 	      channels: [{
@@ -28039,16 +28140,23 @@
 	      }]
 	    }];
 	    var newpatchArray = [sliderPatch_DEMOINFO];
+=======
+	    console.log(this.props.liveView);
+>>>>>>> master
 	    return React.createElement(
 	      'div',
 	      { className: 'container-fluid' },
 	      React.createElement(
 	        'div',
 	        { className: 'row', id: 'main-page-row' },
-	        React.createElement(CueList, { cues: this.state.cues }),
+	        React.createElement(CueList, {
+	          cues: this.state.cues,
+	          setDmx: this.props.setDmx
+	        }),
 	        React.createElement(
 	          'div',
 	          { className: 'col-md-8', id: 'live-view' },
+<<<<<<< HEAD
 	          React.createElement(LiveView, { liveDMX: this.state.liveView })
 	        ),
 	        React.createElement(Toolbar, { liveDMX: this.state.liveView })
@@ -28057,6 +28165,17 @@
 	        'div',
 	        { className: 'row' },
 	        React.createElement(SlickSlider, { patches: sliderPatch_DEMOINFO })
+=======
+	          React.createElement(LiveView, { liveDMX: this.props.liveView }),
+	          React.createElement(SelectedFixture, { fixture: this.state.selectedFixture })
+	        ),
+	        React.createElement(Toolbar, {
+	          liveDMX: this.props.liveView,
+	          getCues: this.getCues,
+	          getPatch: this.getPatch,
+	          getFixtures: this.getFixtures
+	        })
+>>>>>>> master
 	      )
 	    );
 	  }
@@ -28121,6 +28240,23 @@
 			}).catch(function (err) {
 				console.error(err);
 				throw err;
+			});
+		},
+
+		getCues: function getCues() {
+			return axios.get('/api/cues').then(function (results) {
+				return results;
+			});
+		},
+
+		getPatch: function getPatch() {
+			return axios.get('/api/patch').then(function (results) {
+				return results;
+			});
+		},
+		getFixtures: function getFixtures() {
+			return axios.get('/api/fixtures').then(function (results) {
+				return results;
 			});
 		}
 
@@ -29402,12 +29538,20 @@
 		fixtureFormSubmit: function fixtureFormSubmit(formBody) {},
 
 		cueFormSubmit: function cueFormSubmit(cueNumber) {
+			var _this = this;
+
 			var formJSON = {
+<<<<<<< HEAD
 				cueNumber: cueNumber,
+=======
+				cueNumber: parseInt(cueNumber),
+>>>>>>> master
 				dmxSnapshot: this.props.liveDMX
 			};
+			console.log(formJSON);
 			helpers.createCue(formJSON).then(function (response) {
 				console.log(response);
+				_this.props.getCues();
 			}).catch(function (err) {
 				if (err.status === 404) {
 					console.error('Resource not found');
@@ -29415,7 +29559,6 @@
 			});
 		},
 		render: function render() {
-
 			return React.createElement(
 				'div',
 				{ className: 'col-md-2', id: 'nav-col' },
@@ -29652,7 +29795,7 @@
 					React.createElement(
 						'label',
 						{ htmlFor: 'channelParameters' },
-						'Channel Parameters'
+						'Channel Parameters: '
 					),
 					React.createElement('input', { type: 'text', name: 'channelParameters', value: this.state.channelParameters, onChange: this.handleChannelParametersChange }),
 					React.createElement('br', null),
@@ -29748,7 +29891,7 @@
 					React.createElement(
 						'label',
 						{ htmlFor: 'cueNumber' },
-						'Cue Number'
+						'Cue Number: '
 					),
 					React.createElement('input', { type: 'number', name: 'cueNumber', value: this.state.cueNumber, onChange: this.handleCueNumberChange }),
 					React.createElement('br', null),
@@ -29778,8 +29921,10 @@
 	  displayName: 'CueList',
 
 
-	  handleClick: function handleClick() {
-	    console.log(this);
+	  handleClick: function handleClick(item, event) {
+	    console.log(item.dmxSnapshot);
+
+	    this.props.setDmx(item.dmxSnapshot);
 	  },
 
 	  render: function render() {
@@ -29808,23 +29953,17 @@
 	          'div',
 	          { key: index },
 	          React.createElement(
-	            'li',
-	            { className: 'cue-list-item' },
+	            'button',
+	            { className: 'btn btn-warning btn-lg cueBtn', onClick: this.handleClick.bind(this, cue) },
+	            'Cue:',
 	            React.createElement(
-	              'button',
-	              { className: 'btn btn-warning btn-lg', onClick: this.handleClick.bind(this, cue) },
-	              'Cue: ',
-	              cue.number,
+	              'span',
+	              null,
 	              React.createElement(
-	                'span',
+	                'em',
 	                null,
-	                React.createElement(
-	                  'em',
-	                  null,
-	                  cue.number
-	                )
-	              ),
-	              '}'
+	                cue.cueNumber
+	              )
 	            )
 	          )
 	        );
@@ -29856,10 +29995,52 @@
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
 
-	var Main = React.createClass({
-	  displayName: 'Main',
+	var LiveView = React.createClass({
+	  displayName: 'LiveView',
 
 	  render: function render() {
+
+	    if (!this.props.liveDMX.length) {
+	      var liveView = React.createElement(
+	        'div',
+	        { className: 'col-md-12' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            React.createElement(
+	              'em',
+	              null,
+	              'Nothing to see here... Move along...'
+	            )
+	          )
+	        )
+	      );
+	    } else if (this.props.liveDMX) {
+	      var liveView = this.props.liveDMX.map(function (value, channel) {
+	        return React.createElement(
+	          'div',
+	          { className: 'col-md-1', key: channel },
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-lg btn-warning channelBtn', key: channel },
+	            React.createElement(
+	              'p',
+	              null,
+	              'Chan: ',
+	              channel + 1,
+	              ' ',
+	              React.createElement('br', null),
+	              ' ',
+	              (value / 255 * 100).toFixed(1),
+	              '%'
+	            )
+	          )
+	        );
+	      }.bind(this));
+	    }
 
 	    return React.createElement(
 	      'div',
@@ -29868,12 +30049,13 @@
 	        'p',
 	        null,
 	        'DMX Live View'
-	      )
+	      ),
+	      liveView
 	    );
 	  }
 	});
 
-	module.exports = Main;
+	module.exports = LiveView;
 
 /***/ }),
 /* 279 */
@@ -29911,6 +30093,7 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+<<<<<<< HEAD
 	var SliderPatch = __webpack_require__(281);
 
 	var SlickSlider = React.createClass({
@@ -47763,6 +47946,8 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+=======
+>>>>>>> master
 	var CueForm = __webpack_require__(276);
 
 	var Admin = React.createClass({

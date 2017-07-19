@@ -19,7 +19,7 @@ var Admin = require('../components/Admin');
 module.exports = (
   <Router history={hashHistory}>
   	<Route path='/' component={Main}>
-      <Route path='/admin' component={Admin}/> 
+      <Route path='admin' component={Admin}/>
       <IndexRoute component={Console}/>    
   	</Route>
   </Router>

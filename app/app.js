@@ -5,6 +5,4 @@ var ReactDOM = require('react-dom');
 //Require your Routes 
 var routes = require('./config/routes');
 
-
-
 ReactDOM.render(routes, document.getElementById('app'));

@@ -62,11 +62,13 @@ var ToolBar = React.createClass({
 
 	cueFormSubmit: function(cueNumber){
 		let formJSON = {
-			cueNumber: cueNumber,
+			cueNumber: parseInt(cueNumber),
 			dmxSnapshot: this.props.liveDMX
 		}
+		console.log(formJSON);
 		helpers.createCue(formJSON).then( (response) =>{
 			console.log(response);
+			this.props.getCues();
 		})
 		.catch( (err) =>{
 			if(err.status === 404){
@@ -76,7 +78,6 @@ var ToolBar = React.createClass({
 
 	},
 	render: function(){
-
 	return(
 	  <div className="col-md-2" id="nav-col">
 	    <p>Toolbar</p>

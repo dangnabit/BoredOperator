@@ -3,25 +3,25 @@ var mongoose = require("mongoose");
 
 var Schema = mongoose.Schema;
 
-var PatchSchema = new Schema({
-  fixtureName: {
+var ChannelParametersSchema = new Schema({
+  name: {
     type: String,
     trim: true,
     required: true
   },
-  startingChannel: {
+  default: {
     type: Number,
     trim: true,
     required: true
   },
-  channelParams: {
-    type: [Schema.Types.Mixed],
+  catagory: {
+    type: String,
     required: true
   }
 });
 
 // Create the Model
-var Patch = mongoose.model("Patch", PatchSchema);
+var ChannelParameters = mongoose.model("ChannelParameters", ChannelParametersSchema);
 
 // Export it for use elsewhere
-module.exports = Patch;
+module.exports = ChannelParameters;
