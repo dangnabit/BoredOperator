@@ -22210,7 +22210,7 @@
 	//Bring in all your components 
 	var Main = __webpack_require__(248);
 	var Console = __webpack_require__(249);
-	var Admin = __webpack_require__(280);
+	var Admin = __webpack_require__(281);
 
 	module.exports = React.createElement(
 	  Router,
@@ -28026,9 +28026,9 @@
 	//Bring in your Helpers and components
 	var helpers = __webpack_require__(250);
 	var Toolbar = __webpack_require__(270);
-	var CueList = __webpack_require__(277);
-	var LiveView = __webpack_require__(278);
-	var SelectedFixture = __webpack_require__(279);
+	var CueList = __webpack_require__(278);
+	var LiveView = __webpack_require__(279);
+	var SelectedFixture = __webpack_require__(280);
 
 	var Console = React.createClass({
 	  displayName: 'Console',
@@ -29420,7 +29420,7 @@
 	var Router = __webpack_require__(185);
 	var AddPatch = __webpack_require__(271);
 	var AddFixture = __webpack_require__(273);
-	var AddCue = __webpack_require__(275);
+	var AddCue = __webpack_require__(276);
 	var helpers = __webpack_require__(250);
 
 	var ToolBar = React.createClass({
@@ -29670,6 +29670,7 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var FixtureFormRow = __webpack_require__(275);
 
 	var FixtureForm = React.createClass({
 		displayName: 'FixtureForm',
@@ -29678,7 +29679,8 @@
 		getInitialState: function getInitialState() {
 			return {
 				fixtureName: '',
-				channelParameters: ''
+				channelParams: '',
+				channelNum: 3
 			};
 		},
 
@@ -29709,7 +29711,31 @@
 			}
 		},
 
+		handleAddRowClick: function handleAddRowClick() {
+			console.log('add row');
+			this.setState({
+				channelNum: this.state.channelNum + 1
+			});
+		},
+
+		handleRemoveRowClick: function handleRemoveRowClick() {
+			console.log('remove row');
+			this.setState({
+				channelNum: this.state.channelNum - 1
+			});
+		},
+
 		render: function render() {
+			var rowArray = [];
+			for (var ii = 0; ii < this.state.channelNum; ii++) {
+				rowArray.push(React.createElement(FixtureFormRow, {
+					key: ii,
+					channelArrayPosition: parseInt(ii),
+					showAddRemove: ii + 1 === this.state.channelNum,
+					handleAddRowClick: this.handleAddRowClick,
+					handleRemoveRowClick: this.handleRemoveRowClick
+				}));
+			}
 			return React.createElement(
 				'div',
 				null,
@@ -29728,8 +29754,11 @@
 						{ htmlFor: 'channelParameters' },
 						'Channel Parameters: '
 					),
-					React.createElement('input', { type: 'text', name: 'channelParameters', value: this.state.channelParameters, onChange: this.handleChannelParametersChange }),
-					React.createElement('br', null),
+					React.createElement(
+						'div',
+						{ name: 'channelParameters' },
+						rowArray
+					),
 					React.createElement(
 						'button',
 						{ className: 'btn btn-md btn-success', onClick: this.fixtureFormSubmit },
@@ -29749,7 +29778,61 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var CueForm = __webpack_require__(276);
+
+	var FixtureFormRow = React.createClass({
+	    displayName: 'FixtureFormRow',
+
+
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            { className: 'fixture-form-row' },
+	            this.props.showAddRemove ? React.createElement(
+	                'span',
+	                null,
+	                React.createElement(
+	                    'button',
+	                    {
+	                        className: 'btn btn-sm fixture-form-btn fixture-form-add-row',
+	                        onClick: this.props.handleAddRowClick
+	                    },
+	                    '+'
+	                ),
+	                React.createElement(
+	                    'button',
+	                    {
+	                        className: 'btn btn-sm fixture-form-btn fixture-form-add-row',
+	                        onClick: this.props.handleRemoveRowClick
+	                    },
+	                    '\u2212'
+	                )
+	            ) : null,
+	            React.createElement(
+	                'span',
+	                null,
+	                React.createElement(
+	                    'p',
+	                    null,
+	                    this.props.channelArrayPosition,
+	                    ' :'
+	                )
+	            ),
+	            React.createElement('input', { type: 'number', min: 0, max: 255 })
+	        );
+	    }
+
+	});
+
+	module.exports = FixtureFormRow;
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(1);
+	var CueForm = __webpack_require__(277);
 
 	var AddCue = React.createClass({
 		displayName: 'AddCue',
@@ -29778,7 +29861,7 @@
 	module.exports = AddCue;
 
 /***/ }),
-/* 276 */
+/* 277 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29839,7 +29922,7 @@
 	module.exports = CueForm;
 
 /***/ }),
-/* 277 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29917,7 +30000,7 @@
 	module.exports = CueList;
 
 /***/ }),
-/* 278 */
+/* 279 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29989,7 +30072,7 @@
 	module.exports = LiveView;
 
 /***/ }),
-/* 279 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30018,13 +30101,13 @@
 	module.exports = SelectedFixture;
 
 /***/ }),
-/* 280 */
+/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(1);
-	var CueForm = __webpack_require__(276);
+	var CueForm = __webpack_require__(277);
 
 	var Admin = React.createClass({
 		displayName: 'Admin',
