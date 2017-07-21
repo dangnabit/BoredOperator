@@ -28076,6 +28076,7 @@
 	          patch: patchData.data
 	        });
 	        helpers.generateLiveView(this.state.patch, this.props.setDmx);
+	        helpers.startSlickSlider();
 	      }
 	      // console.log(this.state.patch);
 	    }.bind(this));
@@ -28229,36 +28230,45 @@
 		},
 
 		generateLiveView: function generateLiveView(patchData, callback) {
-			// console.log(patchData);
 			var liveDmx = [];
 
-			console.log(patchData.length);
-
+			// Iterates over patched fixtures, pushing them to the live DMX array
 			for (var i = 0; i < patchData.length; i++) {
 				var startingChannel = patchData[i].startingChannel;
 				var channelParameters = patchData[i].channelParameters;
-				console.log(patchData[i].fixtureName);
 
+				// If a patch starting number does not match the current length of the array, nulls are added to help only render used channels
 				while (liveDmx.length + 1 < startingChannel) {
 					liveDmx.push(null);
-					console.log('Null');
 				}
 
-				// console.log('post null');
-
-
+				// Pushing all of the default channel infor into the live array.
 				for (var j = liveDmx.length; j < startingChannel + channelParameters.length - 1; j++) {
-
+					// Shifting channels down to compensate for the starting channel
 					var channel = channelParameters[j - startingChannel + 1].default;
-					// console.log(channel);
+					// Pushing the default value to the array
 					liveDmx[j] = channel;
-					console.log(liveDmx);
-					// console.log('inner');
 				}
 			}
 
-			console.log(liveDmx);
+			// returns the data and runs the callback function (in most cases a Socket.io call)
 			return callback(liveDmx);
+		},
+
+		reloadSlickSlider: function reloadSlickSlider() {
+			$('.slick-slider').slick('unslick');
+			this.startSlickSlider();
+		},
+
+		startSlickSlider: function startSlickSlider() {
+			$(".slick-slider").slick({
+				variableWidth: true,
+				dots: true,
+				centerMode: true,
+				centerPadding: "40px",
+				infinite: false
+			});
+			console.log('Slider loaded');
 		}
 
 	};
@@ -30052,24 +30062,34 @@
 	      );
 	    } else if (this.props.liveDMX) {
 	      var liveView = this.props.liveDMX.map(function (value, channel) {
+	        var notNull = false;
+
+	        if (value !== null) {
+	          notNull = true;
+	        }
+
 	        return React.createElement(
 	          'div',
-	          { className: 'col-md-1', key: channel },
-	          React.createElement(
-	            'button',
-	            { className: 'btn btn-lg btn-warning channelBtn', key: channel },
+	          { key: channel },
+	          notNull ? React.createElement(
+	            'div',
+	            { className: 'col-md-1' },
 	            React.createElement(
-	              'p',
-	              null,
-	              'Chan: ',
-	              channel + 1,
-	              ' ',
-	              React.createElement('br', null),
-	              ' ',
-	              (value / 255 * 100).toFixed(1),
-	              '%'
+	              'button',
+	              { className: 'btn btn-lg btn-warning channelBtn' },
+	              React.createElement(
+	                'p',
+	                null,
+	                'Chan: ',
+	                channel + 1,
+	                ' ',
+	                React.createElement('br', null),
+	                ' ',
+	                (value / 255 * 100).toFixed(1),
+	                '%'
+	              )
 	            )
-	          )
+	          ) : null
 	        );
 	      }.bind(this));
 	    }
@@ -30097,6 +30117,7 @@
 
 	var React = __webpack_require__(1);
 	var ChannelContainer = __webpack_require__(280);
+	var helpers = __webpack_require__(250);
 
 	var SelectedFixture = React.createClass({
 	    displayName: 'SelectedFixture',
@@ -30116,6 +30137,9 @@
 	    //
 	    //
 	    */
+	    componentWillReceiveProps: function componentWillReceiveProps() {
+	        // helpers.startSlickSlider();
+	    },
 
 	    render: function render() {
 
@@ -30127,13 +30151,14 @@
 	                key: i,
 	                fixturePatch: this.props.patch[i],
 	                setChannelValue: this.props.setChannelValue,
-	                liveDMX: this.props.liveDMX
+	                liveDMX: this.props.liveDMX,
+	                slick: this.slick
 	            }));
 	        }
 
 	        return React.createElement(
 	            'div',
-	            { className: 'col-md-8 col-md-offset-2 slick-slider', id: 'patch-slider' },
+	            { className: 'slick-slider', id: 'patch-slider' },
 	            activePatches
 	        );
 	    }
@@ -30154,6 +30179,10 @@
 	var ChannelContainer = React.createClass({
 	    displayName: 'ChannelContainer',
 
+
+	    componentDidMount: function componentDidMount() {
+	        this.props.slick;
+	    },
 
 	    render: function render() {
 	        var fixtureChannels = this.props.fixturePatch.channelParameters;
@@ -30213,16 +30242,21 @@
 
 		getInitialState: function getInitialState() {
 			return {
-				value: this.props.liveDMX[this.props.channelNumber - 1]
-
+				value: ''
 			};
+		},
+
+		componentDidMount: function componentDidMount() {
+			this.setState({
+				value: this.props.liveDMX[this.props.channelNumber - 1]
+			});
 		},
 
 		onChange: function onChange(sliderVal) {
 			// console.log(sliderVal);
-			this.setState({
-				value: sliderVal
-			});
+			// this.setState({
+			// 	value: sliderVal
+			// });
 			this.props.setChannelValue(this.props.channelNumber, sliderVal);
 		},
 
@@ -30232,16 +30266,22 @@
 
 		handleTextChange: function handleTextChange(event) {
 			// this.props.setChannelValue(this.props.channelNumber, parseInt(event.target.value));
-			// this.setState({
-			// 	value: event.target.value
-			// });
+			this.setState({
+				value: event.target.value
+			});
 		},
 
 		submitText: function submitText(event) {
-			console.log(event.target.value);
-			this.props.setChannelValue(this.props.channelNumber, parseInt(event.target.value));
+			var value = parseInt(event.target.value);
+
+			if (value > 255) {
+				value = 255;
+			} else if (value < 0) {
+				value = 0;
+			}
+			this.props.setChannelValue(this.props.channelNumber, value);
 			this.setState({
-				value: event.target.value
+				value: ''
 			});
 		},
 
@@ -30252,6 +30292,7 @@
 				React.createElement(
 					"div",
 					{ className: "channel-slider-div", style: style },
+					React.createElement("input", { className: "channel-input", min: "0", max: "255", type: "number", value: this.state.value, onChange: this.handleTextChange, onBlur: this.submitText, placeholder: this.props.liveDMX[this.props.channelNumber - 1] }),
 					React.createElement(
 						"span",
 						null,
@@ -30261,9 +30302,22 @@
 							this.props.name
 						)
 					),
-					React.createElement(_rcSlider2.default, { vertical: true, min: 0, max: 255, value: this.props.liveDMX[this.props.channelNumber - 1], onAfterChange: this.onAfterChange, onChange: this.onChange }),
-					React.createElement("br", null),
-					React.createElement("input", { type: "number", value: this.state.value, onChange: this.handleTextChange, onBlur: this.submitText })
+					React.createElement(_rcSlider2.default, {
+						vertical: true,
+						min: 0,
+						max: 255,
+						value: this.props.liveDMX[this.props.channelNumber - 1],
+						onAfterChange: this.onAfterChange,
+						onChange: this.onChange,
+						trackStyle: { backgroundColor: '#FF9900' },
+						handleStyle: {
+							borderColor: '#FF9900',
+							height: 20,
+							width: 28,
+							marginLeft: -12,
+							backgroundColor: '#999999'
+						}
+					})
 				)
 			);
 		}

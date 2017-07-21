@@ -15,14 +15,22 @@ var LiveView = React.createClass({
       )
     } else if (this.props.liveDMX ) {
       var liveView = this.props.liveDMX.map(function(value, channel){
+        var notNull = false;
+        
+        if (value !== null){
+          notNull = true;
+        }
+        
         return(  
-            <div className="col-md-1" key={channel}>
-              <button className="btn btn-lg btn-warning channelBtn" key={channel}>
+          <div key={channel}>
+            {notNull ? <div className="col-md-1" >
+              <button className="btn btn-lg btn-warning channelBtn">
                 <p>
                   Chan: {channel + 1} <br/> {((value/255) * 100).toFixed(1)}%
                 </p>
-              </button>
-            </div>
+              </button> 
+            </div> : null}
+          </div>
         )
       }.bind(this))
     }

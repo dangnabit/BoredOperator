@@ -93,6 +93,13 @@ io.on('connection', function(socket) {
     var channel = data.channel;
     var value = data.dmx;
     // console.log(data);
+    
+    if (value > 255){
+			value = 255;
+		} else if(value < 0){
+			value = 0;
+    }
+    
     dmxValues[channel-1] = value;
     io.emit('dmx:update', dmxValues);
     artnet.set(dmxValues);

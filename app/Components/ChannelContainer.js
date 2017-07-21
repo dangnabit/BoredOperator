@@ -3,7 +3,9 @@ const Channels = require('./Channels');
 
 const ChannelContainer = React.createClass({
 
-
+    componentDidMount: function(){
+        this.props.slick;
+    },
 
     render: function(){
         let fixtureChannels = this.props.fixturePatch.channelParameters

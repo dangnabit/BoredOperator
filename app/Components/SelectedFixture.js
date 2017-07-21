@@ -1,5 +1,6 @@
 const React = require('react');
 const ChannelContainer = require('./ChannelContainer');
+var helpers = require('../utils/helpers');
 
 
 const SelectedFixture = React.createClass({
@@ -18,6 +19,9 @@ const SelectedFixture = React.createClass({
     //
     //
     */
+    componentWillReceiveProps: function(){
+        // helpers.startSlickSlider();
+    },
 
     render: function(){
         
@@ -31,12 +35,13 @@ const SelectedFixture = React.createClass({
             fixturePatch={this.props.patch[i]}
             setChannelValue={this.props.setChannelValue}
             liveDMX={this.props.liveDMX}
+            slick={this.slick}
           />
         );
       }
 
         return(
-            <div className="col-md-8 col-md-offset-2 slick-slider" id="patch-slider">
+            <div className="slick-slider" id="patch-slider">
                 {activePatches}
             </div>
         )

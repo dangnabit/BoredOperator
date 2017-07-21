@@ -106,6 +106,22 @@ module.exports = {
 		
 		// returns the data and runs the callback function (in most cases a Socket.io call)
 		return callback(liveDmx);
+	},
+
+	reloadSlickSlider:function(){
+		$('.slick-slider').slick('unslick');
+		this.startSlickSlider();		
+	},
+
+	startSlickSlider: function(){
+		$(".slick-slider").slick({
+            variableWidth: true,
+            dots: true,
+            centerMode: true,
+            centerPadding: "40px",
+            infinite: false
+		});
+		console.log('Slider loaded');
 	}
 
 

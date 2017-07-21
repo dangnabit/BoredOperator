@@ -12,16 +12,21 @@ const Channels = React.createClass({
 
     getInitialState: function(){
 		return({
-			value: this.props.liveDMX[this.props.channelNumber - 1]
-
+			value: ''
 		});
 	},
-	
+
+	componentDidMount: function(){
+		this.setState({
+			value: this.props.liveDMX[this.props.channelNumber - 1]
+		});
+	},
+
 	onChange: function(sliderVal){
 		// console.log(sliderVal);
-		this.setState({
-			value: sliderVal
-		});
+		// this.setState({
+		// 	value: sliderVal
+		// });
 		this.props.setChannelValue(this.props.channelNumber , sliderVal);
 	},
 
@@ -31,16 +36,22 @@ const Channels = React.createClass({
 
 	handleTextChange: function(event){
 		// this.props.setChannelValue(this.props.channelNumber, parseInt(event.target.value));
-		// this.setState({
-		// 	value: event.target.value
-		// });
+		this.setState({
+			value: event.target.value
+		});
 	},
 
 	submitText: function(event){
-		console.log(event.target.value)
-		this.props.setChannelValue(this.props.channelNumber, parseInt(event.target.value));
+		var value = parseInt(event.target.value);
+		
+		if (value > 255){
+			value = 255;
+		} else if(value < 0){
+			value = 0;
+		}
+		this.props.setChannelValue(this.props.channelNumber, value);
 		this.setState({
-			value: event.target.value
+			value: ''
 		});
 	},
 		
@@ -48,10 +59,24 @@ const Channels = React.createClass({
 		return(
           <span className="slider-parent-span" style={parentStyle} >
 		  	<div className="channel-slider-div" style={style}>
-                 <span><p className="channelName">{this.props.name}</p></span> 
-		  		<Slider vertical={true} min={0} max={255} value={this.props.liveDMX[this.props.channelNumber - 1]} onAfterChange={this.onAfterChange} onChange={this.onChange} />
-		  		<br/>
-				<input type='number' value={this.state.value} onChange={this.handleTextChange} onBlur={this.submitText}/> 
+		  		<input className='channel-input' min="0" max="255" type='number' value={this.state.value} onChange={this.handleTextChange} onBlur={this.submitText} placeholder={this.props.liveDMX[this.props.channelNumber - 1]}/> 
+				<span><p className="channelName">{this.props.name}</p></span> 
+				<Slider 
+				  vertical={true} 
+				  min={0} 
+				  max={255} 
+				  value={this.props.liveDMX[this.props.channelNumber - 1]} 
+				  onAfterChange={this.onAfterChange} 
+				  onChange={this.onChange} 
+		          trackStyle={{ backgroundColor: '#FF9900'}}
+				  handleStyle={{
+          			borderColor: '#FF9900',
+          			height: 20,
+          			width: 28,
+					marginLeft: -12,
+          			backgroundColor: '#999999',
+        		  }}  
+				/>				
 		  	</div>	
 		  </span>
 		)

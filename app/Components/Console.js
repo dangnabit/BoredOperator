@@ -49,6 +49,7 @@ var Console = React.createClass({
             patch: patchData.data
           });
           helpers.generateLiveView(this.state.patch, this.props.setDmx);
+          helpers.startSlickSlider();
         }
         // console.log(this.state.patch);
       }.bind(this));
