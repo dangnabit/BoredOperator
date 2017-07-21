@@ -29679,12 +29679,13 @@
 		getInitialState: function getInitialState() {
 			return {
 				fixtureName: '',
-				channelParams: '',
+				channelParams: [],
 				channelNum: 3
+
 			};
 		},
 
-		handleFixtureNameChange: function handleFixtureNameChange(event) {
+		handleFixtureNameChange: function handleFixtureNameChange(value, index) {
 			this.setState({
 				fixtureName: event.target.value.trim()
 			});
@@ -29694,6 +29695,15 @@
 			this.setState({
 				channelParameters: event.target.value.trim().split(',')
 			});
+		},
+
+		handleParamUpdate: function handleParamUpdate(value, index) {
+			var tempParams = this.state.channelParams;
+			tempParams[index] = value;
+			this.setState({
+				channelParams: tempParams
+			});
+			console.log(this.state.channelParams);
 		},
 
 		fixtureFormSubmit: function fixtureFormSubmit(event) {
@@ -29711,15 +29721,16 @@
 			}
 		},
 
-		handleAddRowClick: function handleAddRowClick() {
-			console.log('add row');
+		handleAddRowClick: function handleAddRowClick(event) {
+			event.preventDefault();
 			this.setState({
 				channelNum: this.state.channelNum + 1
 			});
 		},
 
-		handleRemoveRowClick: function handleRemoveRowClick() {
-			console.log('remove row');
+		handleRemoveRowClick: function handleRemoveRowClick(event) {
+			event.preventDefault();
+
 			this.setState({
 				channelNum: this.state.channelNum - 1
 			});
@@ -29733,7 +29744,9 @@
 					channelArrayPosition: parseInt(ii),
 					showAddRemove: ii + 1 === this.state.channelNum,
 					handleAddRowClick: this.handleAddRowClick,
-					handleRemoveRowClick: this.handleRemoveRowClick
+					handleRemoveRowClick: this.handleRemoveRowClick,
+					handleParamUpdate: this.handleParamUpdate,
+					disableRemoveBtn: ii === 0
 				}));
 			}
 			return React.createElement(
@@ -29782,6 +29795,13 @@
 	var FixtureFormRow = React.createClass({
 	    displayName: 'FixtureFormRow',
 
+	    updateParamValue: function updateParamValue(event) {
+	        event.preventDefault();
+	        var target = event.target;
+	        var position = this.props.channelArrayPosition;
+	        var value = parseInt(target.value);
+	        this.props.handleParamUpdate(value, position);
+	    },
 
 	    render: function render() {
 	        return React.createElement(
@@ -29801,8 +29821,9 @@
 	                React.createElement(
 	                    'button',
 	                    {
-	                        className: 'btn btn-sm fixture-form-btn fixture-form-add-row',
-	                        onClick: this.props.handleRemoveRowClick
+	                        className: 'btn btn-sm fixture-form-btn fixture-form-rm-row',
+	                        onClick: this.props.handleRemoveRowClick,
+	                        disabled: this.props.disableRemoveBtn
 	                    },
 	                    '\u2212'
 	                )
@@ -29813,11 +29834,17 @@
 	                React.createElement(
 	                    'p',
 	                    null,
-	                    this.props.channelArrayPosition,
+	                    this.props.channelArrayPosition + 1,
 	                    ' :'
 	                )
 	            ),
-	            React.createElement('input', { type: 'number', min: 0, max: 255 })
+	            React.createElement('input', {
+	                type: 'number',
+	                min: 0,
+	                max: 255,
+	                className: 'fixture-param-input',
+	                onBlur: this.updateParamValue
+	            })
 	        );
 	    }
 

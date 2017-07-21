@@ -7,13 +7,14 @@ const FixtureForm = React.createClass({
 	getInitialState: function(){
 		return({
 			fixtureName: '',
-			channelParams: '',
-			channelNum: 3
+			channelParams: [],
+			channelNum: 3,
+
 		});
 	},
 
 
-	handleFixtureNameChange: function(event){
+	handleFixtureNameChange: function(value, index){
 		this.setState({
 			fixtureName: event.target.value.trim()
 		})
@@ -23,6 +24,15 @@ const FixtureForm = React.createClass({
 		this.setState({
 			channelParameters: event.target.value.trim().split(',')
 		})
+	},
+
+	handleParamUpdate: function(value, index){
+		let tempParams = this.state.channelParams;
+		tempParams[index] = value;
+		this.setState({
+			channelParams: tempParams
+		});
+		console.log(this.state.channelParams);
 	},
 
 	fixtureFormSubmit: function(event){
@@ -40,18 +50,20 @@ const FixtureForm = React.createClass({
 		}
 	},
 
-	handleAddRowClick: function(){
-		console.log('add row');
+	handleAddRowClick: function(event){
+		event.preventDefault();
 		this.setState({
 			channelNum: this.state.channelNum + 1
 		});
 	},
 
-	handleRemoveRowClick: function(){
-		console.log('remove row');
+	handleRemoveRowClick: function(event){
+		event.preventDefault();
+		
 		this.setState({
 			channelNum: this.state.channelNum - 1
 		})
+	
 	},
 
 	render: function(){
@@ -65,6 +77,8 @@ const FixtureForm = React.createClass({
 					showAddRemove={ ( ii + 1 === this.state.channelNum)}
 					handleAddRowClick={this.handleAddRowClick}
 					handleRemoveRowClick={this.handleRemoveRowClick}
+					handleParamUpdate={this.handleParamUpdate}
+					disableRemoveBtn={(ii === 0)}
 				/>
 			);
 		}
