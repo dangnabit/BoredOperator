@@ -16,6 +16,7 @@ var Cues = require('./models/Cues.js');
 var Fixtures = require('./models/Fixtures.js');
 var Patch = require('./models/Patch.js');
 var Users = require('./models/Users.js');
+var ChannelParameters = require('./models/ChannelParameters.js');
 
 
 var PORT = process.env.PORT || 3000;
@@ -65,23 +66,36 @@ db.once('open', function() {
 });
 
 // External Routes
-require('./config/routes.js')(app, passport, Cues, Fixtures, Patch);
+require('./config/routes.js')(app, passport, Cues, Fixtures, Patch, ChannelParameters);
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 // Socket.io implementation
+
+var dmxValues = [];
+
 io.on('connection', function(socket) {
-  var dmxValues = [127,127,0,0,0,0,0,0,0,0,0,0,0,0,0];
+  
   io.emit('dmx:update', dmxValues);
 
   socket.on('dmx:request', function(){
     io.emit('dmx:update', dmxValues)
   }),
 
-  socket.on('dmx:update', function(dmxLive) {
-    io.emit('dmx:update', dmxLive);
-    artnet.set(dmxLive);
+  socket.on('dmx:update', function(dmxChanged) {
+    dmxValues = dmxChanged;
+    io.emit('dmx:update', dmxValues);
+    artnet.set(dmxValues);
+  });
+
+  socket.on('dmx:singleChan', function(data){
+    var channel = data.channel;
+    var value = data.dmx;
+    // console.log(data);
+    dmxValues[channel-1] = value;
+    io.emit('dmx:update', dmxValues);
+    artnet.set(dmxValues);
   });
 
   socket.on('disconnect', function(disconnect) {

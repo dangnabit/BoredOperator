@@ -1,6 +1,6 @@
 var path = require('path');
 
-module.exports = function(app, passport, Cues, Fixtures, Patch) {
+module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameters) {
 
   //=================================================
   // User Get Routes ================================
@@ -89,6 +89,18 @@ module.exports = function(app, passport, Cues, Fixtures, Patch) {
     })
   });
 
+    app.get('/api/channels/', function(req, res) {
+
+    ChannelParameters.find({}).exec(function(err, doc) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(doc);
+      }
+    })
+  });
+
   app.get('/api/fixtures/:fixture', function(req, res) {
 
     var fixtureName = req.params.fixture;
@@ -150,6 +162,22 @@ module.exports = function(app, passport, Cues, Fixtures, Patch) {
     });
   });
 
+  app.post('/api/channels/', function(req, res) {
+
+    // Expects JSON { name: STRING, default: NUMBER, catagory: STRING }
+
+    var newChan = new ChannelParameters(req.body);
+
+    newChan.save(function(err, doc) {
+      if (err) {
+        console.log(err);
+        res.send(err);
+      } else {
+        res.send(doc._id);
+      }
+    });
+  });
+  
   app.post('/api/patch/', function(req, res) {
 
     // Expects JSON { fixtureName: STRING (ref fixtures), startingChannel: NUMBER (1-512) }

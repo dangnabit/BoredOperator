@@ -15,7 +15,7 @@ var LiveView = React.createClass({
       )
     } else if (this.props.liveDMX ) {
       var liveView = this.props.liveDMX.map(function(value, channel){
-        return(
+        return(  
             <div className="col-md-1" key={channel}>
               <button className="btn btn-lg btn-warning channelBtn" key={channel}>
                 <p>

@@ -13,7 +13,12 @@ const AddFixture = React.createClass({
 		return(
 			<div className="toolbarBtn">
 				<button className="btn btn-warning btn-lg toolbarBtn" onClick={this.props.handleClick}>Create Fixture</button>
-				{this.props.clicked ? <FixtureForm fixtureFormSubmit={this.props.formSubmit} /> : null}
+				{this.props.clicked ? 
+					<FixtureForm 
+						fixtureFormSubmit={this.props.formSubmit} 
+						channelParameters={this.props.channelParameters} 
+					/> 
+				: null}
 			</div>
 		)
 	}

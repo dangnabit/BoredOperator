@@ -57,17 +57,30 @@ var ToolBar = React.createClass({
 	},
 
 	fixtureFormSubmit: function(formBody){
-
+		let newFixture = {
+			name: formBody.name,
+			channelParameters: formBody.channels
+		}
+		console.log(newFixture);
+		helpers.createFixture(newFixture).then( (response) =>{
+			console.log(response);
+			this.props.getFixtures();
+		})
+		.catch( (err) =>{
+			if(err.status === 404){
+				console.error(`Resource not found`)
+			}
+		});
 	},
 
 	cueFormSubmit: function(cueNumber){
-		let formJSON = {
+		let newCue = {
 			cueNumber: parseInt(cueNumber),
 			dmxSnapshot: this.props.liveDMX
 		}
-		console.log(formJSON);
-		helpers.createCue(formJSON).then( (response) =>{
-			console.log(response);
+		// console.log(newCue);
+		helpers.createCue(newCue).then( (response) =>{
+			// console.log(response);
 			this.props.getCues();
 		})
 		.catch( (err) =>{
@@ -81,9 +94,23 @@ var ToolBar = React.createClass({
 	return(
 	  <div className="col-md-2" id="nav-col">
 	    <p>Toolbar</p>
-	    <AddPatch clicked={this.state.patch_clicked} handleClick={this.handlePatchClick} patchFormSubmit={this.patchFormSubmit} />
-	    <AddFixture clicked={this.state.fixture_clicked} handleClick={this.handleFixtureClick} formSubmit={this.fixtureFormSubmit} />
-		<AddCue  clicked={this.state.cue_clicked} handleClick={this.handleCueClick} formSubmit={this.cueFormSubmit}/>
+	    <AddPatch 
+			clicked={this.state.patch_clicked} 
+			handleClick={this.handlePatchClick} 
+			patchFormSubmit={this.patchFormSubmit}
+			fixtures={this.props.fixtures}
+		/>
+	    <AddFixture 
+			clicked={this.state.fixture_clicked} 
+			handleClick={this.handleFixtureClick} 
+			formSubmit={this.fixtureFormSubmit}
+			channelParameters= {this.props.channelParameters} 
+		/>
+		<AddCue  
+			clicked={this.state.cue_clicked} 
+			handleClick={this.handleCueClick} 
+			formSubmit={this.cueFormSubmit}
+		/>
 	  </div>
 	)
 	}

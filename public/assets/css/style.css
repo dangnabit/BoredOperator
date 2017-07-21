@@ -92,3 +92,32 @@ p a:hover {
 .cueBtn {
 	width: 100%;
 }
+
+.slick-slide{
+	border: 3px solid #FF9900;
+	margin: 0 10px;
+	padding-top: 10px;
+	border-radius: 6px;
+}
+
+.channel-slider-div{
+	width: 40px;
+	float: left;
+	height: 200px;
+	margin-top: 10px;
+	margin-bottom: 100px;
+	margin-right: 10px;
+	margin-left: 10px;
+
+}
+
+.channel-slider-div input{
+	width: 50px;
+	position: relative;
+	left: 5px;
+	top: 10px;
+}
+
+.rc-slider-vertical{
+	margin-left: 20px;
+}

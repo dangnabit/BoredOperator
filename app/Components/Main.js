@@ -6,34 +6,37 @@ var Link = require("react-router").Link;
 var socket = io.connect();
 
 var Main = React.createClass({
+  
   getInitialState: function(){
     return {
         liveView: []
     };
   },
+  
   componentDidMount: function(){
-    console.log('Test');
     socket.emit('dmx:request');
     socket.on('dmx:update', this.setLiveDmx);
   },
+  
   setLiveDmx: function(data){
     this.setState({liveView : data});
-    console.log(this.state.liveView);
+    // console.log(this.state.liveView);
   },
   
   socketEmit: function(data){
     socket.emit('dmx:update', data);
   },
 
-  render: function(){
-    // console.log(`State ${this.state.liveView}`);
+  socketEmitOne: function(chan, value){
+    var data = {
+      channel: chan,
+      dmx: value
+    };
 
-    // var childrenWithProps = React.Children.map(this.props.children, function(child){
-    //   // return React.cloneElement(child, {
-    //   //   liveView: this.state.liveView
-    //   // });
-    //   console.log(child);
-    // });
+    socket.emit('dmx:singleChan', data);
+  },
+
+  render: function(){
 
     return(
       <div className="main-container">
@@ -58,7 +61,13 @@ var Main = React.createClass({
           </div>
         </nav>
 
-        {React.cloneElement(this.props.children, {liveView: this.state.liveView, setDmx: this.socketEmit})}
+        {React.cloneElement(this.props.children, 
+          {
+            liveView: this.state.liveView, 
+            setDmx: this.socketEmit,
+            setDmxOne: this.socketEmitOne
+          }
+        )}
 
         <footer className="footer">
           <div className="container-fluid">

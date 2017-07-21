@@ -13,7 +13,12 @@ const AddPatch = React.createClass({
 		return(
 			<div className="toolbarBtn">
 				<button className="btn btn-warning btn-lg toolbarBtn" onClick={this.props.handleClick}>Patch Fixture</button>
-				{this.props.clicked ? <PatchForm patcFormSubmit={this.props.patchFormSubmit} /> : null}
+				{this.props.clicked ? 
+					<PatchForm 
+						patcFormSubmit={this.props.patchFormSubmit} 
+						fixtures={this.props.fixtures}
+					/> 
+				: null}
 			</div>
 		)
 	}

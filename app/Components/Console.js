@@ -16,13 +16,15 @@ var Console = React.createClass({
         cues: [],
         patch: [],
         fixtures: [],
-        selectedFixture: {}
+        selectedFixture: {},
+        channelParameters: []
     };
   },
   componentDidMount: function(){
     this.getCues();
     this.getPatch();  
     this.getFixtures();
+    this.getChannelParameters();
   },
 
   getCues: function(){
@@ -46,6 +48,7 @@ var Console = React.createClass({
           this.setState({
             patch: patchData.data
           });
+          helpers.generateLiveView(this.state.patch, this.props.setDmx);
         }
         // console.log(this.state.patch);
       }.bind(this));
@@ -64,6 +67,19 @@ var Console = React.createClass({
       }.bind(this));
   },
 
+  getChannelParameters: function(){
+    helpers.getChannelParameters()
+      .then(function(channelParametersData) {
+        // console.log(channelgetChannelParametersData.data);
+        if (channelParametersData.data) {
+          this.setState({
+            channelParameters: channelParametersData.data
+          });
+        }
+        // console.log(this.state.channelgetChannelParameters);
+      }.bind(this));
+  },
+
   handleSubmit: function(item, event){
     // console.log(item);
   },
@@ -71,7 +87,7 @@ var Console = React.createClass({
     
   },
   render: function(){  
-    console.log(this.props.liveView);
+    // console.log(this.props.liveView);
     return(
       <div className="container-fluid">
         <div className="row" id="main-page-row">
@@ -81,10 +97,16 @@ var Console = React.createClass({
             />
             <div className="col-md-8" id="live-view">
                 <LiveView liveDMX={this.props.liveView}/>
-                <SelectedFixture fixture={this.state.selectedFixture}/>
+                <SelectedFixture 
+                  patch={this.state.patch}
+                  setChannelValue={this.props.setDmxOne}
+                  liveDMX={this.props.liveView}
+                />
             </div>
             <Toolbar 
-              liveDMX={this.props.liveView} 
+              liveDMX={this.props.liveView}
+              channelParameters={this.state.channelParameters} 
+              fixtures={this.state.fixtures}
               getCues={this.getCues} 
               getPatch={this.getPatch} 
               getFixtures={this.getFixtures}

@@ -21,7 +21,7 @@ var ChannelParametersSchema = new Schema({
 });
 
 // Create the Model
-var ChannelParameters = mongoose.model("ChannelParameters", ChannelParametersSchema);
+var ChannelParameters = mongoose.model("ChannelParameter", ChannelParametersSchema);
 
 // Export it for use elsewhere
 module.exports = ChannelParameters;
