@@ -29733,7 +29733,7 @@
 					validParamArray = false;
 				}
 			}
-			console.log(validParamArray, this.state.fixtureName);
+
 			if (this.state.fixtureName !== '' && validParamArray) {
 				var formBody = {
 					fixtureName: this.state.fixtureName,
@@ -29835,45 +29835,50 @@
 	    render: function render() {
 	        return React.createElement(
 	            'div',
-	            { className: 'fixture-form-row' },
-	            this.props.showAddRemove ? React.createElement(
-	                'span',
-	                null,
-	                React.createElement(
-	                    'button',
-	                    {
-	                        className: 'btn btn-sm fixture-form-btn fixture-form-add-row',
-	                        onClick: this.props.handleAddRowClick
-	                    },
-	                    '+'
-	                ),
-	                React.createElement(
-	                    'button',
-	                    {
-	                        className: 'btn btn-sm fixture-form-btn fixture-form-rm-row',
-	                        onClick: this.props.handleRemoveRowClick,
-	                        disabled: this.props.disableRemoveBtn
-	                    },
-	                    '\u2212'
-	                )
-	            ) : null,
+	            { className: ' row fixture-form-row' },
 	            React.createElement(
-	                'span',
-	                null,
-	                React.createElement(
-	                    'p',
+	                'div',
+	                { className: 'col-sm-4 col-xs-6' },
+	                this.props.showAddRemove ? React.createElement(
+	                    'span',
 	                    null,
-	                    this.props.channelArrayPosition + 1,
-	                    ' :'
-	                )
+	                    React.createElement(
+	                        'button',
+	                        {
+	                            className: 'btn btn-lg fixture-form-btn fixture-form-add-row',
+	                            onClick: this.props.handleAddRowClick
+	                        },
+	                        '+'
+	                    ),
+	                    React.createElement(
+	                        'button',
+	                        {
+	                            className: 'btn btn-lg fixture-form-btn fixture-form-rm-row',
+	                            onClick: this.props.handleRemoveRowClick,
+	                            disabled: this.props.disableRemoveBtn
+	                        },
+	                        '\u2212'
+	                    )
+	                ) : null
 	            ),
-	            React.createElement('input', {
-	                type: 'number',
-	                min: 0,
-	                max: 255,
-	                className: 'fixture-param-input',
-	                onBlur: this.updateParamValue
-	            })
+	            React.createElement(
+	                'div',
+	                { className: 'col-sm-4 col-xs-6' },
+	                React.createElement(
+	                    'label',
+	                    { htmlFor: 'paramInput' },
+	                    this.props.channelArrayPosition + 1,
+	                    ' : '
+	                ),
+	                React.createElement('input', {
+	                    type: 'number',
+	                    min: 0,
+	                    max: 255,
+	                    name: 'paramInput',
+	                    className: 'fixture-param-input',
+	                    onBlur: this.updateParamValue
+	                })
+	            )
 	        );
 	    }
 

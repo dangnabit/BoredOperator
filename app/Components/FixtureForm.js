@@ -44,7 +44,7 @@ const FixtureForm = React.createClass({
 				validParamArray = false;
 			}
 		}
-		console.log(validParamArray, this.state.fixtureName);
+
 		if(this.state.fixtureName !== '' &&  validParamArray){
 			let formBody = {
 				fixtureName: this.state.fixtureName,
