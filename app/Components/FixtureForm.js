@@ -8,7 +8,7 @@ const FixtureForm = React.createClass({
 		return({
 			fixtureName: '',
 			channelParams: [],
-			channelNum: 3,
+			channelNum: 1,
 
 		});
 	},
@@ -16,7 +16,7 @@ const FixtureForm = React.createClass({
 
 	handleFixtureNameChange: function(value, index){
 		this.setState({
-			fixtureName: event.target.value.trim()
+			fixtureName: event.target.value
 		})
 	},
 
@@ -37,16 +37,28 @@ const FixtureForm = React.createClass({
 
 	fixtureFormSubmit: function(event){
 		event.preventDefault();
-		if(this.state.fixtureName !== '' && this.state.channelParameters !== ''){
+		let validParamArray = true;
+		let params = this.state.channelParameters;
+		for(let jj = 0; jj< params; jj ++){
+			if(typeof params[jj] === "undefined" || !parseInt(params[jj])){
+				validParamArray = false;
+			}
+		}
+		console.log(validParamArray, this.state.fixtureName);
+		if(this.state.fixtureName !== '' &&  validParamArray){
 			let formBody = {
 				fixtureName: this.state.fixtureName,
-				channelParameters: this.state.channelParameters
+				channelParameters: params
 			};
 			this.props.fixtureFormSubmit(formBody);
 			this.setState({
 				fixtureName: '',
-				channelParameters: ''
+				channelParameters: [],
+				channelNum: 1
 			});
+		}
+		else{
+			throw new Error("Create fixture submission was unsuccessful");
 		}
 	},
 

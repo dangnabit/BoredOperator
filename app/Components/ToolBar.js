@@ -57,7 +57,13 @@ var ToolBar = React.createClass({
 	},
 
 	fixtureFormSubmit: function(formBody){
-
+		helpers.createFixture(formBody).then(function(response){
+			console.log(response);
+		})
+		.catch( function(err) {
+			console.error(err);
+			throw err;
+		});
 	},
 
 	cueFormSubmit: function(cueNumber){

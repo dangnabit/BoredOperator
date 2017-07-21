@@ -60,6 +60,18 @@ module.exports = {
 		})
 	},
 
+	createFixture: function(fixtureForm){
+		console.log(`Fixture create helper`);
+		return axios.post('/api/fixtures', fixtureForm).then( function(results){
+			console.log(`Successfully created fixture`);
+			return results;
+		})
+		.catch(function(err) {
+			console.error(err);
+			throw err;
+		})
+	},
+
 	getCues: function(){
 		return axios.get('/api/cues').then(function(results){
         	return results;
