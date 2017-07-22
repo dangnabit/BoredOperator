@@ -53,7 +53,7 @@ const PatchForm = React.createClass({
 					<label htmlFor="startingChannel">Channel #</label>
 					<input type="number" name="channelNum" min={1} max={512} value={this.state.channelNum} onChange={this.handleChannelNumChange}/>
 					<br />
-					<button className='btn btn-md btn-success' onClick={this.patchFormSubmit}>Submit</button>
+					<button className='btn btn-md btn-warning' onClick={this.patchFormSubmit}>Submit</button>
 				</form>
 			</div>
 		)
