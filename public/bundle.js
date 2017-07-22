@@ -28035,8 +28035,8 @@
 	//Bring in your Helpers and components
 	var helpers = __webpack_require__(250);
 	var Toolbar = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Toolbar\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	var CueList = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Cuelist\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	var LiveView = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./LiveView\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var CueList = __webpack_require__(271);
+	var LiveView = __webpack_require__(272);
 	var SelectedFixture = __webpack_require__(273);
 
 	var Console = React.createClass({
@@ -29491,8 +29491,181 @@
 
 /***/ }),
 /* 270 */,
-/* 271 */,
-/* 272 */,
+/* 271 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//Require React
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(185);
+
+	var CueList = React.createClass({
+	  displayName: 'CueList',
+
+
+	  handleClick: function handleClick(item, event) {
+	    console.log(item.dmxSnapshot);
+
+	    this.props.setDmx(item.dmxSnapshot);
+	  },
+
+	  render: function render() {
+
+	    if (this.props.cues.length < 1) {
+	      var cues = React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h4',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            React.createElement(
+	              'em',
+	              null,
+	              'You dont have any cues yet'
+	            )
+	          )
+	        )
+	      );
+	    } else if (this.props.cues) {
+	      var cues = this.props.cues.map(function (cue, index) {
+	        return React.createElement(
+	          'div',
+	          { key: index },
+	          React.createElement(
+	            'button',
+	            { className: 'btn btn-warning btn-lg cueBtn', onClick: this.handleClick.bind(this, cue) },
+	            'Cue:',
+	            React.createElement(
+	              'span',
+	              null,
+	              React.createElement(
+	                'em',
+	                null,
+	                cue.cueNumber
+	              )
+	            )
+	          )
+	        );
+	      }.bind(this));
+	    }
+
+	    return React.createElement(
+	      'div',
+	      { className: 'col-md-2' },
+	      React.createElement(
+	        'p',
+	        null,
+	        'Cues',
+	        React.createElement('span', {
+	          className: 'glyphicon glyphicon-info-sign tool-tip',
+	          'data-toggle': 'tooltip',
+	          'data-placement': 'top',
+	          'data-animation': 'true',
+	          title: 'This is where your saved cues will show up. Press any of the buttons to recall the cue.' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { id: 'cue-col' },
+	        cues
+	      )
+	    );
+	  }
+	});
+
+	module.exports = CueList;
+
+/***/ }),
+/* 272 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	//Require React
+	var React = __webpack_require__(1);
+	var Router = __webpack_require__(185);
+
+	var LiveView = React.createClass({
+	  displayName: 'LiveView',
+
+	  render: function render() {
+
+	    if (!this.props.liveDMX.length) {
+	      var liveView = React.createElement(
+	        'div',
+	        { className: 'col-md-12' },
+	        React.createElement(
+	          'h3',
+	          null,
+	          React.createElement(
+	            'span',
+	            null,
+	            React.createElement(
+	              'em',
+	              null,
+	              'Nothing to see here... Move along...'
+	            )
+	          )
+	        )
+	      );
+	    } else if (this.props.liveDMX) {
+	      var liveView = this.props.liveDMX.map(function (value, channel) {
+	        var notNull = false;
+
+	        if (value !== null) {
+	          notNull = true;
+	        }
+
+	        return React.createElement(
+	          'div',
+	          { key: channel },
+	          notNull ? React.createElement(
+	            'div',
+	            { className: 'col-xs-4 col-sm-3 col-md-2 col-lg-1 col-xl-1 live-button' },
+	            React.createElement(
+	              'button',
+	              { className: 'btn btn-lg btn-warning channelBtn' },
+	              React.createElement(
+	                'p',
+	                null,
+	                'Ch: ',
+	                channel + 1,
+	                ' ',
+	                React.createElement('br', null),
+	                ' ',
+	                (value / 255 * 100).toFixed(1),
+	                '%'
+	              )
+	            )
+	          ) : null
+	        );
+	      }.bind(this));
+	    }
+
+	    return React.createElement(
+	      'div',
+	      { className: 'dmx-row row' },
+	      React.createElement(
+	        'p',
+	        null,
+	        'DMX Live View',
+	        React.createElement('span', {
+	          className: 'glyphicon glyphicon-info-sign',
+	          'data-toggle': 'tooltip',
+	          'data-placement': 'top',
+	          title: 'Your live DMX output is shown here. Percentages will update as you recall cues and adjust faders.' })
+	      ),
+	      liveView
+	    );
+	  }
+	});
+
+	module.exports = LiveView;
+
+/***/ }),
 /* 273 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -47434,8 +47607,8 @@
 	//Bring in your Helpers and components
 	var helpers = __webpack_require__(250);
 	var Toolbar = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Toolbar\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	var CueList = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./Cuelist\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
-	var LiveView = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./LiveView\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var CueList = __webpack_require__(271);
+	var LiveView = __webpack_require__(272);
 	var SelectedFixture = __webpack_require__(273);
 
 	var Admin = React.createClass({

@@ -93,9 +93,6 @@ var ToolBar = React.createClass({
 	render: function(){
 	return(
 	  <div className="col-md-2" id="nav-col">
-<<<<<<< HEAD
-	    <p>Toolbar   <span className="glyphicon glyphicon-info-sign tool-tip" data-toggle="tooltip" data-placement="top" title="Click the buttons below to get fixtures loaded and save cues to the system."></span></p>
-=======
 	    <p>Toolbar   
 			<span 
 				className="glyphicon glyphicon-info-sign" 
@@ -104,7 +101,6 @@ var ToolBar = React.createClass({
 				title="Click the buttons below to get fixtures loaded and save cues to the system.">
 			</span>
 		</p>
->>>>>>> 76f0aa683d422b3532c0d1a3ad375f8f61a20b02
 	    <AddPatch 
 			clicked={this.state.patch_clicked} 
 			handleClick={this.handlePatchClick} 
