@@ -4,6 +4,7 @@ var Router = require('react-router');
 var Console = require('./Console');
 var Link = require("react-router").Link;
 var socket = io.connect();
+var helpers = require('../utils/helpers');
 
 var Main = React.createClass({
   

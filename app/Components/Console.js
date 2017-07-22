@@ -48,7 +48,9 @@ var Console = React.createClass({
           this.setState({
             patch: patchData.data
           });
-          helpers.generateLiveView(this.state.patch, this.props.setDmx);
+          if (this.props.liveView.length < 1){
+            helpers.generateLiveView(this.state.patch, this.props.setDmx);
+          }
           helpers.startSlickSlider();
         }
         // console.log(this.state.patch);

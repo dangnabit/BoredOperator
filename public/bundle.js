@@ -27887,6 +27887,7 @@
 	var Console = __webpack_require__(249);
 	var Link = __webpack_require__(185).Link;
 	var socket = io.connect();
+	var helpers = __webpack_require__(250);
 
 	var Main = React.createClass({
 	  displayName: 'Main',
@@ -28075,7 +28076,9 @@
 	        this.setState({
 	          patch: patchData.data
 	        });
-	        helpers.generateLiveView(this.state.patch, this.props.setDmx);
+	        if (this.props.liveView.length < 1) {
+	          helpers.generateLiveView(this.state.patch, this.props.setDmx);
+	        }
 	        helpers.startSlickSlider();
 	      }
 	      // console.log(this.state.patch);
@@ -30073,7 +30076,7 @@
 	          { key: channel },
 	          notNull ? React.createElement(
 	            'div',
-	            { className: 'col-md-1' },
+	            { className: 'col-sm-1' },
 	            React.createElement(
 	              'button',
 	              { className: 'btn btn-lg btn-warning channelBtn' },
