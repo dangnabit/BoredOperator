@@ -29495,8 +29495,6 @@
 
 	'use strict';
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	//Require React
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
@@ -29587,8 +29585,6 @@
 			});
 		},
 		render: function render() {
-			var _React$createElement;
-
 			return React.createElement(
 				'div',
 				{ className: 'col-md-2', id: 'nav-col' },
@@ -29596,7 +29592,7 @@
 					'p',
 					null,
 					'Toolbar   ',
-					React.createElement('span', (_React$createElement = { className: 'glyphicon glyphicon-info-sign', 'data-toggle': 'tooltip', 'data-placement': 'top' }, _defineProperty(_React$createElement, 'data-placement', 'true'), _defineProperty(_React$createElement, 'title', 'Click the buttons below to get fixtures loaded and save cues to the system.'), _React$createElement))
+					React.createElement('span', { className: 'glyphicon glyphicon-info-sign tool-tip', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Click the buttons below to get fixtures loaded and save cues to the system.' })
 				),
 				React.createElement(AddPatch, {
 					clicked: this.state.patch_clicked,
@@ -30030,8 +30026,9 @@
 	      React.createElement(
 	        'p',
 	        null,
-	        'Cues   ',
-	        React.createElement('span', (_React$createElement = { className: 'glyphicon glyphicon-info-sign', 'data-toggle': 'tooltip', 'data-placement': 'top' }, _defineProperty(_React$createElement, 'data-placement', 'true'), _defineProperty(_React$createElement, 'title', 'This is where your saved cues will show up. Press any of the buttons to recall the cue.'), _React$createElement))
+	        'Cues ',
+	        React.createElement('span', (_React$createElement = { className: 'glyphicon glyphicon-info-sign tool-tip', 'data-toggle': 'tooltip', 'data-placement': 'top' }, _defineProperty(_React$createElement, 'data-placement', 'true'), _defineProperty(_React$createElement, 'title', 'This is where your saved cues will show up. Press any of the buttons to recall the cue.'), _React$createElement)),
+	        ' '
 	      ),
 	      React.createElement(
 	        'div',
@@ -30050,8 +30047,6 @@
 
 	'use strict';
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	//Require React
 	var React = __webpack_require__(1);
 	var Router = __webpack_require__(185);
@@ -30060,7 +30055,6 @@
 	  displayName: 'LiveView',
 
 	  render: function render() {
-	    var _React$createElement;
 
 	    if (!this.props.liveDMX.length) {
 	      var liveView = React.createElement(
@@ -30121,7 +30115,7 @@
 	        'p',
 	        null,
 	        'DMX Live View   ',
-	        React.createElement('span', (_React$createElement = { className: 'glyphicon glyphicon-info-sign', 'data-toggle': 'tooltip', 'data-placement': 'top' }, _defineProperty(_React$createElement, 'data-placement', 'true'), _defineProperty(_React$createElement, 'title', 'Your live DMX output is shown here. Percentages will update as you recall cues and adjust faders.'), _React$createElement))
+	        React.createElement('span', { className: 'glyphicon glyphicon-info-sign tool-tip', 'data-toggle': 'tooltip', 'data-placement': 'top', title: 'Your live DMX output is shown here. Percentages will update as you recall cues and adjust faders.' })
 	      ),
 	      liveView
 	    );

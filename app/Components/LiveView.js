@@ -37,7 +37,7 @@ var LiveView = React.createClass({
 
     return(
         <div className="dmx-row row">
-          <p>DMX Live View   <span className="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-placement="true" title="Your live DMX output is shown here. Percentages will update as you recall cues and adjust faders."></span></p>
+          <p>DMX Live View   <span className="glyphicon glyphicon-info-sign tool-tip" data-toggle="tooltip" data-placement="top" title="Your live DMX output is shown here. Percentages will update as you recall cues and adjust faders."></span></p>
           {liveView}
         </div>          
     )
