@@ -4,9 +4,10 @@ const React = require('react');
 const FixtureFormRow = React.createClass({
     updateParamValue: function(event){
         event.preventDefault();
+       
         let target = event.target;
         let position = this.props.channelArrayPosition;
-        let value = parseInt(target.value);
+        let value = target.value;
         this.props.handleParamUpdate(value, position);
 
     },
@@ -34,9 +35,7 @@ const FixtureFormRow = React.createClass({
                 <div className="col-sm-4 col-xs-6">
                     <label htmlFor="paramInput">{(this.props.channelArrayPosition + 1)} : </label>
                     <input 
-                        type='number' 
-                        min={0} 
-                        max={255} 
+                        type="text" 
                         name="paramInput"
                         className="fixture-param-input" 
                         onBlur={this.updateParamValue}

@@ -14,7 +14,7 @@ const FixtureForm = React.createClass({
 	},
 
 
-	handleFixtureNameChange: function(value, index){
+	handleFixtureNameChange: function(event){
 		this.setState({
 			fixtureName: event.target.value
 		})
@@ -38,9 +38,9 @@ const FixtureForm = React.createClass({
 	fixtureFormSubmit: function(event){
 		event.preventDefault();
 		let validParamArray = true;
-		let params = this.state.channelParameters;
+		let params = this.state.channelParams;
 		for(let jj = 0; jj< params; jj ++){
-			if(typeof params[jj] === "undefined" || !parseInt(params[jj])){
+			if(typeof params[jj] === "undefined" || params[jj] === null){
 				validParamArray = false;
 			}
 		}
@@ -50,6 +50,7 @@ const FixtureForm = React.createClass({
 				fixtureName: this.state.fixtureName,
 				channelParameters: params
 			};
+			console.log(formBody);
 			this.props.fixtureFormSubmit(formBody);
 			this.setState({
 				fixtureName: '',
