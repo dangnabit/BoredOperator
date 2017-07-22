@@ -28122,90 +28122,126 @@
 /* 250 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	var axios = __webpack_require__(251);
 
 	module.exports = {
+	  getFixtureByName: function getFixtureByName(fixtureName) {
+	    "use strict";
 
-		getFixtureByName: function getFixtureByName(fixtureName) {
-			return axios.get('/api/fixture/' + fixtureName).then(function (response) {
-				console.log(response);
-				return response;
-			}).catch(function (err) {
-				console.error(err);
-				throw err;
-			});
-		},
+	    console.log("In GET FIXTURE function", fixtureName);
+	    return axios.get("/api/fixture/" + fixtureName).then(function (response) {
+	      console.log(response);
+	      return response;
+	    }).catch(function (err) {
+	      console.error(err);
+	      throw err;
+	    });
+	  },
 
-		validatePatchLength: function validatePatchLength(startChannel, patchLength) {
-			return startChannel + patchLength > 512;
-		},
+	  validatePatchLength: function validatePatchLength(startChannel, patchLength) {
+	    "use strict";
 
-		createPatch: function createPatch(patchFormJSON) {
-			var fixtureName = patchJSON.fixtureName;
-			getFixtureByName(fixtureName).then(function (fixtureDoc) {
-				var patch = {
-					fixtureName: fixtureDoc.fixtureName,
-					startingChannel: patchFormJSON.startingChannel
-				};
-				try {
-					validatePatchLength(patchFormJSON.startingChannel, fixtureDoc.channelParameters.length);
-				} catch (e) {
-					throw e;
-				}
-				return axios.post('/api/patch', patch).then(function (response) {
-					console.log('POST api/patch ' + response);
-					return response;
-				}).catch(function (err) {
-					console.error(err);
-					throw err;
-				});
-			}).catch(function (error) {
-				console.error(error);
-				throw error;
-			});
-		},
+	    return startChannel + patchLength > 512;
+	  },
 
-		createCue: function createCue(cueForm) {
-			console.log('Create Cue');
-			return axios.post('/api/cues', cueForm).then(function (response) {
-				console.log('Sucessfully created cue');
-				return response;
-			}).catch(function (err) {
-				console.error(err);
-				throw err;
-			});
-		},
+	  createPatch: function createPatch(patchFormJSON) {
+	    "use strict";
+	    // var fixtureName = patchFormJSON.fixtureName;
+	    // console.log(this.getFixtureByName);
+	    // this.getFixtureByName(fixtureName)
+	    //   .then(function(fixtureDoc) {
+	    //     var patch = {
+	    //       fixtureName: fixtureDoc.fixtureName,
+	    //       startingChannel: patchFormJSON.startingChannel
+	    //     };
+	    //     try {
+	    //       this.validatePatchLength(
+	    //         patchFormJSON.startingChannel,
+	    //         fixtureDoc.channelParameters.length
+	    //       );
+	    //     } catch (e) {
+	    //       throw e;
+	    //     }
+	    //Need to validate the fixture length
 
-		createFixture: function createFixture(fixtureForm) {
-			console.log('Fixture create helper');
-			return axios.post('/api/fixtures', fixtureForm).then(function (results) {
-				console.log('Successfully created fixture');
-				return results;
-			}).catch(function (err) {
-				console.error(err);
-				throw err;
-			});
-		},
+	    return axios.post("/api/patch", patch).then(function (response) {
+	      console.log("POST api/patch" + response);
+	      return response;
+	    }).catch(function (err) {
+	      console.error(err);
+	      throw err;
+	    });
+	    //   })
+	    //   .catch(function(err) {
+	    //     console.error(err);
+	    //     throw err;
+	    //   });
+	  },
 
-		getCues: function getCues() {
-			return axios.get('/api/cues').then(function (results) {
-				return results;
-			});
-		},
+	  createCue: function createCue(cueForm) {
+	    "use strict";
 
-		getPatch: function getPatch() {
-			return axios.get('/api/patch').then(function (results) {
-				return results;
-			});
-		},
-		getFixtures: function getFixtures() {
-			return axios.get('/api/fixtures').then(function (results) {
-				return results;
-			});
-		}
+	    return axios.post("/api/cues", cueForm).then(function (response) {
+	      console.log("Sucessfully created cue");
+	      return response;
+	    }).catch(function (err) {
+	      console.error(err);
+	      throw err;
+	    });
+	  },
 
+	  createFixture: function createFixture(fixtureForm) {
+	    "use strict";
+	    // console.log(this.getFixtureByName);
+	    // this.getFixtureByName(fixtureForm.fixtureName)
+	    //   .then(function(result) {
+	    // 	  console.log(result);
+	    //     if (!result) {
+
+	    return axios.post("/api/fixtures", fixtureForm).then(function (results) {
+	      if (!results.data.errmsg) {
+	        console.log("Successfully created fixture");
+	        return results;
+	      } else {
+	        console.error(results.data.errmsg);
+	        throw results.data.errmsg;
+	      }
+	    }).catch(function (err) {
+	      console.error(err);
+	      throw err;
+	    });
+	    //     }
+	    //   })
+	    //   .catch(function(err) {
+	    //     console.error(err);
+	    //     throw err;
+	    //   });
+	  },
+
+	  getCues: function getCues() {
+	    "use strict";
+
+	    return axios.get("/api/cues").then(function (results) {
+	      return results;
+	    });
+	  },
+
+	  getPatch: function getPatch() {
+	    "use strict";
+
+	    return axios.get("/api/patch").then(function (results) {
+	      return results;
+	    });
+	  },
+	  getFixtures: function getFixtures() {
+	    "use strict";
+
+	    return axios.get("/api/fixtures").then(function (results) {
+	      return results;
+	    });
+	  }
 	};
 
 /***/ }),
@@ -29482,6 +29518,7 @@
 		},
 
 		fixtureFormSubmit: function fixtureFormSubmit(formBody) {
+			console.log(formBody);
 			helpers.createFixture(formBody).then(function (response) {
 				console.log(response);
 			}).catch(function (err) {
@@ -29553,7 +29590,7 @@
 					{ className: 'btn btn-warning btn-lg toolbarBtn', onClick: this.props.handleClick },
 					'Patch Fixture'
 				),
-				this.props.clicked ? React.createElement(PatchForm, { patcFormSubmit: this.props.patchFormSubmit }) : null
+				this.props.clicked ? React.createElement(PatchForm, { patchFormSubmit: this.props.patchFormSubmit }) : null
 			);
 		}
 	});
@@ -29703,7 +29740,7 @@
 			};
 		},
 
-		handleFixtureNameChange: function handleFixtureNameChange(value, index) {
+		handleFixtureNameChange: function handleFixtureNameChange(event) {
 			this.setState({
 				fixtureName: event.target.value
 			});
@@ -29727,9 +29764,9 @@
 		fixtureFormSubmit: function fixtureFormSubmit(event) {
 			event.preventDefault();
 			var validParamArray = true;
-			var params = this.state.channelParameters;
+			var params = this.state.channelParams;
 			for (var jj = 0; jj < params; jj++) {
-				if (typeof params[jj] === "undefined" || !parseInt(params[jj])) {
+				if (typeof params[jj] === "undefined" || params[jj] === null) {
 					validParamArray = false;
 				}
 			}
@@ -29739,6 +29776,7 @@
 					fixtureName: this.state.fixtureName,
 					channelParameters: params
 				};
+				console.log(formBody);
 				this.props.fixtureFormSubmit(formBody);
 				this.setState({
 					fixtureName: '',
@@ -29826,9 +29864,10 @@
 
 	    updateParamValue: function updateParamValue(event) {
 	        event.preventDefault();
+
 	        var target = event.target;
 	        var position = this.props.channelArrayPosition;
-	        var value = parseInt(target.value);
+	        var value = target.value;
 	        this.props.handleParamUpdate(value, position);
 	    },
 
@@ -29871,9 +29910,7 @@
 	                    ' : '
 	                ),
 	                React.createElement('input', {
-	                    type: 'number',
-	                    min: 0,
-	                    max: 255,
+	                    type: 'text',
 	                    name: 'paramInput',
 	                    className: 'fixture-param-input',
 	                    onBlur: this.updateParamValue
