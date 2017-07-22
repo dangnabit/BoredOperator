@@ -15,7 +15,7 @@ const AddPatch = React.createClass({
 				<button className="btn btn-warning btn-lg toolbarBtn" onClick={this.props.handleClick}>Patch Fixture</button>
 				{this.props.clicked ? 
 					<PatchForm 
-						patcFormSubmit={this.props.patchFormSubmit} 
+						patchFormSubmit={this.props.patchFormSubmit} 
 						fixtures={this.props.fixtures}
 					/> 
 				: null}

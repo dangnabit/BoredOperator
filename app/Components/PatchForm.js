@@ -10,14 +10,16 @@ const PatchForm = React.createClass({
 
 	getInitialState: function(){
 		return({
-			fixtureName: '',
+			selectedFixture: {},
 			channelNum: ''
 		})
 	},
 
 	handleFixtureNameChange: function(event){
+		
 		this.setState({
-			fixtureName: event.target.value.trim()
+			selectedFixture: event.target.value
+			
 		})
 	},
 
@@ -31,12 +33,13 @@ const PatchForm = React.createClass({
 		event.preventDefault();
 		if(this.state.fixtureName !== '' && this.state.channelNum !== ''){
 			let formObj = {
-				fixtureName: this.state.fixtureName,
-				channelNum: this.state.channelNum
+				fixtureName: this.state.selectedFixture.fixtureName,
+				channelParameters: this.state.selectedFixture.channelParameters,
+				startingChannel: this.state.channelNum
 			};
 			this.props.patchFormSubmit(formObj);
 			this.setState({
-				fixtureName: '',
+				selectedFixture: {},
 				channelNum: ''
 			})
 		}
@@ -44,11 +47,22 @@ const PatchForm = React.createClass({
 	},
 
 	render: function(){
+		let fixtureOptions = [];
+		fixtureOptions.push(<option key={0} value=""></option>);
+		let fixes = this.props.fixtures;
+		console.log(fixes[0]);
+		for(let ii = 0; ii < fixes.length; ii++ ){
+			console.log(fixes[ii]);
+			fixtureOptions.push(<option key={ii+1} value={fixes[ii]}> {fixes[ii].fixtureName} </option>);
+		}
 		return(
 			<div>
+
 				<form>
 					<label htmlFor="fixtureName">Fixture Name</label>
-					<input type="text" name="fixtureName" value={this.state.fixtureName} onChange={this.handleFixtureNameChange}/>
+					<select name="fixtureName" value={this.state.fixtureName} onChange={this.handleFixtureNameChange}>
+						{fixtureOptions}
+					</select>
 					<br />
 					<label htmlFor="startingChannel">Channel #</label>
 					<input type="number" name="channelNum" min={1} max={512} value={this.state.channelNum} onChange={this.handleChannelNumChange}/>

@@ -57,12 +57,10 @@ var ToolBar = React.createClass({
 	},
 
 	fixtureFormSubmit: function(formBody){
-		let newFixture = {
-			name: formBody.name,
-			channelParameters: formBody.channels
-		}
-		console.log(newFixture);
-		helpers.createFixture(newFixture).then( (response) =>{
+		console.log(formBody);
+		
+		
+		helpers.createFixture(formBody).then( (response) =>{
 			console.log(response);
 			this.props.getFixtures();
 		})
@@ -112,6 +110,7 @@ var ToolBar = React.createClass({
 			handleClick={this.handleFixtureClick} 
 			formSubmit={this.fixtureFormSubmit}
 			channelParameters= {this.props.channelParameters} 
+			getFixtures= {this.props.getFixtures}
 		/>
 		<AddCue  
 			clicked={this.state.cue_clicked} 

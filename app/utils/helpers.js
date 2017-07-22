@@ -19,18 +19,26 @@ module.exports = {
 	},
 
 	createPatch: function(patchFormJSON){
-		let fixtureName = patchJSON.fixtureName;
-		getFixtureByName(fixtureName)
-			.then( (fixtureDoc) =>{
-				let patch = {
-					fixtureName : fixtureDoc.fixtureName,
-					startingChannel: patchFormJSON.startingChannel
-				}
-				try{
-					validatePatchLength(patchFormJSON.startingChannel, fixtureDoc.channelParameters.length);
-				} catch (e){
-					throw e;
-				}
+    console.log(patchFormJSON);
+    let fixtureName = patchFormJSON.fixtureName;
+    let channelParameters = patchFormJSON.channelParameters;
+    let channelNum = patchFormJSON.channelNum;
+    console.log(fixtureName,channelParameters, channelNum);
+
+   let patch = {
+
+   }
+		// getFixtureByName(fixtureName)
+		// 	.then( (fixtureDoc) =>{
+		// 		let patch = {
+		// 			fixtureName : fixtureDoc.fixtureName,
+		// 			startingChannel: patchFormJSON.startingChannel
+		// 		}
+		// 		try{
+		// 			validatePatchLength(patchFormJSON.startingChannel, fixtureDoc.channelParameters.length);
+		// 		} catch (e){
+		// 			throw e;
+		// 		}
 				return axios.post(`/api/patch`, patch)
 					.then( (response) =>{
 						console.log(`POST api/patch ${response}`);
@@ -40,11 +48,11 @@ module.exports = {
 						console.error(err);
 						throw err;
 					});
-			})
-			.catch( (error) =>{
-				console.error(error);
-				throw error;
-			});
+			// })
+			// .catch( (error) =>{
+			// 	console.error(error);
+			// 	throw error;
+			// });
 	},
 
 
@@ -64,7 +72,40 @@ module.exports = {
 		return axios.get('/api/cues').then(function(results){
         	return results;
     	});
-	},
+  },
+  createFixture: function(fixtureForm) {
+	"use strict";
+    // console.log(this.getFixtureByName);
+    // this.getFixtureByName(fixtureForm.fixtureName)
+    //   .then(function(result) {
+	// 	  console.log(result);
+    //     if (!result) {
+      console.log(fixtureForm);
+          return axios
+            .post("/api/fixtures", fixtureForm)
+            .then(function(results) {
+			  if(!results.data.errmsg){
+                console.log("Successfully created fixture");
+                console.log(results);
+				return results;
+			  }
+			  else{
+				  console.error(results.data.errmsg);
+				  throw results.data.errmsg;
+					
+			  }
+            })
+            .catch(function(err) {
+              console.error(err);
+              throw err;
+            });
+    //     }
+    //   })
+    //   .catch(function(err) {
+    //     console.error(err);
+    //     throw err;
+    //   });
+  },
 
 	getPatch: function(){
 		return axios.get('/api/patch').then(function(results){

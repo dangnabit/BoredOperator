@@ -16,7 +16,8 @@ const AddFixture = React.createClass({
 				{this.props.clicked ? 
 					<FixtureForm 
 						fixtureFormSubmit={this.props.formSubmit} 
-						channelParameters={this.props.channelParameters} 
+						channelParameters={this.props.channelParameters}
+						getFixtures={this.props.getFixtures} 
 					/> 
 				: null}
 			</div>

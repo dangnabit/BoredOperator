@@ -111,6 +111,17 @@ p a:hover {
 	text-align: left;
 }
 
+.fixture-form-row{
+	border-top: 2px solid #FF9900;
+	margin-bottom: 5px
+}
+
+.fixture-form-btn{
+	width: 75%;
+	height: 30px;
+	
+}
+
 .slick-slide {
 	border: 1px dashed #FF9900;
 	margin: 0 10px;
