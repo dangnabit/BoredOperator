@@ -35,7 +35,7 @@ var CueList = React.createClass({
 
     return(
       <div className="col-md-2" id="cue-col">
-        <p>Cues</p>
+        <p>Cues   <span className="glyphicon glyphicon-info-sign" data-toggle="tooltip" data-placement="top" data-placement="true" title="This is where your saved cues will show up. Press any of the buttons to recall the cue."></span></p>
         {cues}
       </div>
     )

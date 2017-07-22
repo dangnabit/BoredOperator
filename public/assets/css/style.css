@@ -80,6 +80,11 @@ p a:hover {
 	background-color: #666666;
 }
 
+.glyphicon-info-sign {
+	font-size: 12px;
+	color: #666666;
+}
+
 .toolbarBtn {
 	width: 100%;
 }
