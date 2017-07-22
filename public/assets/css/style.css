@@ -85,28 +85,6 @@ p a:hover {
 	color: #666666;
 }
 
-.tool-tip{
-	display: inline;
-	position: relative;
-}
-
-.tool-tip:hover:after{
-	background-color: #303030;
-	border: 1px solid #666666;
-	bottom: 26px; 
-	color: #f1f1f1;
-	content: attr(title); 
-	left: 20%; 
-	padding: 5px 5px; 
-	position: absolute;
-	z-index: 98;
-	width: 200px;
-}
-
-.tool-tip:hover:before{
-	z-index: 99;
-}
-
 .toolbarBtn {
 	width: 100%;
 }
@@ -218,7 +196,6 @@ input::-webkit-inner-spin-button {
 	display: inline;
 	position: relative;
 }
-
 .tool-tip:hover:after
 {
  background: #333;

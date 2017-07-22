@@ -35,9 +35,6 @@ var CueList = React.createClass({
 
     return(
       <div className="col-md-2">
-<<<<<<< HEAD
-        <p>Cues <span className="glyphicon glyphicon-info-sign tool-tip" data-toggle="tooltip" data-placement="top" data-placement="true" title="This is where your saved cues will show up. Press any of the buttons to recall the cue."></span> </p>
-=======
         <p>Cues 
           <span 
             className="glyphicon glyphicon-info-sign tool-tip" 
@@ -47,7 +44,6 @@ var CueList = React.createClass({
             title="This is where your saved cues will show up. Press any of the buttons to recall the cue.">
           </span> 
         </p>
->>>>>>> 76f0aa683d422b3532c0d1a3ad375f8f61a20b02
         <div id="cue-col">
           {cues}
         </div>
