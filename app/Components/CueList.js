@@ -34,9 +34,11 @@ var CueList = React.createClass({
     }
 
     return(
-      <div className="col-md-2" id="cue-col">
+      <div className="col-md-2">
         <p>Cues</p>
-        {cues}
+        <div id="cue-col">
+          {cues}
+        </div>
       </div>
     )
   }

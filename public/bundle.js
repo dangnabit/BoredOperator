@@ -30017,13 +30017,17 @@
 
 	    return React.createElement(
 	      'div',
-	      { className: 'col-md-2', id: 'cue-col' },
+	      { className: 'col-md-2' },
 	      React.createElement(
 	        'p',
 	        null,
 	        'Cues'
 	      ),
-	      cues
+	      React.createElement(
+	        'div',
+	        { id: 'cue-col' },
+	        cues
+	      )
 	    );
 	  }
 	});
@@ -30076,14 +30080,14 @@
 	          { key: channel },
 	          notNull ? React.createElement(
 	            'div',
-	            { className: 'col-sm-1' },
+	            { className: 'col-xs-4 col-sm-3 col-md-2 col-lg-1 col-xl-1 live-button' },
 	            React.createElement(
 	              'button',
 	              { className: 'btn btn-lg btn-warning channelBtn' },
 	              React.createElement(
 	                'p',
 	                null,
-	                'Chan: ',
+	                'Ch: ',
 	                channel + 1,
 	                ' ',
 	                React.createElement('br', null),
@@ -30251,7 +30255,7 @@
 
 		componentDidMount: function componentDidMount() {
 			this.setState({
-				value: this.props.liveDMX[this.props.channelNumber - 1]
+				value: ''
 			});
 		},
 
@@ -30275,17 +30279,24 @@
 		},
 
 		submitText: function submitText(event) {
-			var value = parseInt(event.target.value);
+			if (this.state.value !== '') {
+				var value = parseInt(event.target.value);
 
-			if (value > 255) {
-				value = 255;
-			} else if (value < 0) {
-				value = 0;
+				if (value > 255) {
+					value = 255;
+				} else if (value < 0) {
+					value = 0;
+				}
+				this.props.setChannelValue(this.props.channelNumber, value);
+				this.setState({
+					value: ''
+				});
 			}
-			this.props.setChannelValue(this.props.channelNumber, value);
-			this.setState({
-				value: ''
-			});
+		},
+		handleKeyPress: function handleKeyPress(event) {
+			if (event.key === 'Enter') {
+				this.submitText(event);
+			}
 		},
 
 		render: function render() {
@@ -30295,7 +30306,17 @@
 				React.createElement(
 					"div",
 					{ className: "channel-slider-div", style: style },
-					React.createElement("input", { className: "channel-input", min: "0", max: "255", type: "number", value: this.state.value, onChange: this.handleTextChange, onBlur: this.submitText, placeholder: this.props.liveDMX[this.props.channelNumber - 1] }),
+					React.createElement("input", {
+						className: "channel-input",
+						min: "0",
+						max: "255",
+						type: "number",
+						value: this.state.value,
+						onChange: this.handleTextChange,
+						onBlur: this.submitText,
+						placeholder: this.props.liveDMX[this.props.channelNumber - 1],
+						onKeyPressCapture: this.handleKeyPress
+					}),
 					React.createElement(
 						"span",
 						null,
@@ -48029,24 +48050,109 @@
 
 	'use strict';
 
+	//Require react
 	var React = __webpack_require__(1);
-	var CueForm = __webpack_require__(276);
+	var Router = __webpack_require__(185);
+	var socket = io.connect();
+
+	//Bring in your Helpers and components
+	var helpers = __webpack_require__(250);
+	var Toolbar = __webpack_require__(270);
+	var CueList = __webpack_require__(277);
+	var LiveView = __webpack_require__(278);
+	var SelectedFixture = __webpack_require__(279);
 
 	var Admin = React.createClass({
-		displayName: 'Admin',
+	  displayName: 'Admin',
 
+	  getInitialState: function getInitialState() {
+	    return {
+	      cues: [],
+	      patch: [],
+	      fixtures: [],
+	      selectedFixture: {},
+	      channelParameters: []
+	    };
+	  },
+	  componentDidMount: function componentDidMount() {
+	    this.getCues();
+	    this.getPatch();
+	    this.getFixtures();
+	    this.getChannelParameters();
+	  },
 
-		render: function render() {
-			return React.createElement(
-				'div',
-				{ className: 'adminTools' },
-				React.createElement(
-					'p',
-					null,
-					'Admin Console'
-				)
-			);
-		}
+	  getCues: function getCues() {
+	    helpers.getCues().then(function (cueData) {
+	      // console.log(cueData.data);
+	      if (cueData.data) {
+	        this.setState({
+	          cues: cueData.data
+	        });
+	      }
+	      // console.log(this.state.cues);
+	    }.bind(this));
+	  },
+
+	  getPatch: function getPatch() {
+	    helpers.getPatch().then(function (patchData) {
+	      // console.log(patchData.data);
+	      if (patchData.data) {
+	        this.setState({
+	          patch: patchData.data
+	        });
+	        if (this.props.liveView.length < 1) {
+	          helpers.generateLiveView(this.state.patch, this.props.setDmx);
+	        }
+	        helpers.startSlickSlider();
+	      }
+	      // console.log(this.state.patch);
+	    }.bind(this));
+	  },
+
+	  getFixtures: function getFixtures() {
+	    helpers.getFixtures().then(function (fixturesData) {
+	      // console.log(fixturesData.data);
+	      if (fixturesData.data) {
+	        this.setState({
+	          fixtures: fixturesData.data
+	        });
+	      }
+	      // console.log(this.state.fixtures);
+	    }.bind(this));
+	  },
+
+	  getChannelParameters: function getChannelParameters() {
+	    helpers.getChannelParameters().then(function (channelParametersData) {
+	      // console.log(channelgetChannelParametersData.data);
+	      if (channelParametersData.data) {
+	        this.setState({
+	          channelParameters: channelParametersData.data
+	        });
+	      }
+	      // console.log(this.state.channelgetChannelParameters);
+	    }.bind(this));
+	  },
+
+	  handleSubmit: function handleSubmit(item, event) {
+	    // console.log(item);
+	  },
+	  handleChange: function handleChange(event) {},
+	  render: function render() {
+	    // console.log(this.props.liveView);
+	    return React.createElement(
+	      'div',
+	      { className: 'container-fluid' },
+	      React.createElement(
+	        'div',
+	        { className: 'row', id: 'main-page-row' },
+	        React.createElement(
+	          'p',
+	          null,
+	          'Admin Console'
+	        )
+	      )
+	    );
+	  }
 	});
 
 	module.exports = Admin;
