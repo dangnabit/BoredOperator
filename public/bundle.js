@@ -29734,7 +29734,7 @@
 					React.createElement('br', null),
 					React.createElement(
 						'button',
-						{ className: 'btn btn-md btn-success', onClick: this.patchFormSubmit },
+						{ className: 'btn btn-md btn-warning', onClick: this.patchFormSubmit },
 						'Submit'
 					)
 				)
@@ -29852,7 +29852,7 @@
 					React.createElement('br', null),
 					React.createElement(
 						'button',
-						{ className: 'btn btn-md btn-success', onClick: this.fixtureFormSubmit },
+						{ className: 'btn btn-md btn-warning', onClick: this.fixtureFormSubmit },
 						'Submit'
 					)
 				)
@@ -29948,7 +29948,7 @@
 					React.createElement('br', null),
 					React.createElement(
 						'button',
-						{ className: 'btn btn-md btn-success', onClick: this.cueFormSubmit },
+						{ className: 'btn btn-md btn-warning', onClick: this.cueFormSubmit },
 						'Submit'
 					)
 				)

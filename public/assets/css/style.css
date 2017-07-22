@@ -94,6 +94,10 @@ p a:hover {
 	height: 50px;
 }
 
+.channelBtn p:hover{
+	color: white;
+}
+
 .live-button{
 	padding: 3px;
 }
