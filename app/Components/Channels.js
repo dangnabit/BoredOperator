@@ -18,7 +18,7 @@ const Channels = React.createClass({
 
 	componentDidMount: function(){
 		this.setState({
-			value: this.props.liveDMX[this.props.channelNumber - 1]
+			value: ''
 		});
 	},
 
@@ -42,24 +42,41 @@ const Channels = React.createClass({
 	},
 
 	submitText: function(event){
-		var value = parseInt(event.target.value);
-		
-		if (value > 255){
-			value = 255;
-		} else if(value < 0){
-			value = 0;
+		if (this.state.value !== ''){
+			var value = parseInt(event.target.value);
+			
+			if (value > 255){
+				value = 255;
+			} else if(value < 0){
+				value = 0;
+			}
+			this.props.setChannelValue(this.props.channelNumber, value);
+			this.setState({
+				value: ''
+			});
 		}
-		this.props.setChannelValue(this.props.channelNumber, value);
-		this.setState({
-			value: ''
-		});
 	},
+	handleKeyPress: function(event) {
+		if (event.key === 'Enter') {
+      		this.submitText(event);
+    	}
+  	},
 		
 	render: function(){
 		return(
           <span className="slider-parent-span" style={parentStyle} >
 		  	<div className="channel-slider-div" style={style}>
-		  		<input className='channel-input' min="0" max="255" type='number' value={this.state.value} onChange={this.handleTextChange} onBlur={this.submitText} placeholder={this.props.liveDMX[this.props.channelNumber - 1]}/> 
+		  		<input 
+				  className='channel-input' 
+				  min="0" 
+				  max="255" 
+				  type='number' 
+				  value={this.state.value} 
+				  onChange={this.handleTextChange} 
+				  onBlur={this.submitText} 
+				  placeholder={this.props.liveDMX[this.props.channelNumber - 1]}
+				  onKeyPressCapture={this.handleKeyPress}
+				/> 
 				<span><p className="channelName">{this.props.name}</p></span> 
 				<Slider 
 				  vertical={true} 

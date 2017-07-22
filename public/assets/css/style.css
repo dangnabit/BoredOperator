@@ -90,12 +90,25 @@ p a:hover {
 }
 
 .channelBtn {
-	width: 103%;
+	width: 100%;
 	height: 50px;
 }
 
+.live-button{
+	padding: 3px;
+}
+
 .cueBtn {
-	width: 100%;
+	width: 95%;
+}
+
+#cue-col{
+	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: auto;	
+	height: 80vh;
+	direction: rtl; 
+	text-align: left;
 }
 
 .slick-slide {
@@ -149,6 +162,7 @@ p a:hover {
 	border-color: #FF9900;
 }
 
+/* Placeholder text coloring  */
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #fff;
 }
@@ -160,4 +174,20 @@ p a:hover {
 }
 :-moz-placeholder { /* Firefox 18- */
   color: #fff;
+}
+
+/*  Spinner buttons always showing  */
+/* input[type=number]::-webkit-inner-spin-button {
+	opacity: 1;
+	background-color: rgba(153,153,153,1);
+	color: #FF9900;
+} */
+
+input[type='number'] {
+    -moz-appearance:textfield;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
 }

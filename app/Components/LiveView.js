@@ -23,10 +23,10 @@ var LiveView = React.createClass({
         
         return(  
           <div key={channel}>
-            {notNull ? <div className="col-sm-1" >
+            {notNull ? <div className="col-xs-4 col-sm-3 col-md-2 col-lg-1 col-xl-1 live-button" >
               <button className="btn btn-lg btn-warning channelBtn">
                 <p>
-                  Chan: {channel + 1} <br/> {((value/255) * 100).toFixed(1)}%
+                  Ch: {channel + 1} <br/> {((value/255) * 100).toFixed(1)}%
                 </p>
               </button> 
             </div> : null}
