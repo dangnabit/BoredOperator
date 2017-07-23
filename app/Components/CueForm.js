@@ -32,7 +32,7 @@ const CueForm = React.createClass({
 			<div>
 				<form>
 					<label htmlFor="cueNumber">Cue Number: </label>
-					<input type="number" name="cueNumber" value={this.state.cueNumber} onChange={this.handleCueNumberChange}/>
+					<input className="fixture-input" type="number" name="cueNumber" value={this.state.cueNumber} onChange={this.handleCueNumberChange}/>
 					<br />
 					<button className="btn btn-md btn-warning" onClick={this.cueFormSubmit}>Submit</button>
 				</form>

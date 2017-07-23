@@ -46,6 +46,17 @@ p {
 	display: block;
 }
 
+.addBtn {
+	width: 80px;
+	height: 40px;
+	padding: 1px;
+	margin: 5px;
+	background-color: #666666;
+	color: #FF9900;
+	display: inline;
+}
+
+
 .footer {
 	position: absolute;
 	bottom: 0;
@@ -161,11 +172,23 @@ p a:hover {
 
 .channel-input{
 	text-align: Center;
-	background-color: rgba(153,153,153,1);
+	background-color: #666666;
 	color: #fff; 
 	border-color: #FF9900;
 }
 
+.fixture-input{
+	background-color: #666666;
+	color: #fff; 
+	border-color: #FF9900;
+}
+
+select{
+	text-align: Center;
+	background-color: #666666;
+	color: #fff; 
+	border-color: #FF9900;
+}
 /* Placeholder text coloring  */
 ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
   color: #fff;

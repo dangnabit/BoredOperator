@@ -44,7 +44,7 @@ var ToolBar = React.createClass({
 	},
 
 	patchFormSubmit: function(formBody){
-		console.log(formBody)
+		// console.log(formBody)
 		helpers.createPatch(formBody)
 			.then( (response) =>{
 				console.log(response)
@@ -52,17 +52,11 @@ var ToolBar = React.createClass({
 			.catch((err) =>{
 				console.error(err);
 				throw err;
-			})
-
+			});
 	},
 
 	fixtureFormSubmit: function(formBody){
-		let newFixture = {
-			name: formBody.name,
-			channelParameters: formBody.channels
-		}
-		console.log(newFixture);
-		helpers.createFixture(newFixture).then( (response) =>{
+		helpers.createFixture(formBody).then( (response) =>{
 			console.log(response);
 			this.props.getFixtures();
 		})
@@ -106,12 +100,14 @@ var ToolBar = React.createClass({
 			handleClick={this.handlePatchClick} 
 			patchFormSubmit={this.patchFormSubmit}
 			fixtures={this.props.fixtures}
+			getPatch={this.props.getPatch}
 		/>
 	    <AddFixture 
 			clicked={this.state.fixture_clicked} 
 			handleClick={this.handleFixtureClick} 
 			formSubmit={this.fixtureFormSubmit}
 			channelParameters= {this.props.channelParameters} 
+			getFixtures={this.props.getFixtures}
 		/>
 		<AddCue  
 			clicked={this.state.cue_clicked} 

@@ -19,32 +19,17 @@ module.exports = {
 	},
 
 	createPatch: function(patchFormJSON){
-		let fixtureName = patchJSON.fixtureName;
-		getFixtureByName(fixtureName)
-			.then( (fixtureDoc) =>{
-				let patch = {
-					fixtureName : fixtureDoc.fixtureName,
-					startingChannel: patchFormJSON.startingChannel
-				}
-				try{
-					validatePatchLength(patchFormJSON.startingChannel, fixtureDoc.channelParameters.length);
-				} catch (e){
-					throw e;
-				}
-				return axios.post(`/api/patch`, patch)
-					.then( (response) =>{
-						console.log(`POST api/patch ${response}`);
-						return response;
-					})
-					.catch ( (err) =>{
-						console.error(err);
-						throw err;
-					});
+		let fixtureName = patchFormJSON.fixtureName;
+
+		return axios.post(`/api/patch`, patchFormJSON)
+			.then( (response) =>{
+				console.log(`POST api/patch ${response}`);
+				return response;
 			})
-			.catch( (error) =>{
-				console.error(error);
-				throw error;
-			});
+			.catch ( (err) =>{
+				console.error(err);
+				throw err;
+		});
 	},
 
 
@@ -52,6 +37,18 @@ module.exports = {
 		console.log(`Create Cue`);
 		return axios.post('/api/cues', cueForm).then( (response) =>{
 			console.log(`Sucessfully created cue`);
+			return response;
+		})
+		.catch( (err) =>{
+			console.error(err);
+			throw err;
+		})
+	},
+
+	createFixture: function(fixtureForm){
+		console.log(`Create Fixture`);
+		return axios.post('/api/fixtures', fixtureForm).then( (response) =>{
+			console.log(`Sucessfully created fixture`);
 			return response;
 		})
 		.catch( (err) =>{
@@ -121,7 +118,7 @@ module.exports = {
             centerPadding: "40px",
             infinite: false
 		});
-		console.log('Slider loaded');
+		// console.log('Slider loaded');
 	}
 
 

@@ -11,7 +11,7 @@ var FixtureSchema = new Schema({
     unique: true
   },
   channelParameters: {
-    type: [String],
+    type: [Schema.Types.Mixed],
     required: true
   }
 });

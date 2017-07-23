@@ -1,4 +1,5 @@
 const React = require('react');
+var helpers = require('../utils/helpers');
 
 const PatchForm = React.createClass({
 
@@ -10,55 +11,77 @@ const PatchForm = React.createClass({
 
 	getInitialState: function(){
 		return({
-			fixtureName: '',
+			selectedFixture: {},
 			channelNum: ''
 		})
 	},
 
 	handleFixtureNameChange: function(event){
 		this.setState({
-			fixtureName: event.target.value.trim()
-		})
+			selectedFixture: this.props.fixtures[event.target.value.trim()]
+		});
 	},
 
 	handleChannelNumChange: function(event){
 		this.setState({
-			channelNum: event.target.value.trim()
+			channelNum: parseInt(event.target.value.trim())
 		});
 	},
 
 	patchFormSubmit: function(event){
 		event.preventDefault();
+		
 		if(this.state.fixtureName !== '' && this.state.channelNum !== ''){
 			let formObj = {
-				fixtureName: this.state.fixtureName,
-				channelNum: this.state.channelNum
+				fixtureName: this.state.selectedFixture.fixtureName,
+				startingChannel: this.state.channelNum,
+				channelParameters: this.state.selectedFixture.channelParameters
 			};
 			this.props.patchFormSubmit(formObj);
 			this.setState({
-				fixtureName: '',
+				selectedFixture: {},
 				channelNum: ''
-			})
+			});
+			this.props.getPatch();
+			helpers.reloadSlickSlider();
 		}
 		
 	},
 
 	render: function(){
+		
+		let fixtureOptions = [];
+		fixtureOptions.push(<option key={0} value=""></option>);
+		
+		let fixtures = this.props.fixtures;
+		// console.log(fixtures);
+		
+		for(let i = 0; i < fixtures.length; i++ ){
+			// console.log(fixtures[i]);
+			fixtureOptions.push(<option key={i+1} value={ i }> {fixtures[i].fixtureName} ({fixtures[i].channelParameters.length}) </option>);
+		}
+		
 		return(
 			<div>
+
 				<form>
-					<label htmlFor="fixtureName">Fixture Name</label>
-					<input type="text" name="fixtureName" value={this.state.fixtureName} onChange={this.handleFixtureNameChange}/>
+					<label htmlFor="fixtureName">Fixture Name: </label>
+					<select name="fixtureName" value={this.state.fixtureName} onChange={this.handleFixtureNameChange}>
+						{fixtureOptions}
+					</select>
 					<br />
-					<label htmlFor="startingChannel">Channel #</label>
-					<input type="number" name="channelNum" min={1} max={512} value={this.state.channelNum} onChange={this.handleChannelNumChange}/>
+					<label htmlFor="startingChannel">Starting Channel: </label>
+					<input className="fixture-input" type="number" name="channelNum" min={1} max={512} value={this.state.channelNum} onChange={this.handleChannelNumChange}/>
 					<br />
 					<button className='btn btn-md btn-warning' onClick={this.patchFormSubmit}>Submit</button>
 				</form>
 			</div>
 		)
 	}
-
 })
 
 module.exports = PatchForm;
+
+
+
+

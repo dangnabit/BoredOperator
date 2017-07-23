@@ -117,7 +117,7 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
 
   app.get('/api/patch/', function(req, res) {
 
-    Patch.find({}).exec(function(err, doc) {
+    Patch.find({}).sort("startingChannel").exec(function(err, doc) {
       if (err) {
         console.log(err);
         res.send(err);

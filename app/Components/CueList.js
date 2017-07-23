@@ -6,7 +6,7 @@ var Router = require('react-router')
 var CueList = React.createClass({
   
   handleClick: function (item, event){
-    console.log(item.dmxSnapshot);
+    // console.log(item.dmxSnapshot);
     
     this.props.setDmx(item.dmxSnapshot);
   },
@@ -35,7 +35,7 @@ var CueList = React.createClass({
 
     return(
       <div className="col-md-2">
-        <p>Cues 
+        <p>Cues  
           <span 
             className="glyphicon glyphicon-info-sign tool-tip" 
             data-toggle="tooltip" 
