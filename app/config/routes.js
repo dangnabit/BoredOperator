@@ -12,9 +12,9 @@ var IndexRoute = router.IndexRoute;
 var hashHistory = router.hashHistory;
 
 //Bring in all your components 
-var Main = require('../components/Main');
-var Console = require('../components/Console');
-var Admin = require('../components/Admin');
+var Main = require('../components/Main.js');
+var Console = require('../components/Console.js');
+var Admin = require('../components/Admin.js');
 
 module.exports = (
   <Router history={hashHistory}>
