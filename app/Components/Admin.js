@@ -5,8 +5,8 @@ var socket = io.connect();
 
 //Bring in your Helpers and components
 var helpers = require('../utils/helpers');
-var Toolbar = require('./Toolbar');
-var CueList = require('./Cuelist');
+var Toolbar = require('./ToolBar');
+var CueList = require('./CueList');
 var LiveView = require('./LiveView');
 var SelectedFixture = require('./SelectedFixture');
 
