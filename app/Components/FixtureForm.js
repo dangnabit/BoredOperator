@@ -18,7 +18,7 @@ const FixtureForm = React.createClass({
 			fixtureName: event.target.value
 		});
 
-		if(this.state.fixtureName !== '' && this.state.channelParameters !== ''){
+		if(this.state.fixtureName !== '' && this.state.channelParameters.length !== 0){
 			this.setState({
 				isValid: true
 			});
@@ -34,7 +34,7 @@ const FixtureForm = React.createClass({
 			channelParameters: event.target.value.trim().split(',')
 		});
 		
-		if(this.state.fixtureName !== '' && this.state.channelParameters !== ''){
+		if(this.state.fixtureName !== '' && this.state.channelParameters.length !== 0){
 			this.setState({
 				isValid: true
 			});
@@ -51,6 +51,15 @@ const FixtureForm = React.createClass({
 		this.setState({
 			channelParameters: tempParams
 		});
+		if(this.state.fixtureName !== '' && this.state.channelParameters.length !== 0){
+			this.setState({
+				isValid: true
+			});
+		} else {
+			this.setState({
+				isValid: false
+			});
+		}
 		// console.log(this.state.channelParameters);
 	},
 
@@ -130,7 +139,7 @@ const FixtureForm = React.createClass({
 					<div className="channelParameters">
  						{rowArray}
 					</div>
-					<button className='btn btn-md btn-warning' disabled={this.state.isValid} onClick={this.fixtureFormSubmit}>Submit</button>
+					<button className='btn btn-md btn-warning' disabled={!this.state.isValid} onClick={this.fixtureFormSubmit}>Submit</button>
 				</form>
 			</div>
 		)

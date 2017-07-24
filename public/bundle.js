@@ -29883,7 +29883,7 @@
 				fixtureName: event.target.value
 			});
 
-			if (this.state.fixtureName !== '' && this.state.channelParameters !== '') {
+			if (this.state.fixtureName !== '' && this.state.channelParameters.length !== 0) {
 				this.setState({
 					isValid: true
 				});
@@ -29899,7 +29899,7 @@
 				channelParameters: event.target.value.trim().split(',')
 			});
 
-			if (this.state.fixtureName !== '' && this.state.channelParameters !== '') {
+			if (this.state.fixtureName !== '' && this.state.channelParameters.length !== 0) {
 				this.setState({
 					isValid: true
 				});
@@ -29916,6 +29916,15 @@
 			this.setState({
 				channelParameters: tempParams
 			});
+			if (this.state.fixtureName !== '' && this.state.channelParameters.length !== 0) {
+				this.setState({
+					isValid: true
+				});
+			} else {
+				this.setState({
+					isValid: false
+				});
+			}
 			// console.log(this.state.channelParameters);
 		},
 
@@ -29976,7 +29985,12 @@
 					React.createElement(
 						'label',
 						{ htmlFor: 'fixtureName' },
-						'Fixture Name:'
+						'Fixture Name:',
+						React.createElement('span', {
+							className: 'glyphicon glyphicon-info-sign',
+							'data-toggle': 'tooltip',
+							'data-placement': 'top',
+							title: 'Give your fixture a name. Make and model are always a good choice ;)' })
 					),
 					React.createElement('input', { className: 'fixture-input', type: 'text', name: 'cueNumber', value: this.state.fixtureName, onChange: this.handleFixtureNameChange }),
 					React.createElement('br', null),
@@ -29997,7 +30011,7 @@
 					),
 					React.createElement(
 						'button',
-						{ className: 'btn btn-md btn-warning', disabled: this.state.isValid, onClick: this.fixtureFormSubmit },
+						{ className: 'btn btn-md btn-warning', disabled: !this.state.isValid, onClick: this.fixtureFormSubmit },
 						'Submit'
 					)
 				)
@@ -30146,7 +30160,7 @@
 		},
 
 		handleCueNumberChange: function handleCueNumberChange(event) {
-			console.log(this.props.cues);
+			// console.log(this.props.cues);
 			for (var i = 0; i < this.props.cues.length; i++) {
 				if (parseInt(this.props.cues[i].cueNumber) === parseInt(event.target.value.trim())) {
 					this.setState({
@@ -30168,6 +30182,15 @@
 						cueExists: false
 					});
 				}
+			}
+
+			if (this.props.cues.length < 1) {
+				this.setState({
+					cueNumber: parseInt(event.target.value.trim()),
+					isValid: true,
+					cueExists: false
+				});
+				return;
 			}
 		},
 
