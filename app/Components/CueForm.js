@@ -11,7 +11,15 @@ const CueForm = React.createClass({
 	},
 
 	handleCueNumberChange: function(event){
-		console.log(this.props.cues);
+		// console.log(this.props.cues);
+		if (this.props.cues.length < 1){
+			this.setState({
+				cueNumber: parseInt(event.target.value.trim()),
+				isValid: false,
+				cueExists: true
+			});
+			return;
+		}
 		for (var i = 0; i < this.props.cues.length; i++) {
 			if (parseInt(this.props.cues[i].cueNumber) === parseInt(event.target.value.trim())){
 				this.setState({
