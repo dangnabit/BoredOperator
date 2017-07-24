@@ -5,10 +5,10 @@ var socket = io.connect();
 
 //Bring in your Helpers and components
 var helpers = require('../utils/helpers');
-var Toolbar = require('./ToolBar');
-var CueList = require('./CueList');
-var LiveView = require('./LiveView');
-var SelectedFixture = require('./SelectedFixture');
+var Toolbar = require('./ToolBar.js');
+var CueList = require('./CueList.js');
+var LiveView = require('./LiveView.js');
+var SelectedFixture = require('./SelectedFixture.js');
 
 var Console = React.createClass({
   getInitialState: function(){
