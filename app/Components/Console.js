@@ -4,11 +4,11 @@ var Router = require('react-router');
 var socket = io.connect();
 
 //Bring in your Helpers and components
-var helpers = require('../utils/helpers.js');
-var Toolbar = require('./Toolbar.js');
-var CueList = require('./Cuelist.js');
-var LiveView = require('./LiveView.js');
-var SelectedFixture = require('./SelectedFixture.js');
+var helpers = require('../utils/helpers');
+var Toolbar = require('./Toolbar');
+var CueList = require('./Cuelist');
+var LiveView = require('./LiveView');
+var SelectedFixture = require('./SelectedFixture');
 
 var Console = React.createClass({
   getInitialState: function(){
