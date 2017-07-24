@@ -7,7 +7,8 @@ const FixtureForm = React.createClass({
 		return({
 			fixtureName: '',
 			channelParameters: [],
-			channelNum: 1
+			channelNum: 1,
+			isValid: false
 		});
 	},
 
@@ -15,13 +16,33 @@ const FixtureForm = React.createClass({
 	handleFixtureNameChange: function(event){
 		this.setState({
 			fixtureName: event.target.value
-		})
+		});
+
+		if(this.state.fixtureName !== '' && this.state.channelParameters !== ''){
+			this.setState({
+				isValid: true
+			});
+		} else {
+			this.setState({
+				isValid: false
+			});
+		}
 	},
 
 	handleChannelParametersChange: function(event){
 		this.setState({
 			channelParameters: event.target.value.trim().split(',')
-		})
+		});
+		
+		if(this.state.fixtureName !== '' && this.state.channelParameters !== ''){
+			this.setState({
+				isValid: true
+			});
+		} else {
+			this.setState({
+				isValid: false
+			});
+		}
 	},
 
 	handleParamUpdate: function(value, index){
@@ -30,7 +51,7 @@ const FixtureForm = React.createClass({
 		this.setState({
 			channelParameters: tempParams
 		});
-		console.log(this.state.channelParameters);
+		// console.log(this.state.channelParameters);
 	},
 
 
@@ -88,14 +109,28 @@ const FixtureForm = React.createClass({
 		return(
 			<div>
 				<form>
-					<label htmlFor="fixtureName">Fixture Name: </label>
+					<label htmlFor="fixtureName">Fixture Name: 
+						<span 
+							className="glyphicon glyphicon-info-sign" 
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="Give your fixture a name. Make and model are always a good choice ;)">
+						</span>
+					</label>
 					<input className="fixture-input" type="text" name="cueNumber" value={this.state.fixtureName} onChange={this.handleFixtureNameChange}/>
 					<br />
-					<label htmlFor="channelParameters">Channel Parameters: </label>
+					<label htmlFor="channelParameters">Channel Parameters: 
+						<span 
+							className="glyphicon glyphicon-info-sign" 
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="Add the channel parameters below. Consult your fixtures manual for the DMX channel mapping.">
+						</span>
+					</label>
 					<div className="channelParameters">
  						{rowArray}
 					</div>
-					<button className='btn btn-md btn-warning'onClick={this.fixtureFormSubmit}>Submit</button>
+					<button className='btn btn-md btn-warning' disabled={this.state.isValid} onClick={this.fixtureFormSubmit}>Submit</button>
 				</form>
 			</div>
 		)

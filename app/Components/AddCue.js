@@ -13,7 +13,7 @@ const AddCue = React.createClass({
 		return(
 			<div className="toolbarBtn">
 				<button className="btn btn-warning btn-lg toolbarBtn" onClick={this.props.handleClick}>Create Cue</button>
-				{this.props.clicked ? <CueForm cueFormSubmit={this.props.formSubmit} /> : null}
+				{this.props.clicked ? <CueForm cueFormSubmit={this.props.formSubmit} cues={this.props.cues} /> : null}
 			</div>
 		)
 	}

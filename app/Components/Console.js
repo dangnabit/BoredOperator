@@ -97,6 +97,7 @@ var Console = React.createClass({
             <CueList 
               cues={this.state.cues} 
               setDmx={this.props.setDmx}
+              liveDMX={this.props.liveView}
             />
             <div className="col-md-8" id="live-view">
                 <LiveView liveDMX={this.props.liveView}/>
@@ -113,6 +114,8 @@ var Console = React.createClass({
               getCues={this.getCues} 
               getPatch={this.getPatch} 
               getFixtures={this.getFixtures}
+              cues={this.state.cues}
+              patch={this.state.patch}
             />
         </div>
       </div>

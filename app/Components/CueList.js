@@ -7,8 +7,16 @@ var CueList = React.createClass({
   
   handleClick: function (item, event){
     // console.log(item.dmxSnapshot);
-    
-    this.props.setDmx(item.dmxSnapshot);
+    var currentDMX= this.props.liveDMX;
+
+    for (var i = 0; i < item.dmxSnapshot.length; i++) {
+      if(item.dmxSnapshot !== null && currentDMX[i] !== null){
+        currentDMX[i] = item.dmxSnapshot[i];
+      }
+    }
+
+
+    this.props.setDmx(currentDMX);
   },
 
   render: function(){

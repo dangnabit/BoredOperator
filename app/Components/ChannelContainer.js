@@ -25,7 +25,7 @@ const ChannelContainer = React.createClass({
 
         return(
             <div>
-                <p>{this.props.fixturePatch.fixtureName}</p>
+                <p>{this.props.fixturePatch.fixtureName} ({this.props.fixturePatch.startingChannel})</p>
                 {channelFaders}
             </div>
         )

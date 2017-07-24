@@ -18,6 +18,7 @@ const AddPatch = React.createClass({
 						patchFormSubmit={this.props.patchFormSubmit} 
 						fixtures={this.props.fixtures}
 						getPatch={this.props.getPatch}
+						patch={this.props.patch}
 					/> 
 				: null}
 			</div>

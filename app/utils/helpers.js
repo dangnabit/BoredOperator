@@ -106,12 +106,12 @@ module.exports = {
 	},
 
 	reloadSlickSlider:function(){
-		$('.slick-slider').slick('unslick');
+		$('#patch-slider').slick('unslick');
 		this.startSlickSlider();		
 	},
 
 	startSlickSlider: function(){
-		$(".slick-slider").slick({
+		$("#patch-slider").slick({
             variableWidth: true,
             dots: true,
             centerMode: true,

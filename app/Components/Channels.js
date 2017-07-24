@@ -2,7 +2,7 @@ const React = require('react');
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 const wrapStyle = {width: 400, margin: 60};
-const style = { float: 'left', width: 60, height: 250 };
+const style = { float: 'left', width: 60, height: "69%" };
 const parentStyle = { overflow: 'hidden' };
 const io = require('socket.io-client');
 const socket = io();

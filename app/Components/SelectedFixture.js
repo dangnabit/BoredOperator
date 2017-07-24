@@ -24,20 +24,27 @@ const SelectedFixture = React.createClass({
     },
 
     render: function(){
-        
       let activePatches = [];
+      if(this.props.patch.length > 0){
+        
     //   console.log(this.props.patch);
       
-      for(let i = 0; i < this.props.patch.length; i++){
-        activePatches.push(
-          <ChannelContainer 
-            key={i} 
-            fixturePatch={this.props.patch[i]}
-            setChannelValue={this.props.setChannelValue}
-            liveDMX={this.props.liveDMX}
-            slick={this.slick}
-          />
-        );
+        for(let i = 0; i < this.props.patch.length; i++){
+            activePatches.push(
+                <ChannelContainer 
+                    key={i} 
+                    fixturePatch={this.props.patch[i]}
+                    setChannelValue={this.props.setChannelValue}
+                    liveDMX={this.props.liveDMX}
+                    slick={this.slick}
+                />
+            );
+        }
+      } else {
+        //   console.log(activePatches)
+          activePatches.push(<div id="placeholder-channel" key={this.props.patch.length}>
+              <h4>Patch a fixture to load this with faders</h4>
+          </div>)
       }
 
         return(

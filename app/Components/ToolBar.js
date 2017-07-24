@@ -96,6 +96,7 @@ var ToolBar = React.createClass({
 			</span>
 		</p>
 	    <AddPatch 
+			patch={this.props.patch}
 			clicked={this.state.patch_clicked} 
 			handleClick={this.handlePatchClick} 
 			patchFormSubmit={this.patchFormSubmit}
@@ -113,6 +114,7 @@ var ToolBar = React.createClass({
 			clicked={this.state.cue_clicked} 
 			handleClick={this.handleCueClick} 
 			formSubmit={this.cueFormSubmit}
+			cues={this.props.cues}
 		/>
 	  </div>
 	)

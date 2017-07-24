@@ -12,7 +12,9 @@ const PatchForm = React.createClass({
 	getInitialState: function(){
 		return({
 			selectedFixture: {},
-			channelNum: ''
+			channelNum: '',
+			isValid: false,
+			badPatch: false
 		})
 	},
 
@@ -23,15 +25,33 @@ const PatchForm = React.createClass({
 	},
 
 	handleChannelNumChange: function(event){
-		this.setState({
-			channelNum: parseInt(event.target.value.trim())
-		});
+		if (this.state.selectedFixture.channelParameters.length > 0 && this.state.selectedFixture.channelParameters.length + parseInt(event.target.value.trim()) <= 512){
+			this.setState({
+				channelNum: parseInt(event.target.value.trim()),
+				isValid: true,
+				badPatch: false
+			});
+		} else if(event.target.value === '') {
+			this.setState({
+				channelNum: '',
+				isValid: false,
+				badPatch: false
+			});
+		}
+		
+		if (this.state.selectedFixture.channelParameters.length + parseInt(event.target.value.trim()) > 512){
+			this.setState({
+				badPatch:true
+			});
+		}
+
+
 	},
 
 	patchFormSubmit: function(event){
 		event.preventDefault();
 		
-		if(this.state.fixtureName !== '' && this.state.channelNum !== ''){
+		if(this.state.fixtureName !== '' && this.state.channelNum !== '' && this.state.selectedFixture.channelParameters.length + parseInt(this.state.channelNum) <= 512){
 			let formObj = {
 				fixtureName: this.state.selectedFixture.fixtureName,
 				startingChannel: this.state.channelNum,
@@ -40,12 +60,13 @@ const PatchForm = React.createClass({
 			this.props.patchFormSubmit(formObj);
 			this.setState({
 				selectedFixture: {},
-				channelNum: ''
+				channelNum: '',
+				isValid: false,
+				badPatch: false
 			});
 			this.props.getPatch();
 			helpers.reloadSlickSlider();
 		}
-		
 	},
 
 	render: function(){
@@ -65,15 +86,37 @@ const PatchForm = React.createClass({
 			<div>
 
 				<form>
-					<label htmlFor="fixtureName">Fixture Name: </label>
-					<select name="fixtureName" value={this.state.fixtureName} onChange={this.handleFixtureNameChange}>
+					<label htmlFor="fixtureName">Fixture Name: 
+						<span 
+							className="glyphicon glyphicon-info-sign" 
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="Select a created fixture to patch!">
+						</span>
+					</label>
+					<br/>
+					<select name="fixtureName" value={this.state.fixtureName} onChange={this.handleFixtureNameChange} required>
 						{fixtureOptions}
 					</select>
 					<br />
-					<label htmlFor="startingChannel">Starting Channel: </label>
-					<input className="fixture-input" type="number" name="channelNum" min={1} max={512} value={this.state.channelNum} onChange={this.handleChannelNumChange}/>
+					<label htmlFor="startingChannel">Starting Channel: 
+						<span 
+							className="glyphicon glyphicon-info-sign" 
+							data-toggle="tooltip" 
+							data-placement="top" 
+							title="Enter the patch channel. This number plus the fixture channel count cannot exceed 512.">
+						</span>						
+					</label>
+					<input className="fixture-input" type="number" name="channelNum" min={1} max={512} value={this.state.channelNum} onChange={this.handleChannelNumChange} required/>
 					<br />
-					<button className='btn btn-md btn-warning' onClick={this.patchFormSubmit}>Submit</button>
+					<button className='btn btn-md btn-warning' disabled={!this.state.isValid} onClick={this.patchFormSubmit}>Submit</button>
+					{this.state.badPatch ? 
+					<div className="alert alert-danger" role="alert">
+						<span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+  						<span className="sr-only">Error:</span> 
+						Check your channel number. You can't patch across universes or on top of already patched channels.
+					</div> 
+					: null}
 				</form>
 			</div>
 		)

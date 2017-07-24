@@ -52,7 +52,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(cookieParser());
 
 //link to MongoDB
-var link = 'mongodb://127.0.0.1/BoredOperator';
+var link = 'mongodb://heroku_979qxlsd:1b1l2fbc3p2609idpmdkp841ln@ds031541.mlab.com:31541/heroku_979qxlsd';
 mongoose.Promise = Promise;
 mongoose.connect(link);
 var db = mongoose.connection;

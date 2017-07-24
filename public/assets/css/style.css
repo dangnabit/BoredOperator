@@ -1,6 +1,7 @@
 body {
 	background-color: #434343;
-	height: 100%;
+	height: 100vh;
+	position: relative;
 }
 
 p {
@@ -17,6 +18,7 @@ p {
 	background-color: #303030;
 	border: none;
 	border-bottom: 2px solid #666666;
+	height:5vh;
 }
 
 #navbar-links a {
@@ -28,7 +30,7 @@ p {
 }
 
 #main-page-row {
-	margin-top: 100px;
+	margin-top: 7vh;
 	background-color: #434343;	
 }
 
@@ -46,6 +48,10 @@ p {
 	display: block;
 }
 
+.btn :target{
+	color: #fff;
+}
+
 .addBtn {
 	width: 80px;
 	height: 40px;
@@ -59,6 +65,7 @@ p {
 
 .footer {
 	position: absolute;
+	height:5vh;
 	bottom: 0;
 	width: 100%;
 	background-color: #303030;
@@ -97,7 +104,7 @@ p a:hover {
 }
 
 .toolbarBtn {
-	width: 100%;
+	width: 94%;
 }
 
 .channelBtn {
@@ -117,31 +124,29 @@ p a:hover {
 	width: 95%;
 }
 
-#cue-col{
-	overflow: scroll;
-	overflow-x: hidden;
-	overflow-y: auto;	
-	height: 80vh;
-	direction: rtl; 
-	text-align: left;
+@media (min-width: 0px){
+	#cue-col{
+		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: auto;	
+		height: 20vh;
+		direction: rtl; 
+		text-align: left;
+	}
 }
 
-.slick-slide {
-	border: 1px dashed #FF9900;
-	margin: 0 10px;
-	padding-top: 10px;
-	border-radius: 6px;
+@media (min-width: 995px) {
+	
+	#cue-col{
+		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: auto;	
+		height: 80vh;
+		direction: rtl; 
+		text-align: left;
+	}
 }
 
-.slick-slide p {
-	margin: 0;
-}
-
-.slick-slider {
-	border: 2px solid #FF9900;
-	padding: 5px;
-	border-radius: 6px;
-}
 
 .channel-slider-div{
 	width: 40px;
@@ -162,12 +167,42 @@ p a:hover {
 }
 
 .rc-slider-vertical{
-	margin-left: 20px;
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 20px;
 }
 
 .dmx-row{
-	height: 40vh;
+	height: 43vh;
+}
+
+#patch-slider{
+	 height: 42vh; 
+	margin-bottom: 8vh;
+}
+
+.slick-list, .slick-track{
+	height:100%;
+}
+
+
+.slick-slide {
+	border: 1px dashed #FF9900;
+	margin: 0 10px;
+	padding-top: 10px;
+	padding-left: 7px;
+	padding-right: 7px;
+	border-radius: 6px;
+}
+
+.slick-slide p {
+	margin: 0;
+}
+
+.slick-slider {
+	border: 2px solid #FF9900;
+	padding: 5px;
+	border-radius: 6px;
 }
 
 .channel-input{
@@ -203,13 +238,6 @@ select{
   color: #fff;
 }
 
-/*  Spinner buttons always showing  */
-/* input[type=number]::-webkit-inner-spin-button {
-	opacity: 1;
-	background-color: rgba(153,153,153,1);
-	color: #FF9900;
-} */
-
 input[type='number'] {
     -moz-appearance:textfield;
 }
@@ -219,25 +247,6 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
-/* .tool-tip{
-	display: inline;
-	position: relative;
+#placeholder-channel{
+	height: 250px;
 }
-.tool-tip:hover:after
-{
- background: #333;
- background: rgba(0,0,0,.8);
- border-radius: 5px;
-  bottom: 26px; 
- color: #fff;
-  content: attr(title); 
-  left: 20%; 
-padding: 5px 15px; 
- position: absolute;
- z-index: 98;
- width: 220px;
-}
-.tool-tip:hover:before
-{
- z-index: 99;
-} */
