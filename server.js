@@ -23,8 +23,8 @@ var PORT = process.env.PORT || 3000;
 
 // Configuration for ArtNet
 var artnetOptions = {
-  // host: '2.0.0.1',
-  host: '127.0.0.1',
+  host: '2.0.0.1',
+  // host: '127.0.0.1',
   port: 6454,
   refresh: 60
 }
@@ -52,7 +52,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 app.use(cookieParser());
 
 //link to MongoDB
-var link = 'mongodb://heroku_979qxlsd:1b1l2fbc3p2609idpmdkp841ln@ds031541.mlab.com:31541/heroku_979qxlsd';
+var link = 'mongodb://localhost/BoredOperator';
 mongoose.Promise = Promise;
 mongoose.connect(link);
 var db = mongoose.connection;
