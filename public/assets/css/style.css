@@ -258,3 +258,7 @@ input::-webkit-inner-spin-button {
 #placeholder-channel{
 	height: 250px;
 }
+
+.glyphicon{
+	margin-left: 5px;
+}

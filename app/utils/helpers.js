@@ -121,6 +121,7 @@ module.exports = {
 	},
 
 	reloadSlickSlider:function(){
+		$('#patch-slider').addClass('hidden');
 		$('#patch-slider').slick('unslick');
 		// this.startSlickSlider();		
 	},
@@ -133,6 +134,8 @@ module.exports = {
             centerPadding: "40px",
             infinite: false
 		});
+		$('#patch-slider').removeClass('hidden');
+		
 		// console.log('Slider loaded');
 	},
 
