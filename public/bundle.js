@@ -27902,7 +27902,7 @@
 	  componentDidMount: function componentDidMount() {
 	    socket.emit('dmx:request');
 	    socket.on('dmx:update', this.setLiveDmx);
-	    $('[data-toggle="tooltip"]').tooltip();
+	    helpers.tooltipHelper();
 	  },
 
 	  setLiveDmx: function setLiveDmx(data) {
@@ -28262,7 +28262,7 @@
 
 		reloadSlickSlider: function reloadSlickSlider() {
 			$('#patch-slider').slick('unslick');
-			this.startSlickSlider();
+			// this.startSlickSlider();		
 		},
 
 		startSlickSlider: function startSlickSlider() {
@@ -28274,6 +28274,10 @@
 				infinite: false
 			});
 			// console.log('Slider loaded');
+		},
+
+		tooltipHelper: function tooltipHelper() {
+			$('[data-toggle="tooltip"]').tooltip();
 		}
 
 	};
@@ -29689,6 +29693,10 @@
 			};
 		},
 
+		componentDidMount: function componentDidMount() {
+			helpers.tooltipHelper();
+		},
+
 		handleFixtureNameChange: function handleFixtureNameChange(event) {
 			this.setState({
 				selectedFixture: this.props.fixtures[event.target.value.trim()]
@@ -29733,8 +29741,8 @@
 					isValid: false,
 					badPatch: false
 				});
-				this.props.getPatch();
 				helpers.reloadSlickSlider();
+				this.props.getPatch();
 			}
 		},
 
@@ -29863,6 +29871,7 @@
 	'use strict';
 
 	var React = __webpack_require__(1);
+	var helpers = __webpack_require__(250);
 	var FixtureFormRow = __webpack_require__(275);
 
 	var FixtureForm = React.createClass({
@@ -29878,36 +29887,20 @@
 			};
 		},
 
+		componentDidMount: function componentDidMount() {
+			helpers.tooltipHelper();
+		},
+
 		handleFixtureNameChange: function handleFixtureNameChange(event) {
 			this.setState({
 				fixtureName: event.target.value
-			});
-
-			if (this.state.fixtureName !== '' && this.state.channelParameters.length !== 0) {
-				this.setState({
-					isValid: true
-				});
-			} else {
-				this.setState({
-					isValid: false
-				});
-			}
+			}, this.isValidForm);
 		},
 
 		handleChannelParametersChange: function handleChannelParametersChange(event) {
 			this.setState({
 				channelParameters: event.target.value.trim().split(',')
-			});
-
-			if (this.state.fixtureName !== '' && this.state.channelParameters.length !== 0) {
-				this.setState({
-					isValid: true
-				});
-			} else {
-				this.setState({
-					isValid: false
-				});
-			}
+			}, this.isValidForm);
 		},
 
 		handleParamUpdate: function handleParamUpdate(value, index) {
@@ -29915,7 +29908,12 @@
 			tempParams[index] = value;
 			this.setState({
 				channelParameters: tempParams
-			});
+			}, this.isValidForm);
+
+			// console.log(this.state.channelParameters);
+		},
+
+		isValidForm: function isValidForm() {
 			if (this.state.fixtureName !== '' && this.state.channelParameters.length !== 0) {
 				this.setState({
 					isValid: true
@@ -29925,7 +29923,6 @@
 					isValid: false
 				});
 			}
-			// console.log(this.state.channelParameters);
 		},
 
 		fixtureFormSubmit: function fixtureFormSubmit(event) {

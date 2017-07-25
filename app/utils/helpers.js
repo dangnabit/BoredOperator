@@ -107,7 +107,7 @@ module.exports = {
 
 	reloadSlickSlider:function(){
 		$('#patch-slider').slick('unslick');
-		this.startSlickSlider();		
+		// this.startSlickSlider();		
 	},
 
 	startSlickSlider: function(){
@@ -119,6 +119,10 @@ module.exports = {
             infinite: false
 		});
 		// console.log('Slider loaded');
+	},
+
+	tooltipHelper: function(){
+		$('[data-toggle="tooltip"]').tooltip();
 	}
 
 

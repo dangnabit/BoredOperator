@@ -17,7 +17,7 @@ var Main = React.createClass({
   componentDidMount: function(){
     socket.emit('dmx:request');
     socket.on('dmx:update', this.setLiveDmx);
-    $('[data-toggle="tooltip"]').tooltip();
+    helpers.tooltipHelper();
   },
   
   setLiveDmx: function(data){

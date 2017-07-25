@@ -1,4 +1,5 @@
 const React = require('react');
+var helpers = require('../utils/helpers');
 const FixtureFormRow = require('./FixtureFormRow.js');
 
 const FixtureForm = React.createClass({
@@ -12,37 +13,21 @@ const FixtureForm = React.createClass({
 		});
 	},
 
+	componentDidMount: function(){
+		helpers.tooltipHelper();
+	},
 
 	handleFixtureNameChange: function(event){
 		this.setState({
 			fixtureName: event.target.value
-		});
+		}, this.isValidForm);
 
-		if(this.state.fixtureName !== '' && this.state.channelParameters.length !== 0){
-			this.setState({
-				isValid: true
-			});
-		} else {
-			this.setState({
-				isValid: false
-			});
-		}
 	},
 
 	handleChannelParametersChange: function(event){
 		this.setState({
 			channelParameters: event.target.value.trim().split(',')
-		});
-		
-		if(this.state.fixtureName !== '' && this.state.channelParameters.length !== 0){
-			this.setState({
-				isValid: true
-			});
-		} else {
-			this.setState({
-				isValid: false
-			});
-		}
+		}, this.isValidForm);
 	},
 
 	handleParamUpdate: function(value, index){
@@ -50,7 +35,12 @@ const FixtureForm = React.createClass({
 		tempParams[index] = value;
 		this.setState({
 			channelParameters: tempParams
-		});
+		}, this.isValidForm);
+		
+		// console.log(this.state.channelParameters);
+	},
+
+	isValidForm: function(){
 		if(this.state.fixtureName !== '' && this.state.channelParameters.length !== 0){
 			this.setState({
 				isValid: true
@@ -60,9 +50,7 @@ const FixtureForm = React.createClass({
 				isValid: false
 			});
 		}
-		// console.log(this.state.channelParameters);
 	},
-
 
 	fixtureFormSubmit: function(event){
 		event.preventDefault();

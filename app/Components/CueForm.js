@@ -10,6 +10,10 @@ const CueForm = React.createClass({
 		});
 	},
 
+	componentDidMount: function(){
+		helpers.tooltipHelper();
+	},
+	
 	handleCueNumberChange: function(event){
 		// console.log(this.props.cues);
 		for (var i = 0; i < this.props.cues.length; i++) {

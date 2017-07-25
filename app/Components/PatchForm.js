@@ -18,6 +18,10 @@ const PatchForm = React.createClass({
 		})
 	},
 
+	componentDidMount: function(){
+		helpers.tooltipHelper();
+	},
+
 	handleFixtureNameChange: function(event){
 		this.setState({
 			selectedFixture: this.props.fixtures[event.target.value.trim()]
@@ -64,8 +68,8 @@ const PatchForm = React.createClass({
 				isValid: false,
 				badPatch: false
 			});
-			this.props.getPatch();
 			helpers.reloadSlickSlider();
+			this.props.getPatch();
 		}
 	},
 
