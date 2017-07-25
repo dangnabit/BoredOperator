@@ -197,10 +197,11 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
   //=================================================
   // API Delete Routes ==============================
   //=================================================
-  app.delete('/api/cues/', function(req, res) {
+  app.delete('/api/cues/:cue', function(req, res) {
     // console.log(req.body);
-    var cueNumber = req.body.cueNumber;
+    var cueNumber = req.params.cue;
 
+    console.log(cueNumber);
     Cues.remove({ "cueNumber": cueNumber }).exec(function(err, data) {
       if (err) {
         console.log(err);
@@ -210,9 +211,9 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
     });
   });
 
-  app.delete('/api/fixtures/', function(req, res) {
+  app.delete('/api/fixtures/:fixture', function(req, res) {
     // console.log(req.body);
-    var fixtureName = req.body.fixtureName;
+    var fixtureName = req.params.fixtureName;
 
     Fixtures.remove({ "fixtureName": fixtureName }).exec(function(err, data) {
       if (err) {
@@ -223,9 +224,9 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
     });
   });
 
-  app.delete('/api/patch/', function(req, res) {
+  app.delete('/api/patch/:patch', function(req, res) {
     // console.log(req.body);
-    var startingChannel = req.body.startingChannel;
+    var startingChannel = req.params.patch;
 
     Patch.remove({ "startingChannel": startingChannel }).exec(function(err, data) {
       if (err) {

@@ -63,11 +63,26 @@ module.exports = {
     	});
 	},
 
+	deleteCue: function(cueNumber, callback){
+		return axios.delete('/api/cues/' + cueNumber).then(function(results){
+			callback();
+			return results;
+    	});
+	},
+
 	getPatch: function(){
 		return axios.get('/api/patch').then(function(results){
         	return results;
     	});
 	},
+
+	deletePatch: function(patch, callback){
+		return axios.delete('/api/patch/' + patch).then(function(results){
+			callback();
+			return results;
+    	});
+	},
+
 	getFixtures: function(){
 		return axios.get('/api/fixtures').then(function(results){
         	return results;

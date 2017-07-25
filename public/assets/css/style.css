@@ -124,6 +124,14 @@ p a:hover {
 	width: 95%;
 }
 
+.delete-cue{
+	width: 15%;
+}
+
+.run-cue{
+	width: 75%;
+}
+
 @media (min-width: 0px){
 	#cue-col{
 		overflow: scroll;

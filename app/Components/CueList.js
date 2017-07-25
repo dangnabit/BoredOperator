@@ -1,6 +1,7 @@
 //Require React
 var React = require('react');
 var Router = require('react-router')
+var helpers = require('../utils/helpers');
 
 
 var CueList = React.createClass({
@@ -19,6 +20,10 @@ var CueList = React.createClass({
     this.props.setDmx(currentDMX);
   },
 
+  deleteCue: function(item, event){
+    helpers.deleteCue(item.cueNumber, this.props.getCues);
+  },
+
   render: function(){
 
   	if (this.props.cues.length < 1) {
@@ -31,11 +36,14 @@ var CueList = React.createClass({
       var cues = this.props.cues.map(function(cue, index){
         return(
             <div key={index}>
-              
-                <button className="btn btn-warning btn-lg cueBtn" onClick={this.handleClick.bind(this, cue)}>Cue:
+              <div className="btn-group cueBtn" role="group" aria-label="...">
+                <button className="btn btn-danger btn-lg delete-cue" onClick={this.deleteCue.bind(this, cue)}>
+                  <span className="glyphicon glyphicon-remove-sign" ></span>
+                </button>
+                <button className="btn btn-warning btn-lg run-cue" onClick={this.handleClick.bind(this, cue)}>Cue:
                   <span><em>{cue.cueNumber}</em></span>
                 </button>
-              
+              </div>
             </div>
         )
       }.bind(this))

@@ -37,13 +37,14 @@ const SelectedFixture = React.createClass({
                     setChannelValue={this.props.setChannelValue}
                     liveDMX={this.props.liveDMX}
                     slick={this.slick}
+                    getPatch={this.props.getPatch}
                 />
             );
         }
       } else {
         //   console.log(activePatches)
           activePatches.push(<div id="placeholder-channel" key={this.props.patch.length}>
-              <h4>Patch a fixture to load this with faders</h4>
+              <h4><em>Patch a fixture to load this with faders</em></h4>
           </div>)
       }
 

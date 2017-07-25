@@ -98,6 +98,7 @@ var Console = React.createClass({
               cues={this.state.cues} 
               setDmx={this.props.setDmx}
               liveDMX={this.props.liveView}
+              getCues={this.getCues}
             />
             <div className="col-md-8" id="live-view">
                 <LiveView liveDMX={this.props.liveView}/>
@@ -105,6 +106,7 @@ var Console = React.createClass({
                   patch={this.state.patch}
                   setChannelValue={this.props.setDmxOne}
                   liveDMX={this.props.liveView}
+                  getPatch={this.getPatch}
                 />
             </div>
             <Toolbar 
