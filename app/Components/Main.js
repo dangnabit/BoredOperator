@@ -55,7 +55,7 @@ var Main = React.createClass({
             </div>
             <div id="navbar" className="navbar-collapse collapse">
               <ul className="nav navbar-nav navbar-right">
-                <li id="navbar-links"><Link to="/admin">Admin</Link></li>
+                {/* <li id="navbar-links"><Link to="/admin">Admin</Link></li> */}
                 <li id="navbar-links"><Link to="/">Console</Link></li>                
                 <li id="navbar-links"><a href="/user/logout">Logout</a></li>
               </ul>

@@ -102,6 +102,7 @@ var ToolBar = React.createClass({
 			patchFormSubmit={this.patchFormSubmit}
 			fixtures={this.props.fixtures}
 			getPatch={this.props.getPatch}
+			liveDMX={this.props.liveDMX}
 		/>
 	    <AddFixture 
 			clicked={this.state.fixture_clicked} 

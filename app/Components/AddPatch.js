@@ -19,6 +19,7 @@ const AddPatch = React.createClass({
 						fixtures={this.props.fixtures}
 						getPatch={this.props.getPatch}
 						patch={this.props.patch}
+						liveDMX={this.props.liveDMX}
 					/> 
 				: null}
 			</div>
