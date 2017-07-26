@@ -20,6 +20,27 @@ var Main = React.createClass({
     socket.emit('dmx:request');
     socket.on('dmx:update', this.setLiveDmx);
     helpers.tooltipHelper();
+    navigator.requestMIDIAccess()
+      .then(function(access){
+        var inputs = access.inputs.values();
+        var outputs = access.outputs.values();
+
+        function onMIDIMessage(event){
+          var str = '';
+          for (var i = 0; i < event.data.length; i++) {
+            str += event.data[i] + " ";
+          }
+          console.log(str);
+        }
+
+        access.inputs.forEach( function(entry){
+          entry.onmidimessage = onMIDIMessage;
+        });
+
+        access.onstatechange= function(e){
+          console.log(e.port.name, e.port.manufacturer, e.port.state);
+        }
+    });
   },
   
   setLiveDmx: function(data){
