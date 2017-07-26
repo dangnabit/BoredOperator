@@ -50,7 +50,10 @@ Once you have created and patched fixtures, it's time to let your creativity flo
 
 Create a cue when you want to take a snapshot of all the DMX values in the console. Simply assign the values a cue number-which must be unique-and the cue will appear on the *Cue List* on the left hand side. 
 
+### Live Demo
 
+There is a working demo of the application at: 
+[HerokuAPP](https://boredoperator.herokuapp.com)
 
 ## Future Development 
 
