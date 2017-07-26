@@ -23,10 +23,34 @@ p {
 
 #navbar-links a {
 	color: #FF9900;
+	height: 100%
 }
 
 #navbar-links a:hover {
 	text-decoration: underline;
+}
+
+#adminTools input{
+	width: 150px;
+	text-align: Center;
+	background-color: #666666;
+	color: #fff; 
+	border-color: #FF9900;
+	margin-bottom: 5px;
+}
+
+.dropdown-menu{
+	padding: 10px;
+	width: 170px;
+	background: #666666;
+	border-style: solid;
+	border-color: #333333;
+	border-radius: 5px;
+	border-width: 1px;
+}
+
+#setHost{
+	margin: 0;
 }
 
 #main-page-row {
@@ -256,7 +280,7 @@ input::-webkit-inner-spin-button {
 }
 
 #placeholder-channel{
-	height: 250px;
+	height: 250px; 
 }
 
 .glyphicon{

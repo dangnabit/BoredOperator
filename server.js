@@ -66,7 +66,7 @@ db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
 
-app.set('views', __dirname + '/views');
+app.set('views', __dirname + '/public');
 app.set('view engine', 'ejs');
 
 // External Routes

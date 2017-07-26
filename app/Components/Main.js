@@ -10,7 +10,9 @@ var Main = React.createClass({
   
   getInitialState: function(){
     return {
-        liveView: []
+        liveView: [],
+        host: '2.0.0.1',
+        port: '6454'
     };
   },
   
@@ -38,6 +40,17 @@ var Main = React.createClass({
     socket.emit('dmx:singleChan', data);
   },
 
+  handleChange: function(event){
+    // this.setState({
+    //   [event.target.name] : event.tartget.value
+    // });
+    console.log(event);
+  },
+
+  setHostandPort: function(){
+    helpers.setHostandPort(this.state.host, this.state.port);
+  },
+
   render: function(){
 
     return(
@@ -55,10 +68,20 @@ var Main = React.createClass({
             </div>
             <div id="navbar" className="navbar-collapse collapse">
               <ul className="nav navbar-nav navbar-right">
-                {/* <li id="navbar-links"><Link to="/admin">Admin</Link></li> */}
+                <li className="dropdown" id="navbar-links">
+                  <a className="dropdown-toggle" href="#" data-toggle="dropdown">Admin</a>
+                  <div className="dropdown-menu">
+                    <form className="form" id="adminTools"> 
+                      <input name="host" id="host" type="text" placeholder={this.state.host} onChange={this.handleHostChange}/> 
+                      <input name="port" id="port" type="port" placeholder={this.state.port} onChange={this.handlePortChange}/><br/>
+                      <button type="button" id="setHost" className="btn btn-lg btn-warning" onClick={this.setHostandPort}>Set Host/Port</button>
+                    </form>
+                  </div>
+                </li>
                 <li id="navbar-links"><Link to="/">Console</Link></li>                
                 <li id="navbar-links"><a href="/user/logout">Logout</a></li>
               </ul>
+              
             </div>
           </div>
         </nav>

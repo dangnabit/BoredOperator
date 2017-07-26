@@ -34,9 +34,9 @@ module.exports = {
 
 
 	createCue: function(cueForm){
-		console.log(`Create Cue`);
+		// console.log(`Create Cue`);
 		return axios.post('/api/cues', cueForm).then( (response) =>{
-			console.log(`Sucessfully created cue`);
+			// console.log(`Sucessfully created cue`);
 			return response;
 		})
 		.catch( (err) =>{
@@ -46,9 +46,9 @@ module.exports = {
 	},
 
 	createFixture: function(fixtureForm){
-		console.log(`Create Fixture`);
+		// console.log(`Create Fixture`);
 		return axios.post('/api/fixtures', fixtureForm).then( (response) =>{
-			console.log(`Sucessfully created fixture`);
+			// console.log(`Sucessfully created fixture`);
 			return response;
 		})
 		.catch( (err) =>{
@@ -141,6 +141,17 @@ module.exports = {
 
 	tooltipHelper: function(){
 		$('[data-toggle="tooltip"]').tooltip();
+	},
+
+	setHostandPort: function(newHost, newPort){
+		var adminObject = {
+			host: newHost,
+			port: newPort
+		}
+
+		return axios.post('/api/admin', adminObject).then( (response) =>{
+			return response;
+		});
 	}
 
 
