@@ -51,7 +51,7 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
 
     // Always returns all cues.
 
-    Cues.find({}).exec(function(err, doc) {
+    Cues.find({}).sort("cueNumber").exec(function(err, doc) {
       if (err) {
         console.log(err);
         res.send(err);

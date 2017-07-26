@@ -26,7 +26,8 @@ var artnetOptions = {
   host: '2.0.0.1',
   // host: '127.0.0.1',
   port: 6454,
-  refresh: 60
+  // refresh: 60,
+  sendAll: true
 }
 var artnet = require('artnet')(artnetOptions);
 
@@ -102,7 +103,7 @@ io.on('connection', function(socket) {
     
     dmxValues[channel-1] = value;
     io.emit('dmx:update', dmxValues);
-    artnet.set(dmxValues);
+    artnet.set(channel, value);
   });
 
   socket.on('disconnect', function(disconnect) {

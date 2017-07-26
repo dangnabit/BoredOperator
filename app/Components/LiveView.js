@@ -3,6 +3,17 @@ var React = require('react');
 var Router = require('react-router')
 
 var LiveView = React.createClass({
+  handleClick: function(channel, value){
+    console.log(channel, value);
+    if(value <= 255 && value > 127){
+      this.props.setChannelValue(channel + 1, 127);
+    } else if (value <= 127 && value > 0 ) {
+      this.props.setChannelValue(channel + 1, 0);
+    }  else if (value === 0){
+      this.props.setChannelValue(channel + 1, 255);
+    }
+  },
+  
   render: function(){
     
     if (!this.props.liveDMX.length) {
@@ -24,7 +35,7 @@ var LiveView = React.createClass({
         return(  
           <div key={channel}>
             {notNull ? <div className="col-xs-4 col-sm-3 col-md-2 col-lg-1 col-xl-1 live-button" >
-              <button className="btn btn-lg btn-warning channelBtn">
+              <button className="btn btn-lg btn-warning channelBtn" onClick={this.handleClick.bind(this, channel, value)}>
                 {/* <p> */}
                   Ch: {channel + 1} <br/> {((value/255) * 100).toFixed(1)}%
                 {/* </p> */}

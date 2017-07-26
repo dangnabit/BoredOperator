@@ -101,7 +101,10 @@ var Console = React.createClass({
               getCues={this.getCues}
             />
             <div className="col-md-8" id="live-view">
-                <LiveView liveDMX={this.props.liveView}/>
+                <LiveView 
+                  liveDMX={this.props.liveView}
+                  setChannelValue={this.props.setDmxOne}
+                />
                 <SelectedFixture 
                   patch={this.state.patch}
                   setChannelValue={this.props.setDmxOne}
