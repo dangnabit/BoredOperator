@@ -31,4 +31,22 @@ Create a cue when you want to take a snapshot of all the DMX values in the conso
 
 ## Future Development 
 
-**Under Construction**
+Oh Boy... Lots of ideas are going to be tossed into this project. Maybe something will stick. Here's a running list:
+
+Administrator Users/Console
+
+Animation Curves/Fade-Times/Effects engine
+
+Midi Controllers
+
+16bit control channels, (Course and fine Controll)
+
+Custom User Layouts
+
+Fixture Grouping
+
+Presets
+
+Electron Application
+
+
