@@ -66,6 +66,9 @@ db.once('open', function() {
   console.log('Mongoose connection successful.');
 });
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 // External Routes
 require('./config/routes.js')(app, passport, Cues, Fixtures, Patch, ChannelParameters);
 

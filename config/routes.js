@@ -4,18 +4,22 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
 
   //=================================================
   // User Get Routes ================================
+  // 
   //=================================================
-  app.get('/user/login', function(req, res){
-    res.sendFile('login.html', { root: path.join(__dirname, '../public') });
-  });
+  	app.get('/user/login', function(req, res) {
+		// render the page and pass in any flash data if it exists
+		res.render('login.ejs', { message: req.flash('loginMessage') });
+	});
 
-  app.get('/user/signup', function(req, res){
-    res.sendFile('signup.html', { root: path.join(__dirname, '../public') });
-  });
+  app.get('/user/signup', function(req, res) {
+
+		// render the page and pass in any flash data if it exists
+		res.render('signup.ejs', { message: req.flash('signupMessage') });
+	});
 
   app.get('/user/profile', isLoggedIn, function(req, res) {
     res.json({
-      user: req.user // get the user out of session and pass to template
+      user: req.user // get the user out of session and pass it back
     });
   });
 
@@ -58,7 +62,7 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
       } else {
         res.send(doc);
       }
-    })
+    })  
   });
 
   app.get('/api/cues/:cue', function(req, res) {

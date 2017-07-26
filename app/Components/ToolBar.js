@@ -110,6 +110,7 @@ var ToolBar = React.createClass({
 			formSubmit={this.fixtureFormSubmit}
 			channelParameters= {this.props.channelParameters} 
 			getFixtures={this.props.getFixtures}
+			fixtures={this.props.fixtures}
 		/>
 		<AddCue  
 			clicked={this.state.cue_clicked} 

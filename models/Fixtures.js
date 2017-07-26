@@ -8,7 +8,6 @@ var FixtureSchema = new Schema({
     type: String,
     trim: true,
     required: true,
-    unique: true
   },
   channelParameters: {
     type: [Schema.Types.Mixed],

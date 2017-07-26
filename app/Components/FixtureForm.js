@@ -21,7 +21,6 @@ const FixtureForm = React.createClass({
 		this.setState({
 			fixtureName: event.target.value
 		}, this.isValidForm);
-
 	},
 
 	handleChannelParametersChange: function(event){
@@ -40,22 +39,24 @@ const FixtureForm = React.createClass({
 		// console.log(this.state.channelParameters);
 	},
 
-	isValidForm: function(){
+	isValidForm: function(){		
 		if(this.state.fixtureName !== '' && this.state.channelParameters.length !== 0){
 			this.setState({
 				isValid: true
 			});
+
 		} else {
 			this.setState({
 				isValid: false
 			});
-		}
+		}		
+		
 	},
 
 	fixtureFormSubmit: function(event){
 		event.preventDefault();
-		console.log(this.state.fixtureName.trim());
-		console.log(this.state.channelParameters);
+		// console.log(this.state.fixtureName.trim());
+		// console.log(this.state.channelParameters);
 		
 		if(this.state.fixtureName !== '' && this.state.channelParameters !== ''){
 			let formBody = {
