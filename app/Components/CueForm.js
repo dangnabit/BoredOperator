@@ -1,4 +1,5 @@
 const React = require('react');
+const helpers = require('../utils/helpers');
 
 const CueForm = React.createClass({
 
