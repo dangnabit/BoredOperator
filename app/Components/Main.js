@@ -25,13 +25,19 @@ var Main = React.createClass({
         var inputs = access.inputs.values();
         var outputs = access.outputs.values();
 
-        function onMIDIMessage(event){
-          var str = '';
-          for (var i = 0; i < event.data.length; i++) {
-            str += event.data[i] + " ";
+
+      	function onMIDIMessage(event){
+          var str = "chan: " + event.data[1] + " ::: value: " + event.data[2];
+          // for (var i = 1; i < event.data.length; i++) {
+          //   str += event.data[i] + " ";
+          // }
+          var data = {
+            channel: parseInt(event.data[1]),
+            dmx: parseInt(event.data[2] * 2)
           }
-          console.log(str);
-        }
+          console.log(data);
+          socket.emit("dmx:singleChan", data);
+  	    }
 
         access.inputs.forEach( function(entry){
           entry.onmidimessage = onMIDIMessage;

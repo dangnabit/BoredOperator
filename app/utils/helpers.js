@@ -1,4 +1,5 @@
 const axios = require('axios');
+const Main = require('../Components/Main')
 
 module.exports = {
 
@@ -153,6 +154,5 @@ module.exports = {
 			return response;
 		});
 	}
-
 
 }
