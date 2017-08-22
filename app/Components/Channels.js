@@ -88,6 +88,7 @@ const Channels = React.createClass({
 		          trackStyle={{ backgroundColor: '#FF9900'}}
 				  handleStyle={{
           			borderColor: '#FF9900',
+					borderRadius: "2px",
           			height: 20,
           			width: 28,
 					marginLeft: -12,

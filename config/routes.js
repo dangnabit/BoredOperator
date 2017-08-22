@@ -1,6 +1,6 @@
 var path = require('path');
 
-module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameters) {
+module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameters, artnet) {
 
   //=================================================
   // User Get Routes ================================
@@ -244,6 +244,17 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
   //=================================================
   // Home and Catch-All Routes ======================
   //=================================================
+  app.post('/api/admin', function(req,res){
+    // console.log(req.body);
+    var newHost = req.body.host;
+    var newPort = req.body.port;
+    artnet.setHost(newHost);
+    artnet.setPort(newPort);
+    res.send('Host and Port updated');
+
+  });
+  
+  
   app.get('/console', isLoggedIn, function(req, res) {
     res.sendFile('console.html', { root: path.join(__dirname, '../public') });
   });
@@ -251,6 +262,8 @@ module.exports = function(app, passport, Cues, Fixtures, Patch, ChannelParameter
   app.get('/*', function(req, res){
     res.redirect('/console');
   });
+
+
 };
 
 // route middleware to make sure a user is logged in

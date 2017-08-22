@@ -70,7 +70,7 @@ app.set('views', __dirname + '/public');
 app.set('view engine', 'ejs');
 
 // External Routes
-require('./config/routes.js')(app, passport, Cues, Fixtures, Patch, ChannelParameters);
+require('./config/routes.js')(app, passport, Cues, Fixtures, Patch, ChannelParameters, artnet);
 
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
